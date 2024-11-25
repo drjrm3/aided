@@ -1,0 +1,30 @@
+# Copyright (c) J. Robert Michael, PhD
+
+[build-system]
+requires = ["setuptools", "setuptools_scm[toml]>6.2"]
+
+[project]
+name = "aided"
+dynamic = ["version", "dependencies"]
+requires-python = ">=3.10"
+description = "Analysis and Investigation of the Dynamic Electron Density"
+authors = [
+    {name = "J. Robert Michael, PhD"}
+]
+maintainers = [
+    {name = "J. Robert Michael, PhD"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+aided = "aided.__main__:main"
+
+[tool.black]
+line-length = 100
+
+[tool.setuptools_scm]
+version_file = "src/aided/version.py"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
