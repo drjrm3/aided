@@ -64,17 +64,20 @@ Standard application of Richard Bader's QTAIM (Quantum Theory of Atoms in Molecu
 
     </center>
 
-## Methodology
+
+## Methodology and Workflows
 
 ### Input types for static ED Analysis ###
 
-Generally a file is given describing ED of Wavefunction (WFN) to be used to construct the ED. This WFN file can be used to analytically determine the ED or associated TPs at any point in space.
+Generally a file is given describing ED of Wavefunction (WFN) to be used to construct the ED. This WFN file can be used to analytically determine the ED or associated TPs at any point in space. Alternatively, a grid can be given which contains TPs evaluated at each point in space and the ED or TPs can be derived from the grid numerically.
 
-Alternatively, a grid can be given which contains TPs evaluated at each point in space and the ED or TPs can be derived from the grid numerically.
+The workflows are as follows:
+
+![Workflows](./contrib/imgs/workflows/aided_workflows.png)
 
 ### Input types of dynamic ED Analysis ###
 
-1. Analytical methods with a single WFN file:
+1. Methods with a single WFN file:
 
     For all methods described here, a WFN file could be any file yielding the ability to describe or derive the analytic ED.
 
@@ -82,17 +85,22 @@ Alternatively, a grid can be given which contains TPs evaluated at each point in
 
    With an N atom molecular system, the MSDA is of size 3N x 3N. It represents the variance-covariance matrix of each (x, y, z) position for each atom with each other. That is, how does the motion of the x coordinate of Atom 1 vary with the y position of Atom 2?
 
-   Method 1.a calcualtes the dynamic electron density as a single dynamic ED as describe in [ref](TODO).
+   Method 1.a calculates the dynamic electron density as a single dynamic ED as describe in [ref](TODO).
 
    b. **Single WFN with MSDA matrix - nuclear motion only.**
 
-   While 1.a uses the harmonic approximation to calculate the dynamic electron density. 1.b uses the (TODO) approximation to assume that electrons do not adapt to the motion of the nucleus. Instead, it takes multiple a single WFN (which describes the ED around the initial ground state geometry) and "shakes" the nuclei according to the MSDA - leaving without adapting the ED to each new nuclear geometry.
+   While 1.a uses the harmonic approximation to calculate the dynamic electron density. 1.b uses the (TODO) approximation to assume that electrons do not adapt to the motion of the nucleus. Instead, it takes multiple a single WFN files or representations (which each describe the ED around the initial ground state geometry) and "shakes" the nuclei according to the MSDA - without adapting the ED to each new nuclear geometry.
 
    Method 1.b simply generates N nuclear configurations, calculates the TP for each, and then averages them together.
 
+2. Methods using multiple WFN files:
 
+    **Multiple WFN files - single TP harmonic approximation.**
 
+    Given a single WFN file with ground state geometry an application (outside the scope of this project) can be used to generate multiple WFN files with different nuclear geometries which *also* have the electrons adapted to them. These WFN files can be used to calculate the dynamic ED as a single dynamic ED as describe in [ref](TODO).
 
+3. Evaluate WFN files at grid points:
 
+    **Grid based analysis**
 
-
+    For any of the  methods (1.a, 1.b, 2) above the WFN files can be evaluated at grid points to generate grid(s) of TP(s). Once this is done TFs can be calculated from the grid(s).
