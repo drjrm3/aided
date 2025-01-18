@@ -3,5 +3,5 @@ aided.fio
 
 File Input Output methods.
 
-Copyright (C) J. Robert Michael PhD, 2025
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """

@@ -3,12 +3,14 @@ cli.py
 
 Commandline utilities and main method call.
 
-Copyright (C) J. Robert Michael, 2025
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 import argparse
 import sys
 from typing import List
+
+from .version import __version__
 
 
 def parse_args(argv: List[str]):
@@ -16,15 +18,15 @@ def parse_args(argv: List[str]):
 
     parser = argparse.ArgumentParser("aided")
     parser.add_argument("-c", "--config", type=str, help="JSON config file.")
+    parser.add_argument("-v", "--version", action="version", version=f"aided {__version__}")
 
     args = parser.parse_args()
     return args
 
 
 def main():
-    print("Inside main")
-
     args = parse_args(sys.argv[1:])
+    print("Inside main")
 
     return 0
 
