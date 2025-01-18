@@ -9,13 +9,13 @@ from enum import Enum
 class Units(Enum):
     """
     Units to use for distance / properties.
-        - Bohr = au : Used internally for all calculations.
-        - Angstrom = 10e-10 : Optionally can be read in or printed out in this format.
+        - BOHR = au : Used internally for all calculations.
+        - ANGSTROM = 10e-10 : Optionally can be read in or printed out in this format.
     """
     # Atomic Units
-    Bohr = 0
+    BOHR = 0
     # Angstrom
-    Ang = 1
+    ANG = 1
 
 AU_TO_ANG = 0.52917721090380
 ANG_TO_AU = 1.88972612545782

@@ -40,7 +40,7 @@ class EDRep(metaclass=ABCMeta):
     def __init__(self, input_file: str):
         # EDRep type (e.g. WFN, NWchem, etc.)
         self._edrep_type = None
-        self._units = Units.Bohr
+        self._units = Units.BOHR
 
     @property
     def units(self):
@@ -48,23 +48,20 @@ class EDRep(metaclass=ABCMeta):
 
     @property
     def in_au(self):
-        return self._units == Units.Bohr
+        return self._units == Units.BOHR
 
     @abstractmethod
     def read_input_file(self, input_file: str):
         """Read the input file describing this ED which is the result of an optimization."""
-        pass
 
     def read_vib_file(self, input_file: str):
         """
         Read the log file from the optimization procedure.
         Expected to include sufficient information to generate the MSDA.
         """
-        pass
 
     def read_msda_matrix(self, msda_file: str):
         """Read the MSDA matrix from a file."""
-        pass
 
     @abstractmethod
     def rho(self, x: np.float32, y: np.float32, z: np.float32) -> np.float32:
@@ -74,7 +71,6 @@ class EDRep(metaclass=ABCMeta):
 
         Returns: Value of ED in chosen units.
         """
-        pass
 
     @abstractmethod
     def grad(self, x: np.float32, y: np.float32, z: np.float32) -> np.ndarray:
@@ -84,7 +80,6 @@ class EDRep(metaclass=ABCMeta):
 
         Returns: Array of 3 elements: dx, dy, dz
         """
-        pass
 
     @abstractmethod
     def hess(self, x: np.float32, y: np.float32, z: np.float32) -> np.ndarray:
@@ -94,6 +89,3 @@ class EDRep(metaclass=ABCMeta):
 
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
-        pass
-
-

@@ -7,7 +7,7 @@ Copyright (C) J. Robert Michael, 2025
 """
 
 from .. import np
-from .EDRep import EDRep
+from .edrep import EDRep
 
 
 class EDWfn(EDRep):
@@ -61,5 +61,3 @@ class EDWfn(EDRep):
         """
 
         raise NotImplementedError
-
-
