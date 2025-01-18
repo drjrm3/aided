@@ -6,23 +6,21 @@ Utility functions to use for File I/O.
 Copyright (C) J. Robert Michael PhD, 2025
 """
 
-import sys
 from typing import List
 
 import re
 
-from ..core.EDRep import EDRepType
+from ..core.edrep import EDRepType
 
 
-def convert_scientific_notation(data_lines):
-    """
-    Converts scientific notation with 'D' to 'E' in a list of strings while preserving the line structure.
+def convert_scientific_notation(data_lines) -> List:
+    """Converts scientific notation from 'D' to 'E' in a list of strings.
 
     Args:
         data_lines (list of str): Each string represents a line of space-separated values.
 
     Returns:
-        list of str: The processed data with 'D' replaced by 'E' in scientific notation, preserving line structure.
+        list of str: The the modified lines with 'D' replaced by 'E' in scientific notation.
     """
     # Pattern to identify scientific notation with 'D'
     pattern = re.compile(r'([-+]?\d+\.\d+)D([+-]\d+)')
@@ -33,7 +31,7 @@ def convert_scientific_notation(data_lines):
     return result
 
 
-def is_number(s):
+def is_number(s) -> bool:
     """Check if a string is a number."""
     try:
         float(s)
