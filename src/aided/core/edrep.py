@@ -3,7 +3,7 @@ aided.core.EDRep
 
 Electron Density Representation abstract class.
 
-Copyright (C) J. Robert Michael, 2025
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from abc import ABCMeta, abstractmethod
@@ -51,20 +51,7 @@ class EDRep(metaclass=ABCMeta):
         return self._units == Units.BOHR
 
     @abstractmethod
-    def read_input_file(self, input_file: str):
-        """Read the input file describing this ED which is the result of an optimization."""
-
-    def read_vib_file(self, input_file: str):
-        """
-        Read the log file from the optimization procedure.
-        Expected to include sufficient information to generate the MSDA.
-        """
-
-    def read_msda_matrix(self, msda_file: str):
-        """Read the MSDA matrix from a file."""
-
-    @abstractmethod
-    def rho(self, x: np.float32, y: np.float32, z: np.float32) -> np.float32:
+    def rho(self, x: float, y: float, z: float) -> float:
         """Generate the ED at a point.
 
         Args: Cartesian points in global space.
@@ -73,7 +60,7 @@ class EDRep(metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def grad(self, x: np.float32, y: np.float32, z: np.float32) -> np.ndarray:
+    def grad(self, x: float, y: float, z: float) -> np.ndarray:
         """Generate the Gradient of the ED at a point.
 
         Args: Cartesian points in global space.
@@ -82,7 +69,7 @@ class EDRep(metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def hess(self, x: np.float32, y: np.float32, z: np.float32) -> np.ndarray:
+    def hess(self, x: float, y: float, z: float) -> np.ndarray:
         """Generate the Hessian of the ED at a point.
 
         Args: Cartesian points in global space.

@@ -4,14 +4,14 @@ aided.fio.read_wfn
 Read AIMfile WFN representation files. This reads it in both single file mode and also a batch of
 files which it then returns as WFNRep or WFNsRep, respectively.
 
-Copyright (C) J. Robert Michael PhD, 2025
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from typing import List
 
-from ... import np, npt
-from ..utils import is_number, convert_scientific_notation
-from ...core.wfn import WFNRep, WFNsRep
+from .. import np, npt
+from .utils import is_number, convert_scientific_notation
+from ..core.wfn import WFNRep, WFNsRep
 
 
 def read_wfn_file(wfn_file: str) -> WFNRep:
@@ -50,23 +50,23 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
 
     # Read atnames, atpos, atcharge:
     atnames = np.array(["".join(line.split()[0:2]) for line in lines[:nats]])
-    atpos = np.array([line.split()[4:7] for line in lines[:nats]]).astype(np.float32)
-    atcharge = np.array([np.float32(line.split()[-1]) for line in lines[:nats]])
+    atpos = np.array([line.split()[4:7] for line in lines[:nats]]).astype(float) #* ANG_TO_AU
+    atcharge = np.array([float(line.split()[-1]) for line in lines[:nats]])
     del lines[:nats]
 
     # Read center assignment integers, exponents, and types for each Gaussian primitive.
-    centers = _extract_values(lines, "CENTRE")
-    types = _extract_values(lines, "TYPE")
-    exponents = _extract_values(lines, "EXPONENTS", dtype=np.float32)
+    centers = _extract_values(lines, "CENTRE") - 1
+    types = _extract_values(lines, "TYPE") - 1
+    exponents = _extract_values(lines, "EXPONENTS", dtype=float)
 
     # Read Molecular Orbitals
-    energies = np.zeros(nmos, dtype=np.float32)
-    occupations = np.zeros(nmos, dtype=np.float32)
-    coeffs = np.zeros((nmos, nprims), dtype=np.float32)
+    energies = np.zeros(nmos, dtype=float)
+    occs = np.zeros(nmos, dtype=float)
+    coeffs = np.zeros((nmos, nprims), dtype=float)
     for imo in range(nmos):
         # Read the MO energy and occupation number
         line = lines.pop(0)
-        energies[imo], occupations[imo] = float(line.split()[7]), float(line.split()[11])
+        occs[imo], energies[imo] = float(line.split()[7]), float(line.split()[11])
 
         # Read the MO coefficients
         iprim = 0
@@ -95,7 +95,7 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
         centers=centers,
         types=types,
         expons=exponents,
-        occupations=occupations,
+        occs=occs,
         energies=energies,
         coeffs=coeffs,
         total_energy=total_energy,
@@ -125,22 +125,22 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
 
     # Space for atnames, atpos, atcharge.
     atnames = np.empty((nwfns, nats), dtype=object)
-    atpos = np.zeros((nwfns, nats, 3), dtype=np.float32)
+    atpos = np.zeros((nwfns, nats, 3), dtype=float)
     atcharge = np.zeros((nwfns, nats), dtype=np.int32)
 
     # Space for center assignment integers, exponents, and types for each Gaussian primitive.
-    centers = np.zeros((nwfns, nprims), dtype=np.float32)
-    exponents = np.zeros((nwfns, nprims), dtype=np.float32)
+    centers = np.zeros((nwfns, nprims), dtype=float)
+    exponents = np.zeros((nwfns, nprims), dtype=float)
     types = np.zeros((nwfns, nprims), dtype=np.int32)
 
     # Read Molecular Orbitals
-    energies = np.zeros((nwfns, nmos), dtype=np.float32)
-    occupations = np.zeros((nwfns, nmos), dtype=np.float32)
-    coeffs = np.zeros((nwfns, nmos, nprims), dtype=np.float32)
+    energies = np.zeros((nwfns, nmos), dtype=float)
+    occs = np.zeros((nwfns, nmos), dtype=float)
+    coeffs = np.zeros((nwfns, nmos, nprims), dtype=float)
 
     # Total and virial energy.
-    total_energies = np.zeros(nwfns, dtype=np.float32)
-    virial_energies = np.zeros(nwfns, dtype=np.float32)
+    total_energies = np.zeros(nwfns, dtype=float)
+    virial_energies = np.zeros(nwfns, dtype=float)
 
     # Read all of the wfn files.
     for iwfn, wfn in enumerate(wfns):
@@ -154,7 +154,7 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
         exponents[iwfn, :] = wfn_rep.expons
         types[iwfn, :] = wfn_rep.types
         energies[iwfn, :] = wfn_rep.energies
-        occupations[iwfn, :] = wfn_rep.occupations
+        occs[iwfn, :] = wfn_rep.occs
         coeffs[iwfn, :, :] = wfn_rep.coeffs
         total_energies[iwfn] = wfn_rep.total_energy
         virial_energies[iwfn] = wfn_rep.virial_energy
@@ -171,7 +171,7 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
         centers=centers,
         types=types,
         expons=exponents,
-        occupations=occupations,
+        occs=occs,
         energies=energies,
         coeffs=coeffs,
         total_energies=total_energies,
@@ -179,3 +179,26 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
     )
 
     return wfns_rep
+
+
+def test():
+    """Test main routine."""
+    import argparse
+    import sys
+
+    # Get one or more input files.
+    parser = argparse.ArgumentParser(description="Test wfn reading.")
+    parser.add_argument("-i", "--input", type=str, nargs="+", help="Input wfn file(s)")
+    args = parser.parse_args()
+
+    if not args.input:
+        parser.print_help()
+        sys.exit(1)
+
+    if len(args.input) > 1:
+        _wfn_rep = read_wfn_files(args.input)
+    else:
+        _wfns_rep = read_wfn_file(args.input[0])
+
+if __name__ == "__main__":
+    test()

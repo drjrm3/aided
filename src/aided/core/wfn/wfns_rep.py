@@ -1,9 +1,9 @@
 """
-aided.
+aided.core.wfn.wfns_rep
 
 Read Gaussian09 output files.
 
-Copyright (C) J. Robert Michael PhD, 2025
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from dataclasses import dataclass
@@ -19,6 +19,22 @@ class WFNsRep:
 
     Specificlaly this is every WFN kept as a unique element in the array. Even if some values are
     redundant like the locations of the atoms, they are kept so that this can be used arbirtarily.
+
+    nwfns: Number of WFNs represented
+    nmos: Number of Molecular Orbitals
+    nprims: Number of Gaussian Primitives
+    nats: Number of Nuclei (Atoms)
+    atnames: Atom names
+    atpos: Atomic positions
+    atcharge: Atomic charges
+    centers: Atomic center upon which each primitive is based
+    types: Gaussian primitive type for each atom
+    expons: Exponents for each basis function
+    occs: Occupancy number for each MO
+    energies: Energy of each MO
+    coeffs: Coefficients for each MO
+    total_energy: Total energy of the system
+    virial_energy: Virial energy of the system
     """
 
     # fmt: off
@@ -39,7 +55,7 @@ class WFNsRep:
     expons: np.ndarray   # Exponents for each basis function.
 
     # Specific to the molecular orbitals
-    occupations: np.ndarray  # Occupancy number for each MO.
+    occs: np.ndarray      # Occupancy number for each MO.
     energies: np.ndarray  # Energy of each MO. Sized `nmos`.
     coeffs: np.ndarray    # Coefficients for each MO.
 
@@ -54,7 +70,7 @@ class WFNsRep:
         nat_params = [
             "atnames", "atcharge", "atpos", # Size based on nats.
             "centers", "expons", "types",   # Size based off of nprims,
-            "occupations", "energies",      # Size is nmos
+            "occs", "energies",      # Size is nmos
             "coeffs",                       # Size based on both nmos and nprims
             ]
         # fmt: on
@@ -70,7 +86,7 @@ class WFNsRep:
                 "expons":  self.nwfns * self.nprims,
                 "types":   self.nwfns * self.nprims,
 
-                "occupations": self.nwfns * self.nmos,
+                "occs": self.nwfns * self.nmos,
                 "energies": self.nwfns * self.nmos,
 
                 "coeffs": self.nwfns * self.nmos * self.nprims,

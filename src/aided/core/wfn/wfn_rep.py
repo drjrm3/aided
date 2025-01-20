@@ -1,9 +1,9 @@
 """
-aided.fio.read_wfn.WFNRep
+aided.core.wfn.wfn_rep
 
 Read Gaussian09 output files.
 
-Copyright (C) J. Robert Michael PhD, 2025
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from dataclasses import dataclass
@@ -14,9 +14,22 @@ from ... import np
 # pylint: disable=too-many-instance-attributes, R0801
 @dataclass
 class WFNRep:
-    """
-    Structure of Arrays of AIM file / representation using numpy arrays. If 'Nuclear shaking' alone
-    occurs, the only thing to change here would be the `atpos` of each resulting molecule.
+    """Structure of Arrays of AIM file / representation using numpy arrays.
+
+    nmos: Number of Molecular Orbitals
+    nprims: Number of Gaussian Primitives
+    nats: Number of Nuclei (Atoms)
+    atnames: Atom names
+    atpos: Atomic positions
+    atcharge: Atomic charges
+    centers: Atomic center upon which each primitive is based
+    types: Gaussian primitive type for each atom
+    expons: Exponents for each basis function
+    occs: Occupancy number for each MO
+    energies: Energy of each MO
+    coeffs: Coefficients for each MO
+    total_energy: Total energy of the system
+    virial_energy: Virial energy of the system
     """
 
     # fmt: off
@@ -36,7 +49,7 @@ class WFNRep:
     expons: np.ndarray   # Exponents for each basis function. Sized `nprims`. (dtype=float)
 
     # Specific to the molecular orbitals
-    occupations: np.ndarray  # Occupancy number for each MO. Sized `nmos`. (dtype=float)
+    occs: np.ndarray      # Occupancy number for each MO. Sized `nmos`. (dtype=float)
     energies: np.ndarray  # Energy of each MO. Sized `nmos`. (dtype=float)
     coeffs: np.ndarray    # Coefficients for each MO. Sized `nmos x nprims`. (dtype=float)
 
@@ -51,7 +64,7 @@ class WFNRep:
         nat_params = [
             "atnames", "atcharge", "atpos", # Size based on nats.
             "centers", "expons", "types",   # Size based off of nprims,
-            "occupations", "energies",      # Size is nmos
+            "occs", "energies",             # Size is nmos
             "coeffs",                       # Size based on both nmos and nprims
             ]
         # fmt: on
@@ -67,7 +80,7 @@ class WFNRep:
                 "expons":  self.nprims,
                 "types":   self.nprims,
 
-                "occupations": self.nmos,
+                "occs": self.nmos,
                 "energies": self.nmos,
 
                 "coeffs": self.nmos * self.nprims,
