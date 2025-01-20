@@ -1,5 +1,5 @@
 """
-aided.fio.utils
+aided.io.utils
 
 Utility functions to use for File I/O.
 
@@ -23,10 +23,10 @@ def convert_scientific_notation(data_lines) -> List:
         list of str: The the modified lines with 'D' replaced by 'E' in scientific notation.
     """
     # Pattern to identify scientific notation with 'D'
-    pattern = re.compile(r'([-+]?\d+\.\d+)D([+-]\d+)')
+    pattern = re.compile(r"([-+]?\d+\.\d+)D([+-]\d+)")
 
     # Replace 'D' with 'E' in scientific notation for each line
-    result = [pattern.sub(r'\1E\2', line) for line in data_lines]
+    result = [pattern.sub(r"\1E\2", line) for line in data_lines]
 
     return result
 

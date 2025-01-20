@@ -1,7 +1,7 @@
 """
 aided.core.wfn.wfns_rep
 
-Read Gaussian09 output files.
+Read AIMfile output files.
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
@@ -10,10 +10,12 @@ from dataclasses import dataclass
 
 from ... import np
 
+from .wfn_rep import WFNRep
+
 
 # pylint: disable=too-many-instance-attributes, R0801
 @dataclass
-class WFNsRep:
+class WFNsRep(WFNRep):
     """
     Structure of Arrays of AIM file / representation using numpy arrays.
 
@@ -37,32 +39,12 @@ class WFNsRep:
     virial_energy: Virial energy of the system
     """
 
-    # fmt: off
     # Header information to define sizes of the rest
-    nwfns: int   # Number of WFNs represented.
-    nmos: int    # Number of Molecular Orbitals
-    nprims: int  # Number of Gaussian Primitives
-    nats: int    # Number of Nuclei (Atoms)
-
-    # Specific to the Atoms. All have size as a function of the number of atoms.
-    atnames: np.ndarray   # Nuclei names.
-    atpos: np.ndarray     # Nuclei positions.
-    atcharge: np.ndarray  # Nuclei charges.
-
-    # Specific to the Gaussian primitives.
-    centers: np.ndarray  # Center of each primitive.
-    types: np.ndarray    # Gaussian primitive type for each atom.
-    expons: np.ndarray   # Exponents for each basis function.
-
-    # Specific to the molecular orbitals
-    occs: np.ndarray      # Occupancy number for each MO.
-    energies: np.ndarray  # Energy of each MO. Sized `nmos`.
-    coeffs: np.ndarray    # Coefficients for each MO.
+    nwfns: int  # Number of WFNs represented.
 
     # Energy in the system.
     total_energies: np.ndarray
     virial_energies: np.ndarray
-    # fmt: on
 
     def __post_init__(self):
         # Validate sizes

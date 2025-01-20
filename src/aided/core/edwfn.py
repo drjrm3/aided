@@ -6,10 +6,11 @@ Electron Density Manfestation abstract class.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
+from numpy.typing import NDArray
 from .edrep import EDRep
 
 from .. import LMNS, np
-from ..fio.read_wfn import read_wfn_file
+from ..io.read_wfn import read_wfn_file
 from ..math.primitives import gpow
 
 
@@ -20,6 +21,12 @@ class EDWfn(EDRep):
 
     def __init__(self, wfn_file: str):
         super().__init__(input_file=wfn_file)
+
+        self._denmat: NDArray[np.float64]
+        self._chi: NDArray[np.float64]
+        self._chi1: NDArray[np.float64]
+        self._chi2: NDArray[np.float64]
+        self._occ: NDArray[np.float64]
 
         # Read the wfn file.
         self._wfn_rep = read_wfn_file(wfn_file)
@@ -41,6 +48,14 @@ class EDWfn(EDRep):
         # Calculate the density matrix.
         self._gen_denmat()
 
+    @property
+    def atpos(self):
+        return self._wfn_rep.atpos
+
+    @property
+    def atnames(self):
+        return self._wfn_rep.atnames
+
     def _gen_chi(self, x: float, y: float, z: float, ider: int):
         """Generate the chi matrix for the given point.
 
@@ -57,96 +72,102 @@ class EDWfn(EDRep):
         self._last_point = (x, y, z)
         self._last_der = ider
 
-        for iprim in range(self._wfn_rep.nprims):
+        # Precompute constants
+        nprims = self._wfn_rep.nprims
+        types = self._wfn_rep.types
+        centers = self._wfn_rep.centers
+        atpos = self._wfn_rep.atpos
+        expons = self._wfn_rep.expons
 
-            # Spherical Harmonics.
-            l, m, n = LMNS[self._wfn_rep.types[iprim]]
-            center = self._wfn_rep.centers[iprim]
-            cx, cy, cz = self._wfn_rep.atpos[center][:]
+        # Extract spherical harmonics indices (l, m, n) for all primitives
+        lmn = np.array([LMNS[t] for t in types])  # Shape: (nprims, 3)
+        l, m, n = lmn.T
 
-            # Coordinates relative to the atomic center to evaluate property for this primitive.
-            px, py, pz = x - cx, y - cy, z - cz
+        # Extract centers and positions
+        center_indices = centers
+        center_coords = atpos[center_indices]  # Shape: (nprims, 3)
 
-            # Argument for this Gaussian primitive.
-            alpha = self._wfn_rep.expons[iprim]
-            expon = np.exp(-alpha * (px**2 + py**2 + pz**2))
-            xl, ym, zn = np.power([px, py, pz], [l, m, n])
+        # Compute coordinates relative to atomic centers
+        px, py, pz = x - center_coords[:, 0], y - center_coords[:, 1], z - center_coords[:, 2]  # Shape: (nprims,)
 
-            self._chi[iprim] = xl * ym * zn * expon
+        # Compute the argument of the Gaussian primitive and the exponential
+        alpha = expons  # Shape: (nprims,)
+        expon = np.exp(-alpha * (px**2 + py**2 + pz**2))  # Shape: (nprims,)
 
-            # First derivative.
-            if ider >= 1:
-                twoa = 2.0 * alpha
+        # Compute powers using gpow
+        xl = gpow(px, l)  # Shape: (nprims,)
+        ym = gpow(py, m)  # Shape: (nprims,)
+        zn = gpow(pz, n)  # Shape: (nprims,)
 
-                term11 = l * gpow(px, l - 1)
-                term12 = m * gpow(py, m - 1)
-                term13 = n * gpow(pz, n - 1)
+        # Compute `chi`
+        self._chi[:nprims] = xl * ym * zn * expon  # Shape: (nprims,)
 
-                xyexp = xl * ym * expon
-                xzexp = xl * zn * expon
-                yzexp = ym * zn * expon
+        # First derivatives (if ider >= 1)
+        if ider >= 1:
+            twoa = 2.0 * alpha  # Shape: (nprims,)
 
-                self._chi1[iprim, 0] = yzexp * (term11 - twoa * xl * px)
-                self._chi1[iprim, 1] = xzexp * (term12 - twoa * ym * py)
-                self._chi1[iprim, 2] = xyexp * (term13 - twoa * zn * pz)
+            term11 = gpow(px, l - 1) * l  # Shape: (nprims,)
+            term12 = gpow(py, m - 1) * m  # Shape: (nprims,)
+            term13 = gpow(pz, n - 1) * n  # Shape: (nprims,)
 
-                # Second derivative.
-                if ider >= 2:
-                    twoa_chi = twoa * self._chi[iprim]
+            xyexp = xl * ym * expon  # Shape: (nprims,)
+            xzexp = xl * zn * expon  # Shape: (nprims,)
+            yzexp = ym * zn * expon  # Shape: (nprims,)
 
-                    # xx
-                    self._chi2[iprim, 0] = gpow(px, l - 2) * yzexp * l * (l - 1) - twoa_chi * (
-                        2.0 * l + 1.0 - twoa * px * px
-                    )
+            self._chi1[:nprims, 0] = yzexp * (term11 - twoa * xl * px)
+            self._chi1[:nprims, 1] = xzexp * (term12 - twoa * ym * py)
+            self._chi1[:nprims, 2] = xyexp * (term13 - twoa * zn * pz)
 
-                    # yy
-                    self._chi2[iprim, 3] = gpow(py, m - 2) * xzexp * m * (m - 1) - twoa_chi * (
-                        2.0 * m + 1.0 - twoa * py * py
-                    )
+            # Second derivatives (if ider >= 2)
+            if ider >= 2:
+                twoa_chi = twoa * self._chi[:nprims]  # Shape: (nprims,)
 
-                    # zz
-                    self._chi2[iprim, 5] = gpow(pz, n - 2) * xyexp * n * (n - 1) - twoa_chi * (
-                        2.0 * n + 1.0 - twoa * pz * pz
-                    )
+                # xx, yy, zz
+                self._chi2[:nprims, 0] = gpow(px, l - 2) * yzexp * l * (l - 1) - twoa_chi * (
+                    2.0 * l + 1.0 - twoa * px**2
+                )
+                self._chi2[:nprims, 3] = gpow(py, m - 2) * xzexp * m * (m - 1) - twoa_chi * (
+                    2.0 * m + 1.0 - twoa * py**2
+                )
+                self._chi2[:nprims, 5] = gpow(pz, n - 2) * xyexp * n * (n - 1) - twoa_chi * (
+                    2.0 * n + 1.0 - twoa * pz**2
+                )
 
-                    expee = twoa * expon
-                    foura_two_chi = 4.0 * alpha * alpha * self._chi[iprim]
+                expee = twoa * expon  # Shape: (nprims,)
+                foura_two_chi = 4.0 * alpha**2 * self._chi[:nprims]  # Shape: (nprims,)
 
-                    # xy
-                    self._chi2[iprim, 1] = (
-                        term11 * term12 * zn * expon
-                        + -term12 * xl * px * zn * expee
-                        + -term11 * ym * py * zn * expee
-                        + px * py * foura_two_chi
-                    )
+                # xy
+                self._chi2[:nprims, 1] = (
+                    term11 * term12 * zn * expon
+                    - term12 * xl * px * zn * expee
+                    - term11 * ym * py * zn * expee
+                    + px * py * foura_two_chi
+                )
 
-                    # xz
-                    self._chi2[iprim, 2] = (
-                        term11 * term13 * ym * expon
-                        + -term13 * xl * px * ym * expee
-                        + -term11 * zn * pz * ym * expee
-                        + px * pz * foura_two_chi
-                    )
+                # xz
+                self._chi2[:nprims, 2] = (
+                    term11 * term13 * ym * expon
+                    - term13 * xl * px * ym * expee
+                    - term11 * zn * pz * ym * expee
+                    + px * pz * foura_two_chi
+                )
 
-                    # yz
-                    self._chi2[iprim, 4] = (
-                        term12 * term13 * xl * expon
-                        + -term13 * ym * py * xl * expee
-                        + -term12 * zn * pz * xl * expee
-                        + py * pz * foura_two_chi
-                    )
+                # yz
+                self._chi2[:nprims, 4] = (
+                    term12 * term13 * xl * expon
+                    - term13 * ym * py * xl * expee
+                    - term12 * zn * pz * xl * expee
+                    + py * pz * foura_two_chi
+                )
 
     def _gen_denmat(self):
-        """Generate the density matrix for the given point."""
+        """Generate the density matrix for the given point.
 
-        # TODO: Vectorize this.
-        for iprim in range(self._wfn_rep.nprims):
-            for jprim in range(self._wfn_rep.nprims):
-                self._denmat[iprim, jprim] = 0.0
-                for imo in range(self._wfn_rep.nmos):
-                    self._denmat[iprim, jprim] += (
-                        self._wfn_rep.occs[imo] * self._wfn_rep.coeffs[imo, iprim] * self._wfn_rep.coeffs[imo, jprim]
-                    )
+        Denmat effectively computes:
+            D_pq = sum_i occ_i * C_ip * C_iq
+        """
+
+        self._denmat = np.einsum("i,ip,iq->pq", self._occ, self._mocs, self._mocs)
 
     def read_vib_file(self, input_file: str):
         """
@@ -170,10 +191,7 @@ class EDWfn(EDRep):
 
         self._gen_chi(x, y, z, ider=0)
 
-        rhov = 0.0
-        for iprim in range(self._wfn_rep.nprims):
-            for jprim in range(self._wfn_rep.nprims):
-                rhov += self._denmat[iprim, jprim] * self._chi[iprim] * self._chi[jprim]
+        rhov = float(np.sum(self._denmat * self._chi[:, np.newaxis] * self._chi[np.newaxis, :]))
 
         return rhov
 
@@ -189,19 +207,14 @@ class EDWfn(EDRep):
 
         gradv = np.zeros(3, dtype=float)
 
-        for iprim in range(self._wfn_rep.nprims):
-            chi_i = self._chi[iprim]
+        # Compute pairwise products of _chi and _chi1
+        chi_i_chi1_j = np.einsum("i,jk->ijk", self._chi, self._chi1)
+        chi_j_chi1_i = np.einsum("j,ik->ijk", self._chi, self._chi1)
 
-            chi_xi, chi_yi, chi_zi = self._chi1[iprim, :]
-
-            for jprim in range(self._wfn_rep.nprims):
-                chi_j = self._chi[jprim]
-
-                chi_xj, chi_yj, chi_zj = self._chi1[jprim, :]
-
-                gradv[0] += self._denmat[iprim, jprim] * (chi_i * chi_xj + chi_j * chi_xi)
-                gradv[1] += self._denmat[iprim, jprim] * (chi_i * chi_yj + chi_j * chi_yi)
-                gradv[2] += self._denmat[iprim, jprim] * (chi_i * chi_zj + chi_j * chi_zi)
+        # Combine the contributions to the gradient
+        gradv = np.zeros(3, dtype=float)
+        for dim in range(3):  # Iterate over x, y, z dimensions
+            gradv[dim] = np.sum(self._denmat * (chi_i_chi1_j[:, :, dim] + chi_j_chi1_i[:, :, dim]))
 
         return gradv
 
@@ -217,61 +230,67 @@ class EDWfn(EDRep):
 
         dxx, dyy, dzz, dxy, dxz, dyz = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
-        for iprim in range(self._wfn_rep.nprims):
-            chi_i = self._chi[iprim]
+        # Diagonal terms
+        dxx = np.sum(
+            self._denmat
+            * (
+                self._chi[:, np.newaxis] * self._chi2[np.newaxis, :, 0]
+                + 2.0 * self._chi1[:, 0][:, np.newaxis] * self._chi1[:, 0][np.newaxis, :]
+                + self._chi2[:, 0][:, np.newaxis] * self._chi[np.newaxis, :]
+            )
+        )
+        dyy = np.sum(
+            self._denmat
+            * (
+                self._chi[:, np.newaxis] * self._chi2[np.newaxis, :, 3]
+                + 2.0 * self._chi1[:, 1][:, np.newaxis] * self._chi1[:, 1][np.newaxis, :]
+                + self._chi2[:, 3][:, np.newaxis] * self._chi[np.newaxis, :]
+            )
+        )
+        dzz = np.sum(
+            self._denmat
+            * (
+                self._chi[:, np.newaxis] * self._chi2[np.newaxis, :, 5]
+                + 2.0 * self._chi1[:, 2][:, np.newaxis] * self._chi1[:, 2][np.newaxis, :]
+                + self._chi2[:, 5][:, np.newaxis] * self._chi[np.newaxis, :]
+            )
+        )
 
-            chi_xi = self._chi1[iprim, 0]
-            chi_yi = self._chi1[iprim, 1]
-            chi_zi = self._chi1[iprim, 2]
+        # Off-diagonal terms
+        dxy = np.sum(
+            self._denmat
+            * (
+                self._chi[:, np.newaxis] * self._chi2[np.newaxis, :, 1]
+                + self._chi1[:, 0][:, np.newaxis] * self._chi1[:, 1][np.newaxis, :]
+                + self._chi1[:, 1][:, np.newaxis] * self._chi1[:, 0][np.newaxis, :]
+                + self._chi2[:, 1][:, np.newaxis] * self._chi[np.newaxis, :]
+            )
+        )
+        dxz = np.sum(
+            self._denmat
+            * (
+                self._chi[:, np.newaxis] * self._chi2[np.newaxis, :, 2]
+                + self._chi1[:, 0][:, np.newaxis] * self._chi1[:, 2][np.newaxis, :]
+                + self._chi1[:, 2][:, np.newaxis] * self._chi1[:, 0][np.newaxis, :]
+                + self._chi2[:, 2][:, np.newaxis] * self._chi[np.newaxis, :]
+            )
+        )
+        dyz = np.sum(
+            self._denmat
+            * (
+                self._chi[:, np.newaxis] * self._chi2[np.newaxis, :, 4]
+                + self._chi1[:, 1][:, np.newaxis] * self._chi1[:, 2][np.newaxis, :]
+                + self._chi1[:, 2][:, np.newaxis] * self._chi1[:, 1][np.newaxis, :]
+                + self._chi2[:, 4][:, np.newaxis] * self._chi[np.newaxis, :]
+            )
+        )
 
-            chi_xxi = self._chi2[iprim, 0]
-            chi_xyi = self._chi2[iprim, 1]
-            chi_xzi = self._chi2[iprim, 2]
-            chi_yyi = self._chi2[iprim, 3]
-            chi_yzi = self._chi2[iprim, 4]
-            chi_zzi = self._chi2[iprim, 5]
-
-            for jprim in range(self._wfn_rep.nprims):
-                chi_j = self._chi[jprim]
-
-                chi_xj = self._chi1[jprim, 0]
-                chi_yj = self._chi1[jprim, 1]
-                chi_zj = self._chi1[jprim, 2]
-
-                chi_xxj = self._chi2[jprim, 0]
-                chi_xyj = self._chi2[jprim, 1]
-                chi_xzj = self._chi2[jprim, 2]
-                chi_yyj = self._chi2[jprim, 3]
-                chi_yzj = self._chi2[jprim, 4]
-                chi_zzj = self._chi2[jprim, 5]
-
-                # fmt: off
-                dxx += self._denmat[iprim, jprim] * (
-                    chi_i * chi_xxj + 2.0 * chi_xi * chi_xj + chi_xxi * chi_j
-                )
-                dyy += self._denmat[iprim, jprim] * (
-                    chi_i * chi_yyj + 2.0 * chi_yi * chi_yj + chi_yyi * chi_j
-                )
-                dzz += self._denmat[iprim, jprim] * (
-                    chi_i * chi_zzj + 2.0 * chi_zi * chi_zj + chi_zzi * chi_j
-                )
-                dxy += self._denmat[iprim, jprim] * (
-                    chi_i * chi_xyj + chi_yi * chi_xj + chi_xi * chi_yj + chi_xyi * chi_j
-                )
-                dxz += self._denmat[iprim, jprim] * (
-                    chi_i * chi_xzj + chi_xi * chi_zj + chi_zi * chi_xj + chi_xzi * chi_j
-                )
-                dyz += self._denmat[iprim, jprim] * (
-                    chi_i * chi_yzj + chi_yi * chi_zj + chi_zi * chi_yj + chi_yzi * chi_j
-                )
-                # fmt: on
-
+        # Combine into Hessian vector
         hessv = np.array([dxx, dyy, dzz, dxy, dxz, dyz], dtype=float)
-
         return hessv
 
 
-if __name__ == "__main__":
+def _tst():  # pragma: no cover
     # pylint: disable=all
     # This is a test area for validating work above.
     import argparse
@@ -288,12 +307,10 @@ if __name__ == "__main__":
 
     if len(args.input) == 1:
         edwfn = EDWfn(args.input[0])
-        print("")
-        rho = edwfn.rho(0.0, 0.0, 0.0)
         print(f"{edwfn.rho(0.0, 0.0, 0.0)=}")
-        grad = edwfn.grad(0.0, 0.0, 0.0)
         print(f"{edwfn.grad(0.0, 0.0, 0.0)=}")
-        # hess = edwfn.hess(0.0, 0.0, 0.0)
-        hess = edwfn.hess(0.0, 0.0, 0.0)
         print(f"{edwfn.hess(0.0, 0.0, 0.0)=}")
-        print(f"{np.sum(edwfn.hess(0.0, 0.0, 0.0)[:3])=}")
+
+
+if __name__ == "__main__":
+    _tst()

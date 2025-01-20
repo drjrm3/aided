@@ -1,5 +1,5 @@
 """
-aided.fio.read_wfn
+aided.io.read_wfn
 
 Read AIMfile WFN representation files. This reads it in both single file mode and also a batch of
 files which it then returns as WFNRep or WFNsRep, respectively.
@@ -8,6 +8,8 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from typing import List
+
+import numpy
 
 from .. import np, npt
 from .utils import is_number, convert_scientific_notation
@@ -49,8 +51,8 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
     del lines[0]
 
     # Read atnames, atpos, atcharge:
-    atnames = np.array(["".join(line.split()[0:2]) for line in lines[:nats]])
-    atpos = np.array([line.split()[4:7] for line in lines[:nats]]).astype(float) #* ANG_TO_AU
+    atnames = numpy.array(["".join(line.split()[0:2]) for line in lines[:nats]])
+    atpos = np.array([[float(w) for w in line.split()[4:7]] for line in lines[:nats]])  # * ANG_TO_AU
     atcharge = np.array([float(line.split()[-1]) for line in lines[:nats]])
     del lines[:nats]
 
@@ -110,10 +112,10 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
     Read all of the parameters needed for a WFNRep from a .wfn file.
 
     Args:
-        wfn_file: .wfn file representing an AIM file.
+        wfn_files: A list of .wfn files representing an AIM file.
 
     Returns:
-        wfn_rep: A wfn representation as a dataclass representation
+        wfns_rep: A representation of multiple wfns as a dataclass
     """
 
     # Get the number of wfns for spacing.
@@ -124,12 +126,12 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
     nmos, nprims, nats = _wfn_rep.nmos, _wfn_rep.nprims, _wfn_rep.nats
 
     # Space for atnames, atpos, atcharge.
-    atnames = np.empty((nwfns, nats), dtype=object)
+    atnames = numpy.empty((nwfns, nats), dtype=object)
     atpos = np.zeros((nwfns, nats, 3), dtype=float)
     atcharge = np.zeros((nwfns, nats), dtype=np.int32)
 
     # Space for center assignment integers, exponents, and types for each Gaussian primitive.
-    centers = np.zeros((nwfns, nprims), dtype=float)
+    centers = np.zeros((nwfns, nprims), dtype=np.int32)
     exponents = np.zeros((nwfns, nprims), dtype=float)
     types = np.zeros((nwfns, nprims), dtype=np.int32)
 
@@ -176,13 +178,15 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
         coeffs=coeffs,
         total_energies=total_energies,
         virial_energies=virial_energies,
+        total_energy=0,
+        virial_energy=0,
     )
 
     return wfns_rep
 
 
-def test():
-    """Test main routine."""
+def tst():
+    # pylint: disable=all
     import argparse
     import sys
 
@@ -200,5 +204,6 @@ def test():
     else:
         _wfns_rep = read_wfn_file(args.input[0])
 
+
 if __name__ == "__main__":
-    test()
+    tst()
