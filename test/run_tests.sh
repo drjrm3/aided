@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 
-if [[ 0 == 1 ]]; then
+if [[ 1 == 1 ]]; then
 THIS_DIR=$(pwd)
 pushd /home/drjrm3/code/aided/src > /dev/null
-time python3 -m aided.core.edwfn -i ${THIS_DIR}/data/wfns/formamide/formamide.6311gss.b3lyp.wfn
-time python3 -m aided.core.edwfns -i ${THIS_DIR}/tst.tmp
+time python3 -m aided.core.edwfns -i ${THIS_DIR}/wfns.250k.tmp
+#time python3 -m aided.core.edwfns -i ${THIS_DIR}/out.tmp
 popd > /dev/null
 exit 0
 fi

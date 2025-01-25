@@ -6,6 +6,7 @@ Electron Density Representations from .wfn files.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
+from datetime import datetime
 from typing import List
 from numpy.typing import NDArray
 
@@ -16,16 +17,71 @@ from ..io.read_wfn import read_wfn_files
 from ..math.primitives import gpow
 
 
+def compute_hessian_batch(chi, chi1, chi2, denmat) -> np.ndarray:
+    """Compute the Hessian for a batch of wavefunctions."""
+    # Compute diagonal terms
+    hessv = np.zeros(6, dtype=float)
+    hessv[0] = np.einsum(
+        "ijk,ijk->",
+        denmat,
+        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
+        + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+        + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :]
+    )
+    hessv[1] = np.einsum(
+        "ijk,ijk->",
+        denmat,
+        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
+        + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+        + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :]
+    )
+    hessv[2] = np.einsum(
+        "ijk,ijk->",
+        denmat,
+        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
+        + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+        + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :]
+    )
+
+    # Compute off-diagonal terms
+    hessv[3] = np.einsum(
+        "ijk,ijk->",
+        denmat,
+        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
+        + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+        + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+        + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :]
+    )
+    hessv[4] = np.einsum(
+        "ijk,ijk->",
+        denmat,
+        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
+        + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+        + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+        + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :]
+    )
+    hessv[5] = np.einsum(
+        "ijk,ijk->",
+        denmat,
+        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
+        + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+        + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+        + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :]
+    )
+
+    return hessv
+
 class EDWfns(EDRep):
     """
     Electron Density Representation from multiple .wfn file.
     """
 
-    def __init__(self, wfn_file_list: str):
+    def __init__(self, wfn_file_list: str, io_procs: int = 1):
         """Initialization with list of .wfn files and number of processes to use.
 
         Args:
             wfn_file_list: List of .wfn files.
+            io_procs: Number of proceess to use for io operations.
         """
         super().__init__(input_file=wfn_file_list)
 
@@ -39,7 +95,7 @@ class EDWfns(EDRep):
             wfn_files = [f.strip() for f in finp.readlines()]
 
         # Read the wfn file.
-        self._wfns_rep = read_wfn_files(wfn_files)
+        self._wfns_rep = read_wfn_files(wfn_files, nprocs=io_procs)
 
         # Assumes that all atnames are the same.
         self._atnames = self._wfns_rep.atnames[0]
@@ -232,6 +288,17 @@ class EDWfns(EDRep):
 
         rhov /= self._wfns_rep.nwfns
 
+        """
+        # Pre-compute chi products once for all iwfn
+        chi_product = self._chi[:, :, np.newaxis] * self._chi[:, np.newaxis, :]
+
+        # Perform the matrix product for all iwfn at once
+        rhov = np.einsum("ijk,ijk->i", self._denmat, chi_product)
+
+        # Average across all iwfn
+        rhov = np.sum(rhov) / self._wfns_rep.nwfns
+        """
+
         return rhov
 
     def grad(self, x: float, y: float, z: float) -> np.ndarray:
@@ -260,81 +327,95 @@ class EDWfns(EDRep):
 
         return gradv
 
-    def hess(self, x: float, y: float, z: float) -> np.ndarray:
+    def hess(self, x: float, y: float, z: float, batch_size: int = 1000) -> np.ndarray:
         """Generate the Hessian of the ED at a point.
+
+        This function can be very memory intensive, so delete partial computations.
 
         Args:
             x, y, z: Cartesian points in global space.
+            batch_size: Number of wavefunctions to process at once.
 
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
 
         self._gen_chi(x, y, z, ider=2)
 
-        dxx, dyy, dzz, dxy, dxz, dyz = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-
         hessv = np.zeros(6, dtype=float)
 
-        for iwfn in range(self._wfns_rep.nwfns):
+        # Extract the components for clarity
+        chi = self._chi
+        chi1 = self._chi1
+        chi2 = self._chi2
+        denmat = self._denmat
+        nwfns = self._wfns_rep.nwfns
 
-            # Diagonal terms
-            dxx = np.sum(
-                self._denmat
-                * (
-                    self._chi[iwfn, :, np.newaxis] * self._chi2[iwfn, np.newaxis, :, 0]
-                    + 2.0 * self._chi1[iwfn, :, 0][:, np.newaxis] * self._chi1[iwfn, :, 0][np.newaxis, :]
-                    + self._chi2[iwfn, :, 0][:, np.newaxis] * self._chi[iwfn, np.newaxis, :]
-                )
-            )
-            dyy = np.sum(
-                self._denmat
-                * (
-                    self._chi[iwfn, :, np.newaxis] * self._chi2[iwfn, np.newaxis, :, 3]
-                    + 2.0 * self._chi1[iwfn, :, 1][:, np.newaxis] * self._chi1[iwfn, :, 1][np.newaxis, :]
-                    + self._chi2[iwfn, :, 3][:, np.newaxis] * self._chi[iwfn, np.newaxis, :]
-                )
-            )
-            dzz = np.sum(
-                self._denmat
-                * (
-                    self._chi[iwfn, :, np.newaxis] * self._chi2[iwfn, np.newaxis, :, 5]
-                    + 2.0 * self._chi1[iwfn, :, 2][:, np.newaxis] * self._chi1[iwfn, :, 2][np.newaxis, :]
-                    + self._chi2[iwfn, :, 5][:, np.newaxis] * self._chi[iwfn, np.newaxis, :]
-                )
-            )
+        """ This mode is fast but runs out of memory if the number of wavefunctions is large.
+        # Compute diagonal terms
+        hessv[0] = np.einsum(
+            "ijk,ijk->",
+            denmat,
+            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
+            + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+            + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        )
+        hessv[1] = np.einsum(
+            "ijk,ijk->",
+            denmat,
+            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
+            + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+            + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        )
+        hessv[2] = np.einsum(
+            "ijk,ijk->",
+            denmat,
+            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
+            + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+            + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        )
 
-            # Off-diagonal terms
-            dxy = np.sum(
-                self._denmat
-                * (
-                    self._chi[iwfn, :, np.newaxis] * self._chi2[iwfn, np.newaxis, :, 1]
-                    + self._chi1[iwfn, :, 0][:, np.newaxis] * self._chi1[iwfn, :, 1][np.newaxis, :]
-                    + self._chi1[iwfn, :, 1][:, np.newaxis] * self._chi1[iwfn, :, 0][np.newaxis, :]
-                    + self._chi2[iwfn, :, 1][:, np.newaxis] * self._chi[iwfn, np.newaxis, :]
-                )
-            )
-            dxz = np.sum(
-                self._denmat
-                * (
-                    self._chi[iwfn, :, np.newaxis] * self._chi2[iwfn, np.newaxis, :, 2]
-                    + self._chi1[iwfn, :, 0][:, np.newaxis] * self._chi1[iwfn, :, 2][np.newaxis, :]
-                    + self._chi1[iwfn, :, 2][:, np.newaxis] * self._chi1[iwfn, :, 0][np.newaxis, :]
-                    + self._chi2[iwfn, :, 2][:, np.newaxis] * self._chi[iwfn, np.newaxis, :]
-                )
-            )
-            dyz = np.sum(
-                self._denmat
-                * (
-                    self._chi[iwfn, :, np.newaxis] * self._chi2[iwfn, np.newaxis, :, 4]
-                    + self._chi1[iwfn, :, 1][:, np.newaxis] * self._chi1[iwfn, :, 2][np.newaxis, :]
-                    + self._chi1[iwfn, :, 2][:, np.newaxis] * self._chi1[iwfn, :, 1][np.newaxis, :]
-                    + self._chi2[iwfn, :, 4][:, np.newaxis] * self._chi[iwfn, np.newaxis, :]
-                )
-            )
+        # Compute off-diagonal terms
+        hessv[3] = np.einsum(
+            "ijk,ijk->",
+            denmat,
+            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
+            + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+            + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+            + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        )
+        hessv[4] = np.einsum(
+            "ijk,ijk->",
+            denmat,
+            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
+            + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+            + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+            + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        )
+        hessv[5] = np.einsum(
+            "ijk,ijk->",
+            denmat,
+            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
+            + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+            + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+            + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        )
+        """
 
-            # Combine into Hessian vector
-            hessv = np.array([dxx, dyy, dzz, dxy, dxz, dyz], dtype=float)
+        # Process wavefunctions in batches
+        for start in range(0, nwfns, batch_size):
+            end = min(start + batch_size, nwfns)
 
+            # Slice the batch
+            chi_batch = chi[start:end]
+            chi1_batch = chi1[start:end]
+            chi2_batch = chi2[start:end]
+            denmat_batch = denmat[start:end]
+
+            # Compute and accumulate the Hessian for this batch
+            hessv += compute_hessian_batch(chi_batch, chi1_batch, chi2_batch, denmat_batch)
+
+
+        # Normalize by the number of wavefunctions
         hessv /= self._wfns_rep.nwfns
 
         return hessv
@@ -361,25 +442,44 @@ def _tst():  # pragma: no cover
         wfn_file = finp.readlines()[0].strip()
 
     edwfn = EDWfn(wfn_file)
-    edwfns = EDWfns(args.input)
+    print(f"Reading wfn files ... ", end="")
+    sys.stdout.flush()
+    tic = datetime.now()
+    edwfns = EDWfns(args.input, io_procs=2)
+    toc = datetime.now()
+    dif = (toc - tic).total_seconds()
+    print(f"Done in {dif:16.12f} seconds")
 
-    print(edwfns.atpos)
-    print(edwfns.atnames)
-
+    tic = datetime.now()
     rho_gs = edwfn.rho(0.0, 0.0, 0.0)
     rho_at = edwfns.rho(0.0, 0.0, 0.0)
+    toc = datetime.now()
+    dif = (toc - tic).total_seconds()
+
     print(f"|rho_at| ..... {rho_at:16.12f}")
     print(f"|rho_gs| ..... {rho_gs:16.12f}")
+    print(f"Time taken ... {dif:16.12f} seconds")
+    sys.stdout.flush()
 
+    tic = datetime.now()
     grad_gs = edwfn.grad(0.0, 0.0, 0.0)
     grad_at = edwfns.grad(0.0, 0.0, 0.0)
+    toc = datetime.now()
+    dif = (toc - tic).total_seconds()
     print(f"|grad_at| .... {' '.join(f'{_g:16.12f}' for _g in grad_at)}")
     print(f"|grad_gs| .... {' '.join(f'{_g:16.12f}' for _g in grad_gs)}")
+    print(f"Time taken ... {dif:16.12f} seconds")
+    sys.stdout.flush()
 
+    tic = datetime.now()
     hess_gs = edwfn.hess(0.0, 0.0, 0.0)
     hess_at = edwfns.hess(0.0, 0.0, 0.0)
+    toc = datetime.now()
+    dif = (toc - tic).total_seconds()
     print(f"|hess_at| .... {' '.join(f'{_g:16.12f}' for _g in hess_at)}")
     print(f"|hess_gs| .... {' '.join(f'{_g:16.12f}' for _g in hess_gs)}")
+    print(f"Time taken ... {dif:16.12f} seconds")
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":

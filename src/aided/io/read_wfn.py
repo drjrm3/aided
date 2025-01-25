@@ -11,9 +11,31 @@ from typing import List
 
 import numpy
 
+from concurrent.futures import ProcessPoolExecutor
+
 from .. import np, npt
 from .utils import is_number, convert_scientific_notation
 from ..core.wfn import WFNRep, WFNsRep
+from ..core.utils import split_work
+
+
+def _read_wfn_worker(iwfn: int, wfn: str):
+    """Read a single wfn file and return its data."""
+    wfn_rep = read_wfn_file(wfn)
+    return (
+        iwfn,  # Include index to ensure deterministic mapping
+        wfn_rep.atnames,
+        wfn_rep.atpos,
+        wfn_rep.atcharge,
+        wfn_rep.centers,
+        wfn_rep.expons,
+        wfn_rep.types,
+        wfn_rep.energies,
+        wfn_rep.occs,
+        wfn_rep.coeffs,
+        wfn_rep.total_energy,
+        wfn_rep.virial_energy,
+    )
 
 
 def read_wfn_file(wfn_file: str) -> WFNRep:
@@ -107,12 +129,13 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
     return wfn_rep
 
 
-def read_wfn_files(wfns: List[str]) -> WFNsRep:
+def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WFNsRep:
     """
     Read all of the parameters needed for a WFNRep from a .wfn file.
 
     Args:
         wfn_files: A list of .wfn files representing an AIM file.
+        nprocs: Number of processors to read with.
 
     Returns:
         wfns_rep: A representation of multiple wfns as a dataclass
@@ -144,22 +167,57 @@ def read_wfn_files(wfns: List[str]) -> WFNsRep:
     total_energies = np.zeros(nwfns, dtype=float)
     virial_energies = np.zeros(nwfns, dtype=float)
 
-    # Read all of the wfn files.
-    for iwfn, wfn in enumerate(wfns):
-        wfn_rep = read_wfn_file(wfn)
+    # Split up work across cores.
+    if nprocs > 1:
+        # Parallel processing with deterministic mapping
+        with ProcessPoolExecutor(max_workers=nprocs) as executor:
+            # Map iwfn and corresponding wfn to the parallel function
+            results = executor.map(_read_wfn_worker, range(nwfns), wfns)
 
-        # Save the data into the arrays.
-        atnames[iwfn, :] = wfn_rep.atnames
-        atpos[iwfn, :, :] = wfn_rep.atpos
-        atcharge[iwfn, :] = wfn_rep.atcharge
-        centers[iwfn, :] = wfn_rep.centers
-        exponents[iwfn, :] = wfn_rep.expons
-        types[iwfn, :] = wfn_rep.types
-        energies[iwfn, :] = wfn_rep.energies
-        occs[iwfn, :] = wfn_rep.occs
-        coeffs[iwfn, :, :] = wfn_rep.coeffs
-        total_energies[iwfn] = wfn_rep.total_energy
-        virial_energies[iwfn] = wfn_rep.virial_energy
+            # Collect results and assign them to the correct array indices
+            for (
+                iwfn,
+                atnames_res,
+                atpos_res,
+                atcharge_res,
+                centers_res,
+                exponents_res,
+                types_res,
+                energies_res,
+                occs_res,
+                coeffs_res,
+                total_energy_res,
+                virial_energy_res,
+            ) in results:
+                atnames[iwfn, :] = atnames_res
+                atpos[iwfn, :, :] = atpos_res
+                atcharge[iwfn, :] = atcharge_res
+                centers[iwfn, :] = centers_res
+                exponents[iwfn, :] = exponents_res
+                types[iwfn, :] = types_res
+                energies[iwfn, :] = energies_res
+                occs[iwfn, :] = occs_res
+                coeffs[iwfn, :, :] = coeffs_res
+                total_energies[iwfn] = total_energy_res
+                virial_energies[iwfn] = virial_energy_res
+    else:
+
+        # Read all of the wfn files.
+        for iwfn, wfn in enumerate(wfns):
+            wfn_rep = read_wfn_file(wfn)
+
+            # Save the data into the arrays.
+            atnames[iwfn, :] = wfn_rep.atnames
+            atpos[iwfn, :, :] = wfn_rep.atpos
+            atcharge[iwfn, :] = wfn_rep.atcharge
+            centers[iwfn, :] = wfn_rep.centers
+            exponents[iwfn, :] = wfn_rep.expons
+            types[iwfn, :] = wfn_rep.types
+            energies[iwfn, :] = wfn_rep.energies
+            occs[iwfn, :] = wfn_rep.occs
+            coeffs[iwfn, :, :] = wfn_rep.coeffs
+            total_energies[iwfn] = wfn_rep.total_energy
+            virial_energies[iwfn] = wfn_rep.virial_energy
 
     # Save as WFNsRep.
     wfns_rep = WFNsRep(
