@@ -1,14 +1,14 @@
 """
 aided.core.wfn.wfn_rep
 
-Read Gaussian09 output files.
+Read AIMfile output files.
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from dataclasses import dataclass
 
-from ... import np
+from ... import np, npt
 
 
 # pylint: disable=too-many-instance-attributes, R0801
@@ -39,19 +39,19 @@ class WFNRep:
     nats: int    # Number of Nuclei (Atoms)
 
     # Specific to the Atoms. All have size as a function of the number of atoms.
-    atnames: np.ndarray   # Nuclei names. Sized `nats`. (dtype=str or object)
-    atpos: np.ndarray     # Nuclei positions. Sized `3*nats`. (dtype=float)
-    atcharge: np.ndarray  # Nuclei charges. Sized `nats`. (dtype=int)
+    atnames: npt.NDArray[np.object_]  # Nuclei names. Sized `nats`.
+    atpos: npt.NDArray[np.float64]     # Nuclei positions. Sized `3*nats`.
+    atcharge: npt.NDArray[np.int_]    # Nuclei charges. Sized `nats`.
 
     # Specific to the Gaussian primitives. All have size `nprims`.
-    centers: np.ndarray  # Center of each primitive. Sized `nprims`. (dtype=int)
-    types: np.ndarray    # Gaussian primitive type for each atom. Sized `nprims`. (dtype=int)
-    expons: np.ndarray   # Exponents for each basis function. Sized `nprims`. (dtype=float)
+    centers: npt.NDArray[np.int_]    # Center of each primitive. Sized `nprims`.
+    types: npt.NDArray[np.int_]      # Gaussian primitive type for each atom. Sized `nprims`.
+    expons: npt.NDArray[np.float64]   # Exponents for each basis function. Sized `nprims`.
 
     # Specific to the molecular orbitals
-    occs: np.ndarray      # Occupancy number for each MO. Sized `nmos`. (dtype=float)
-    energies: np.ndarray  # Energy of each MO. Sized `nmos`. (dtype=float)
-    coeffs: np.ndarray    # Coefficients for each MO. Sized `nmos x nprims`. (dtype=float)
+    occs: npt.NDArray[np.float64]      # Occupancy number for each MO. Sized `nmos`.
+    energies: npt.NDArray[np.float64]  # Energy of each MO. Sized `nmos`.
+    coeffs: npt.NDArray[np.float64]    # Coefficients for each MO. Sized `nmos x nprims`.
 
     # Energy in the system.
     total_energy: float

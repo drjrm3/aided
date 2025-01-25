@@ -4,6 +4,7 @@ from ..helper import CxTestCase
 
 from aided.math.primitives import gpow
 
+import numpy as np
 from numpy import random
 
 class TestGpow(CxTestCase):
@@ -29,7 +30,9 @@ class TestGpow(CxTestCase):
             for n in random.random(100):
                 N = int(-10 + 20 * n)
                 at = gpow(X, N)
+                if X == 0 and N < 0:
+                    self.assertEqual(at, 0.0)
+                    continue
                 gt = X ** N
-                # FIXME: If this always works then why do we need gpow?
 
                 self.assertLess(abs((at - gt) / gt), 1e-14)
