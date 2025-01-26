@@ -305,11 +305,12 @@ def _tst():  # pragma: no cover
         parser.print_help()
         sys.exit(1)
 
-    if len(args.input) == 1:
-        edwfn = EDWfn(args.input[0])
-        print(f"{edwfn.rho(0.0, 0.0, 0.0)=}")
-        print(f"{edwfn.grad(0.0, 0.0, 0.0)=}")
-        print(f"{edwfn.hess(0.0, 0.0, 0.0)=}")
+    edwfn = EDWfn(args.input[0])
+    print(f"{edwfn.rho(0.0, 0.0, 0.0)=}")
+    print(f"{edwfn.grad(0.0, 0.0, 0.0)=}")
+    print(f"{edwfn.hess(0.0, 0.0, 0.0)=}")
+    bcp = edwfn.bcp(0, 0, 0)
+    print(f"{bcp=}")
 
 
 if __name__ == "__main__":

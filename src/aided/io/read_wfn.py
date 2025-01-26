@@ -16,7 +16,6 @@ from concurrent.futures import ProcessPoolExecutor
 from .. import np, npt
 from .utils import is_number, convert_scientific_notation
 from ..core.wfn import WFNRep, WFNsRep
-from ..core.utils import split_work
 
 
 def _read_wfn_worker(iwfn: int, wfn: str):
@@ -243,7 +242,7 @@ def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WFNsRep:
     return wfns_rep
 
 
-def tst():
+def _tst():  # pragma: no cover
     # pylint: disable=all
     import argparse
     import sys
@@ -264,4 +263,4 @@ def tst():
 
 
 if __name__ == "__main__":
-    tst()
+    _tst()
