@@ -166,6 +166,8 @@ class EDRep(metaclass=ABCMeta):
             point: The point on the Bader Surface.
         """
 
+        # TODO: Test!
+
         point = start_pos
 
         # Get this atom name and position by finding the closest atom to the start position.
@@ -223,12 +225,6 @@ class EDRep(metaclass=ABCMeta):
             atom_name: Name of the atom found.
             atom_position: Position of the atom found.
         """
-
-        # intermediate_points = [np.array([x, y, z])]
-
-        # Callback method to track points.
-        # def callback(point):
-        #    intermediate_points.append(point)
 
         def objective(point):
             return -self.rho(point[0], point[1], point[2])
