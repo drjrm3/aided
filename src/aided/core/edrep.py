@@ -8,7 +8,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 from abc import ABCMeta, abstractmethod
 from enum import Enum
-from typing import List, Tuple
+from typing import List, Set, Tuple
 
 from scipy.optimize import minimize
 
@@ -84,8 +84,8 @@ class EDRep(metaclass=ABCMeta):
         """
 
     def read_vib_file(self, input_file: str):
-        """
-        Read the log file from the optimization procedure.
+        """Read the log file from the optimization procedure.
+
         Expected to include sufficient information to generate the MSDA.
         """
         raise NotImplementedError
@@ -98,21 +98,25 @@ class EDRep(metaclass=ABCMeta):
     def bader_surface_of_atom(
         self,
         atom_name: str,
-        radius: float = 0.5,
         ntheta: int = 10,
+        nphi: int = 20,
+        starting_radius: float = 0.5,
         max_distance: float = 2.5,
         step_size: float = 0.1,
         tol: float = 1e-6,
+        ncores: int = 1,
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """Generate a Bader Surface for an atom.
 
         Args:
             atom_name: Name of the atom to generate the surface for.
-            radius: Radius to generate the surface in Bohr.
             ntheta: Number of points to generate in the theta direction.
+            nphi: Number of points to generate in the phi direction.
+            starting_radius: Radius to generate the surface in Bohr.
             max_distance: The max distance (in Bohr) from the atom to find a point on the surface.
             step_size: The step size to take when searching for the surface.
             tol: The tolerance to use when searching for the surface.
+            cores: Number of cores to use for parallel processing.
 
         Returns:
             thetas: Array of theta values.
@@ -126,22 +130,61 @@ class EDRep(metaclass=ABCMeta):
             if self.atnames[iat] == atom_name:
                 atom_position = atpos
                 break
+        else:
+            raise ValueError(f"Atom {atom_name} not found in system.")
 
-        # Generating starting points on a sphere where theta is in [0, pi), phi is in [0, 2pi),
-        # the number of points for theta is ntheta and the number of points for phi is 2 * ntheta.
-        nphi = 2 * ntheta
-        thetas = np.linspace(0, np.pi, ntheta)
-        phis = np.linspace(0, 2 * np.pi, nphi)
-        surface = np.zeros((ntheta, nphi, 3))
+        radius = starting_radius
 
-        for itheta, theta in enumerate(thetas):
-            for iphi, phi in enumerate(phis):
+        # TODO: Speed this up. Consider KD tree or other spatial search.
+        def xyz_in_starts(x, y, z, starts: Set, tol=1e-10) -> bool:
+            """Check if the point is in the list of starting points."""
+            for start in starts:
+                if np.allclose(start, (x, y, z), atol=tol):
+                    return True
+            return False
+
+        # TODO: Put this in a math.* module.
+        pts = []
+        thetas = []
+        phis = []
+        for theta in np.linspace(0, np.pi, ntheta):
+            for phi in np.linspace(0, 2 * np.pi, nphi):
                 x = atom_position[0] + radius * np.sin(theta) * np.cos(phi)
                 y = atom_position[1] + radius * np.sin(theta) * np.sin(phi)
                 z = atom_position[2] + radius * np.cos(theta)
-                surface[itheta, iphi] = self._find_bader_surface_point(
-                    np.array([x, y, z]), radius, theta, phi, max_distance, step_size, tol
-                )
+                if (x, y, z) in pts:
+                    continue
+                pts.append((x, y, z))
+                thetas.append(theta)
+                phis.append(phi)
+        pts = np.array(pts)
+        surface = np.zeros((len(pts), 3))
+        thetas = np.array(thetas)
+        phis = np.array(phis)
+
+        # Keep track of the xyz start points and if one is already in the list, skip it.
+        xyz_starts = set()
+
+        # TODO: If ncores > 1, use multiprocessing to speed this up.
+        idx = 0
+        for start_pos, theta, phi in zip(pts, thetas, phis):
+            x, y, z = start_pos
+
+            # Check if this point is already in the list.
+            if xyz_in_starts(x, y, z, xyz_starts):
+                # FIXME: Why is this not being called?
+                print(f"[!] Skipping point {start_pos} because it is already in the list.")
+                continue
+            xyz_starts.add((x, y, z))
+            point = self._find_bader_surface_point(
+                np.array([x, y, z]), radius, theta, phi, max_distance, step_size, tol
+            )
+            surface[idx] = point
+            thetas[idx] = theta
+            phis[idx] = phi
+            idx += 1
+
+        surface = np.array(surface)
 
         return thetas, phis, surface
 
@@ -156,6 +199,12 @@ class EDRep(metaclass=ABCMeta):
         tol: float,
     ) -> np.ndarray:
         """Find a point on the Bader Surface.
+
+        Starts at a given position and moves away from the atom in the direction of (theta, phi)
+        starting at a radius 'radius' away from the atom. This is accomplished by stepping away
+        from the atom and continually tracing the gradient. Once it finds a different atom, it
+        has two points (point and last_point) which are on either side of the Bader surface. It then
+        continues to refine these two points until they are a distance of 'tol' apart.
 
         Args:
             start_pos: Starting position to search from.
@@ -173,21 +222,16 @@ class EDRep(metaclass=ABCMeta):
         point = start_pos
 
         # Get this atom name and position by finding the closest atom to the start position.
-        this_atom_name = ""
-        this_atom_position = np.zeros(3)
-        for iat, atpos in enumerate(self.atpos):
-            distance = np.linalg.norm(atpos - start_pos)
-            if distance < tol:
-                this_atom_name = self.atnames[iat]
-                this_atom_position = atpos
-                break
+        this_atom_name, this_atom_position = self.trace_gradient_to_atom(
+            start_pos[0], start_pos[1], start_pos[2]
+        )
 
-        # Continue to step away from the atom until the gradien trace finds a different atom.
+        # Continue to step away from the atom until the gradient trace finds a different atom.
         last_point = point
         _atom_name = this_atom_name
-        while _atom_name == this_atom_name:
-            last_point = point
+        while _atom_name == this_atom_name and radius < max_distance:
             _atom_name, _ = self.trace_gradient_to_atom(point[0], point[1], point[2])
+            last_point = point
             # If we did not find 'this atom' then we have crossed the Bader surface. In this case
             # we increment the point a distnace of 'step_size' in the direction of (theta, phi).
             if _atom_name == this_atom_name:
@@ -200,20 +244,42 @@ class EDRep(metaclass=ABCMeta):
                     ]
                 )
 
+        if radius >= max_distance:
+            return point
+
+        # Since we have found a different atom, we need to step back towards the atom until we find.
+        radius -= step_size
+        last_point = np.array(
+            [
+                this_atom_position[0] + radius * np.sin(theta) * np.cos(phi),
+                this_atom_position[1] + radius * np.sin(theta) * np.sin(phi),
+                this_atom_position[2] + radius * np.cos(theta),
+            ]
+        )
+
         # Now we must search between point and last_point to find the Bader surface unti othe distance
         # between the two points is less than 'tol'.
+        i = 0
         while np.linalg.norm(point - last_point) > tol:
-            _atom_name, _ = self.trace_gradient_to_atom(point[0], point[1], point[2])
+            midpoint = (point + last_point) / 2
+            _atom_name, _ = self.trace_gradient_to_atom(midpoint[0], midpoint[1], midpoint[2])
             if _atom_name == this_atom_name:
-                last_point = point
-                point = (point + last_point) / 2
+                last_point = midpoint
             else:
-                point = (point + last_point) / 2
+                point = midpoint
+            i += 1
 
         return point
 
     def trace_gradient_to_atom(
-        self, x: float, y: float, z: float, method: str = "BFGS"
+        self,
+        x: float,
+        y: float,
+        z: float,
+        method: str = "L-BFGS-B",
+        step_limit: float = 0.25,
+        max_iter: int = 100,
+        tol: float = 0.0,
     ) -> Tuple[str, np.ndarray]:
         """Trace the gradient of the ED to an atom.
 
@@ -222,17 +288,20 @@ class EDRep(metaclass=ABCMeta):
 
         Args:
             x, y, z: Cartesian points in global space.
+            method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)
+            step_limit: Maximum distance to move in one step.
+            max_iter: Maximum number of iterations to perform.
+            tol: Distance from the atom at which to stop searching. If tol is zero, stop when
+                objective is minimized as normal.
 
         Returns:
             atom_name: Name of the atom found.
             atom_position: Position of the atom found.
         """
 
-        # intermediate_points = [np.array([x, y, z])]
-
-        # Callback method to track points.
-        # def callback(point):
-        #    intermediate_points.append(point)
+        class EarlyStop(Exception):  # pragma: no cover
+            def __init__(self, point):
+                self.point = point
 
         def objective(point):
             return -self.rho(point[0], point[1], point[2])
@@ -240,12 +309,50 @@ class EDRep(metaclass=ABCMeta):
         def grad(point):
             return -self.grad(point[0], point[1], point[2])
 
-        found_position = minimize(
-            fun=objective,
-            x0=np.array([x, y, z]),
-            jac=grad,
-            method=method,
-        )
+        # FIXME: Add something (a callable) to allow for the search to stop within a distance of
+        # 'distance' from any atom found.
+        def early_stop(point):  # pragma: no cover
+            for iat, atpos in enumerate(self.atpos):
+                distance = np.linalg.norm(atpos - point)
+                if distance <= tol and tol > 0.0:
+                    print(
+                        f"[!] Early stopping near atom {self.atnames[iat]} at distance {distance:.4f}"
+                    )
+                    raise EarlyStop(point)
+
+        def dbg_callback(point):  # pragma: no cover
+            """Callback method to track points."""
+            print(f"[{point[0]}, {point[1]}],")
+
+        def callback(point):  # pragma: no cover
+            """Dummy callback"""
+            pass
+
+        if method != "L-BFGS-B":
+            raise ValueError(f"Unknown method: {method}")
+
+        current_point = np.array([x, y, z])
+        for i in range(max_iter):
+            # Build a trust region box around the point
+            lb = current_point - step_limit
+            ub = current_point + step_limit
+
+            result = minimize(
+                fun=objective,
+                x0=current_point,
+                jac=grad,
+                bounds=np.stack((lb, ub), axis=1),
+                method=method,
+            )
+
+            new_point = result.x
+            step = np.linalg.norm(new_point - current_point)
+
+            if step < 1e-5:
+                found_position = result
+                break
+
+            current_point = new_point
 
         # Find the atom position (atpos) which is closest to the atom found.
         atom_name = ""
@@ -328,7 +435,9 @@ class EDRep(metaclass=ABCMeta):
                     continue
 
                 at1_name, at2_name = min(iat_name, jat_name), max(iat_name, jat_name)
-                if (at1_name, at2_name) in bond_pairs:
+
+                # If we have already found this bond pair, skip it.
+                if (at1_name, at2_name) in bond_pairs:  # pragma: no cover
                     continue
 
                 bond_pairs.append((at1_name, at2_name))
@@ -355,14 +464,20 @@ def _tst():  # pragma: no cover
         parser.print_help()
         sys.exit(1)
 
-    with open(args.input, "r") as finp:
-        wfn_file = finp.readlines()[0].strip()
+    wfn_file = args.input
 
     edwfn = EDWfn(wfn_file)
-    start_pos = edwfn.atpos[0]
-    bcp, _pts = edwfn.bcp(0, 0, 0)
-    print(f"BCP: {bcp}")
+
+    surface = edwfn.bader_surface_of_atom(
+        "C2",
+        ntheta=3,
+        nphi=10,
+        starting_radius=0.5,
+        max_distance=2.5,
+        step_size=0.1,
+        tol=1e-6,
+    )
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _tst()
