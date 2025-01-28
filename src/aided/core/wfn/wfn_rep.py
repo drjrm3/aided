@@ -89,3 +89,25 @@ class WFNRep:
 
             if value.size != expected_size:
                 raise ValueError(f"`{param}` must have size {expected_size}, but got {value.size}.")
+
+    def __eq__(self, other):
+        """Equality comparison for WFNRep."""
+        if not isinstance(other, WFNRep):
+            return False
+
+        # fmt: off
+        return (
+            self.nmos == other.nmos and
+            self.nprims == other.nprims and
+            self.nats == other.nats and
+            np.array_equal(self.atnames, other.atnames) and
+            np.array_equal(self.atpos, other.atpos) and
+            np.array_equal(self.atcharge, other.atcharge) and
+            np.array_equal(self.centers, other.centers) and
+            np.array_equal(self.types, other.types) and
+            np.array_equal(self.expons, other.expons) and
+            np.array_equal(self.occs, other.occs) and
+            np.array_equal(self.energies, other.energies) and
+            np.array_equal(self.coeffs, other.coeffs)
+        )
+        # fmt: on

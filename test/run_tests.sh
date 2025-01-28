@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-if [[ 1 == 1 ]]; then
+if [[ 0 == 1 ]]; then
 THIS_DIR=$(pwd)
 pushd /home/drjrm3/code/aided/src > /dev/null
 time python3 -m aided.core.edwfns -i ${THIS_DIR}/wfns.250k.tmp

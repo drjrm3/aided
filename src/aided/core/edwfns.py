@@ -122,13 +122,18 @@ class EDWfns(EDRep):
         # Calculate the density matrix.
         self._gen_denmat()
 
+    def __eq__(self, other) -> bool:
+        """Equality comparison."""
+        return self._wfns_rep == other._wfns_rep
+
+
     @property
-    def atpos(self):
+    def atpos(self) -> np.ndarray:
         # Average the atomic positions.
         return self._atpos
 
     @property
-    def atnames(self):
+    def atnames(self) -> np.ndarray:
         # This assumes that all atnames are equal.
         return self._atnames
 
@@ -445,11 +450,22 @@ def _tst():  # pragma: no cover
     print(f"Reading wfn files ... ", end="")
     sys.stdout.flush()
     tic = datetime.now()
-    edwfns = EDWfns(args.input, io_procs=2)
+    edwfns = EDWfns(args.input, io_procs=4)
     toc = datetime.now()
     dif = (toc - tic).total_seconds()
     print(f"Done in {dif:16.12f} seconds")
 
+    print(f"Static ... ")
+    static_bcps, static_bonds = edwfn.find_bcps()
+    for bond, bcp in zip(static_bonds, static_bcps):
+        print(f"{bond} {bcp.x=}")
+
+    print(f"Dynamic ... ")
+    dynamic_bcps, dynamic_bonds = edwfns.find_bcps()
+    for bond, bcp in zip(dynamic_bonds, dynamic_bcps):
+        print(f"{bond} {bcp.x=}")
+
+    """
     tic = datetime.now()
     rho_gs = edwfn.rho(0.0, 0.0, 0.0)
     rho_at = edwfns.rho(0.0, 0.0, 0.0)
@@ -480,6 +496,10 @@ def _tst():  # pragma: no cover
     print(f"|hess_gs| .... {' '.join(f'{_g:16.12f}' for _g in hess_gs)}")
     print(f"Time taken ... {dif:16.12f} seconds")
     sys.stdout.flush()
+    """
+
+
+
 
 
 if __name__ == "__main__":

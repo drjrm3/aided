@@ -80,3 +80,8 @@ class WFNsRep(WFNRep):
 
             if value.size != expected_size:
                 raise ValueError(f"`{param}` must have size {expected_size}, but got {value.size}.")
+
+    def __eq__(self, other):
+        if not isinstance(other, WFNsRep):
+            return False
+        return super().__eq__(other)
