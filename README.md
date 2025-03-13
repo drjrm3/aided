@@ -3,15 +3,15 @@
 
 ## Installing
 
-Python 3.10 or later is recommended. AIDED is powered by backend C / C++ / CUDA libraries (TODO: List libraries).
+Python 3.10 or later is recommended.
 
-AIDED can be installed from PyPI **TODO: Link**
+AIDED can be installed from PyPI **TODO: Link once uploaded to PyPI**
 
 `pip install aided`
 
 ## Getting started
 
-At present AIDED only performs analysis on Grid based files (**TODO** Specific formats) and Gaussian `.wfn` file formats.
+At present AIDED only performs analysis on wavefunction `.wfn` file formats.
 
 To see some examples of this, reference the **examples** section.
 
@@ -84,11 +84,11 @@ The workflows are as follows:
 
    With an N atom molecular system, the MSDA is of size 3N x 3N. It represents the variance-covariance matrix of each (x, y, z) position for each atom with each other. That is, how does the motion of the x coordinate of Atom 1 vary with the y position of Atom 2?
 
-   Method 1.a calculates the dynamic electron density as a single dynamic ED as describe in [ref](TODO).
+   Method 1.a calculates the dynamic electron density as a single dynamic ED as describe in (TODO: ref).
 
    b. **Single WFN with MSDA matrix - nuclear motion only.**
 
-   While 1.a uses the harmonic approximation to calculate the dynamic electron density. 1.b uses the (TODO) approximation to assume that electrons do not adapt to the motion of the nucleus. Instead, it takes multiple a single WFN files or representations (which each describe the ED around the initial ground state geometry) and "shakes" the nuclei according to the MSDA - without adapting the ED to each new nuclear geometry.
+   While 1.a uses the harmonic approximation to calculate the dynamic electron density. 1.b uses an approximation to assume that electrons do not adapt to the motion of the nucleus. Instead, it takes multiple a single WFN files or representations (which each describe the ED around the initial ground state geometry) and "shakes" the nuclei according to the MSDA - without adapting the ED to each new nuclear geometry.
 
    Method 1.b simply generates N nuclear configurations, calculates the TP for each, and then averages them together.
 
@@ -96,9 +96,9 @@ The workflows are as follows:
 
     **Multiple WFN files - single TP harmonic approximation.**
 
-    Given a single WFN file with ground state geometry an application (outside the scope of this project) can be used to generate multiple WFN files with different nuclear geometries which *also* have the electrons adapted to them. These WFN files can be used to calculate the dynamic ED as a single dynamic ED as describe in [ref](TODO).
+    Given a single WFN file with ground state geometry an application (outside the scope of this project) can be used to generate multiple WFN files with different nuclear geometries which *also* have the electrons adapted to them. These WFN files can be used to calculate the dynamic ED as a single dynamic ED as describe in (TODO: ref).
 
-3. Evaluate WFN files at grid points:
+4. Evaluate WFN files at grid points:
 
     **Grid based analysis**
 
