@@ -17,7 +17,7 @@ jobs:
     - name: Build package
       run: |
         pip3 install .
-        connex --version
+        aided --version
     - name: Install pylint, coverage, pytest
       run: |
         python -m pip install --upgrade pip
@@ -27,7 +27,11 @@ jobs:
       run: |
         pwd
         ls
-        ./gha_scripts/pylint.sh
+        pylint \
+          --rcfile .pylintrc \
+          --ignore tests \
+          --fail-under=9 \
+          aided
     - name: Run coverage + pytest
       run: |
         pwd
