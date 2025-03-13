@@ -13,14 +13,14 @@ import re
 from ..core.edrep import EDRepType
 
 
-def convert_scientific_notation(data_lines) -> List:
+def convert_scientific_notation(data_lines: List[str]) -> List[str]:
     """Converts scientific notation from 'D' to 'E' in a list of strings.
 
     Args:
-        data_lines (list of str): Each string represents a line of space-separated values.
+        data_lines (List[str]): Each string represents a line of space-separated values.
 
     Returns:
-        list of str: The the modified lines with 'D' replaced by 'E' in scientific notation.
+        result (List[str]): The the modified lines with 'D' replaced by 'E' in scientific notation.
     """
     # Pattern to identify scientific notation with 'D'
     pattern = re.compile(r"([-+]?\d+\.\d+)D([+-]\d+)")
@@ -32,7 +32,13 @@ def convert_scientific_notation(data_lines) -> List:
 
 
 def is_number(s) -> bool:
-    """Check if a string is a number."""
+    """Check if a string is a number.
+
+    Args:
+        s (str): The string to check.
+    Returns:
+        bool: True if the string is a number, False otherwise.
+    """
     try:
         float(s)
         return True
@@ -41,7 +47,14 @@ def is_number(s) -> bool:
 
 
 def get_edrep_type_by_file_extention(file_name: str) -> EDRepType:
-    """Get the EDRep type based on file extention alone."""
+    """Get the EDRep type based on file extention alone.
+
+    Args:
+        file_name (str): The name of the file.
+
+    Returns:
+        EDRepType: The electron density represenation type.
+    """
     ext = file_name.split(".")[-1]
     if ext == "wfn":
         return EDRepType.WFN

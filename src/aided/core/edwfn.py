@@ -56,7 +56,7 @@ class EDWfn(EDRep):
     def atnames(self):
         return self._wfn_rep.atnames
 
-    def _gen_chi(self, x: float, y: float, z: float, ider: int):
+    def _gen_chi(self, x: float, y: float, z: float, ider: int) -> bool:
         """Generate the chi matrix for the given point.
 
         Skip this if the point is the same as the last point.
@@ -64,11 +64,13 @@ class EDWfn(EDRep):
         Args:
             x, y, z: Cartesian points in global space.
             ider: Derivative order.
+
+        Return: True if the chi matrix was generated, False otherwise.
         """
 
         # Skip this if the point is the same as the last point.
         if self._last_point == (x, y, z) and self._last_der == ider:
-            return
+            return False
         self._last_point = (x, y, z)
         self._last_der = ider
 
@@ -88,7 +90,11 @@ class EDWfn(EDRep):
         center_coords = atpos[center_indices]  # Shape: (nprims, 3)
 
         # Compute coordinates relative to atomic centers
-        px, py, pz = x - center_coords[:, 0], y - center_coords[:, 1], z - center_coords[:, 2]  # Shape: (nprims,)
+        px, py, pz = (
+            x - center_coords[:, 0],
+            y - center_coords[:, 1],
+            z - center_coords[:, 2],
+        )  # Shape: (nprims,)
 
         # Compute the argument of the Gaussian primitive and the exponential
         alpha = expons  # Shape: (nprims,)
@@ -159,6 +165,7 @@ class EDWfn(EDRep):
                     - term12 * zn * pz * xl * expee
                     + py * pz * foura_two_chi
                 )
+        return True
 
     def _gen_denmat(self):
         """Generate the density matrix for the given point.
@@ -168,18 +175,6 @@ class EDWfn(EDRep):
         """
 
         self._denmat = np.einsum("i,ip,iq->pq", self._occ, self._mocs, self._mocs)
-
-    def read_vib_file(self, input_file: str):
-        """
-        Read the log file from the optimization procedure.
-        Expected to include sufficient information to generate the MSDA.
-        """
-        raise NotImplementedError
-
-    def read_msda_matrix(self, msda_file: str):
-        """Read the MSDA matrix from a file."""
-
-        raise NotImplementedError
 
     def rho(self, x: float, y: float, z: float) -> float:
         """Generate the ED at a point.
@@ -313,5 +308,5 @@ def _tst():  # pragma: no cover
     print(f"{bcp=}")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _tst()

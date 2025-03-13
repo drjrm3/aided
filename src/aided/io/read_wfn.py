@@ -7,7 +7,7 @@ files which it then returns as WFNRep or WFNsRep, respectively.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from typing import List
+from typing import List, Tuple
 
 import numpy
 
@@ -18,11 +18,11 @@ from .utils import is_number, convert_scientific_notation
 from ..core.wfn import WFNRep, WFNsRep
 
 
-def _read_wfn_worker(iwfn: int, wfn: str):
+def _read_wfn_worker(iwfn: int, wfn: str) -> Tuple:  # pragma: no cover
     """Read a single wfn file and return its data."""
     wfn_rep = read_wfn_file(wfn)
     return (
-        iwfn,  # Include index to ensure deterministic mapping
+        iwfn,
         wfn_rep.atnames,
         wfn_rep.atpos,
         wfn_rep.atcharge,
@@ -56,8 +56,6 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
             del lines[0]
         return np.array(values, dtype)
 
-    # FIXME: Add logger
-    # print(f"Reading file: {wfn_file}")
     with open(wfn_file, "r", encoding="utf-8") as finp:
         lines = finp.read().splitlines()
 
@@ -73,7 +71,9 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
 
     # Read atnames, atpos, atcharge:
     atnames = numpy.array(["".join(line.split()[0:2]) for line in lines[:nats]])
-    atpos = np.array([[float(w) for w in line.split()[4:7]] for line in lines[:nats]])  # * ANG_TO_AU
+    atpos = np.array(
+        [[float(w) for w in line.split()[4:7]] for line in lines[:nats]]
+    )  # * ANG_TO_AU
     atcharge = np.array([float(line.split()[-1]) for line in lines[:nats]])
     del lines[:nats]
 
@@ -262,5 +262,5 @@ def _tst():  # pragma: no cover
         _wfns_rep = read_wfn_file(args.input[0])
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _tst()
