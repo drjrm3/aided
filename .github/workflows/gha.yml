@@ -1,0 +1,65 @@
+name: CI
+
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build-test-coverage:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      # -----------------------------
+      # Check out code
+      # -----------------------------
+      - uses: actions/checkout@v4
+
+      # -----------------------------
+      # Set up Python per matrix
+      # -----------------------------
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # -----------------------------
+      # Build aided
+      # -----------------------------
+      - name: Build
+        run: |
+          pip install .
+
+      # -----------------------------
+      # Install dependencies
+      # -----------------------------
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          # Pytest + coverage plugin + Pylint + Codecov uploader
+          pip install pytest pytest-cov pylint codecov
+
+      # -----------------------------
+      # Pylint (with fail-under)
+      # -----------------------------
+      - name: Run Pylint
+        run: |
+          # The --fail-under=9 argument will make Pylint exit non-zero
+          # if your code's rating is < 9.0/10, causing the job to fail.
+          pylint \
+            --ignore=tests,version.py \
+            --fail-under=9 \
+            aided
+
+      # -----------------------------
+      # Pytest Coverage
+      # -----------------------------
+      - name: Run Pytest with Coverage
+        run: |
+          pytest \
+            --cov=aided \
+            --cov-report=xml \
+            --cov-report=term
