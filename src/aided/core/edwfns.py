@@ -12,13 +12,26 @@ from numpy.typing import NDArray
 
 from .edrep import EDRep
 
-from .. import LMNS, np
+from .. import LMNS, np, npt
 from ..io.read_wfn import read_wfn_files
 from ..math.primitives import gpow
 
 
-def compute_hessian_batch(chi, chi1, chi2, denmat) -> np.ndarray:
-    """Compute the Hessian for a batch of wavefunctions."""
+def compute_hessian_batch(
+    chi: npt.NDArray, chi1: npt.NDArray, chi2: npt.NDArray, denmat: npt.NDArray
+) -> np.ndarray:
+    """Compute the Hessian for a batch of wavefunctions.
+
+    Args:
+        chi: Chi matrix.
+        chi1: First derivative of chi matrix.
+        chi2: Second derivative of chi matrix.
+        denmat: Density matrix.
+
+    Returns:
+        hessv: Hessian vector as diagonals [dxx, dyy, dzz, dxy, dxz, dyz].
+    """
+
     # Compute diagonal terms
     hessv = np.zeros(6, dtype=float)
     hessv[0] = np.einsum(
@@ -26,21 +39,21 @@ def compute_hessian_batch(chi, chi1, chi2, denmat) -> np.ndarray:
         denmat,
         chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
         + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-        + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :],
     )
     hessv[1] = np.einsum(
         "ijk,ijk->",
         denmat,
         chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
         + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-        + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :],
     )
     hessv[2] = np.einsum(
         "ijk,ijk->",
         denmat,
         chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
         + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-        + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :],
     )
 
     # Compute off-diagonal terms
@@ -50,7 +63,7 @@ def compute_hessian_batch(chi, chi1, chi2, denmat) -> np.ndarray:
         chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
         + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
         + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-        + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :],
     )
     hessv[4] = np.einsum(
         "ijk,ijk->",
@@ -58,7 +71,7 @@ def compute_hessian_batch(chi, chi1, chi2, denmat) -> np.ndarray:
         chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
         + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
         + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-        + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :],
     )
     hessv[5] = np.einsum(
         "ijk,ijk->",
@@ -66,10 +79,11 @@ def compute_hessian_batch(chi, chi1, chi2, denmat) -> np.ndarray:
         chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
         + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
         + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-        + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :]
+        + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :],
     )
 
     return hessv
+
 
 class EDWfns(EDRep):
     """
@@ -107,7 +121,9 @@ class EDWfns(EDRep):
         self._chi = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims), dtype=float)
         self._chi1 = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, 3), dtype=float)
         self._chi2 = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, 6), dtype=float)
-        self._denmat = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, self._wfns_rep.nprims), dtype=float)
+        self._denmat = np.zeros(
+            (self._wfns_rep.nwfns, self._wfns_rep.nprims, self._wfns_rep.nprims), dtype=float
+        )
 
         # Keep track of the last point to avoid unnecessary calculations.
         self._last_point = None
@@ -125,7 +141,6 @@ class EDWfns(EDRep):
     def __eq__(self, other) -> bool:
         """Equality comparison."""
         return self._wfns_rep == other._wfns_rep
-
 
     @property
     def atpos(self) -> np.ndarray:
@@ -213,15 +228,15 @@ class EDWfns(EDRep):
                     twoa_chi = twoa * self._chi[iwfn, :nprims]  # Shape: (nprims,)
 
                     # xx, yy, zz
-                    self._chi2[iwfn, :nprims, 0] = gpow(px, l - 2) * yzexp * l * (l - 1) - twoa_chi * (
-                        2.0 * l + 1.0 - twoa * px**2
-                    )
-                    self._chi2[iwfn, :nprims, 3] = gpow(py, m - 2) * xzexp * m * (m - 1) - twoa_chi * (
-                        2.0 * m + 1.0 - twoa * py**2
-                    )
-                    self._chi2[iwfn, :nprims, 5] = gpow(pz, n - 2) * xyexp * n * (n - 1) - twoa_chi * (
-                        2.0 * n + 1.0 - twoa * pz**2
-                    )
+                    self._chi2[iwfn, :nprims, 0] = gpow(px, l - 2) * yzexp * l * (
+                        l - 1
+                    ) - twoa_chi * (2.0 * l + 1.0 - twoa * px**2)
+                    self._chi2[iwfn, :nprims, 3] = gpow(py, m - 2) * xzexp * m * (
+                        m - 1
+                    ) - twoa_chi * (2.0 * m + 1.0 - twoa * py**2)
+                    self._chi2[iwfn, :nprims, 5] = gpow(pz, n - 2) * xyexp * n * (
+                        n - 1
+                    ) - twoa_chi * (2.0 * n + 1.0 - twoa * pz**2)
 
                     expee = twoa * expon  # Shape: (nprims,)
                     foura_two_chi = 4.0 * alpha**2 * self._chi[iwfn, :nprims]  # Shape: (nprims,)
@@ -260,19 +275,9 @@ class EDWfns(EDRep):
         """
 
         for iwfn in range(self._wfns_rep.nwfns):
-            self._denmat[iwfn, :, :] = np.einsum("i,ip,iq->pq", self._occ[iwfn], self._mocs[iwfn], self._mocs[iwfn])
-
-    def read_vib_file(self, input_file: str):
-        """
-        Read the log file from the optimization procedure.
-        Expected to include sufficient information to generate the MSDA.
-        """
-        raise NotImplementedError
-
-    def read_msda_matrix(self, msda_file: str):
-        """Read the MSDA matrix from a file."""
-
-        raise NotImplementedError
+            self._denmat[iwfn, :, :] = np.einsum(
+                "i,ip,iq->pq", self._occ[iwfn], self._mocs[iwfn], self._mocs[iwfn]
+            )
 
     def rho(self, x: float, y: float, z: float) -> float:
         """Generate the ED at a point.
@@ -288,7 +293,11 @@ class EDWfns(EDRep):
         rhov = 0.0
         for iwfn in range(self._wfns_rep.nwfns):
             rhov += float(
-                np.sum(self._denmat[iwfn, ...] * self._chi[iwfn, :, np.newaxis] * self._chi[iwfn, np.newaxis, :])
+                np.sum(
+                    self._denmat[iwfn, ...]
+                    * self._chi[iwfn, :, np.newaxis]
+                    * self._chi[iwfn, np.newaxis, :]
+                )
             )
 
         rhov /= self._wfns_rep.nwfns
@@ -326,7 +335,9 @@ class EDWfns(EDRep):
 
             # Combine the contributions to the gradient
             for dim in range(3):  # Iterate over x, y, z dimensions
-                gradv[dim] += np.sum(self._denmat[iwfn] * (chi_i_chi1_j[:, :, dim] + chi_j_chi1_i[:, :, dim]))
+                gradv[dim] += np.sum(
+                    self._denmat[iwfn] * (chi_i_chi1_j[:, :, dim] + chi_j_chi1_i[:, :, dim])
+                )
 
         gradv /= self._wfns_rep.nwfns
 
@@ -339,7 +350,7 @@ class EDWfns(EDRep):
 
         Args:
             x, y, z: Cartesian points in global space.
-            batch_size: Number of wavefunctions to process at once.
+            batch_size: Number of wavefunctions to process at once. If zero, process all at once.
 
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
@@ -355,70 +366,70 @@ class EDWfns(EDRep):
         denmat = self._denmat
         nwfns = self._wfns_rep.nwfns
 
-        """ This mode is fast but runs out of memory if the number of wavefunctions is large.
-        # Compute diagonal terms
-        hessv[0] = np.einsum(
-            "ijk,ijk->",
-            denmat,
-            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
-            + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-            + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :]
-        )
-        hessv[1] = np.einsum(
-            "ijk,ijk->",
-            denmat,
-            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
-            + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-            + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :]
-        )
-        hessv[2] = np.einsum(
-            "ijk,ijk->",
-            denmat,
-            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
-            + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-            + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :]
-        )
+        if not batch_size:
+            # This is fast but memory intensive for a large number of wavefunctions.
+            # Compute diagonal terms
+            hessv[0] = np.einsum(
+                "ijk,ijk->",
+                denmat,
+                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
+                + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+                + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :],
+            )
+            hessv[1] = np.einsum(
+                "ijk,ijk->",
+                denmat,
+                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
+                + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+                + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :],
+            )
+            hessv[2] = np.einsum(
+                "ijk,ijk->",
+                denmat,
+                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
+                + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+                + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :],
+            )
 
-        # Compute off-diagonal terms
-        hessv[3] = np.einsum(
-            "ijk,ijk->",
-            denmat,
-            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
-            + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-            + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-            + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :]
-        )
-        hessv[4] = np.einsum(
-            "ijk,ijk->",
-            denmat,
-            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
-            + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-            + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-            + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :]
-        )
-        hessv[5] = np.einsum(
-            "ijk,ijk->",
-            denmat,
-            chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
-            + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-            + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-            + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :]
-        )
-        """
+            # Compute off-diagonal terms
+            hessv[3] = np.einsum(
+                "ijk,ijk->",
+                denmat,
+                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
+                + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+                + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+                + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :],
+            )
+            hessv[4] = np.einsum(
+                "ijk,ijk->",
+                denmat,
+                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
+                + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+                + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
+                + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :],
+            )
+            hessv[5] = np.einsum(
+                "ijk,ijk->",
+                denmat,
+                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
+                + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
+                + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
+                + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :],
+            )
 
-        # Process wavefunctions in batches
-        for start in range(0, nwfns, batch_size):
-            end = min(start + batch_size, nwfns)
+        else:
+            # Process wavefunctions in batches.
+            for start in range(0, nwfns, batch_size):
+                end = min(start + batch_size, nwfns)
 
-            # Slice the batch
-            chi_batch = chi[start:end]
-            chi1_batch = chi1[start:end]
-            chi2_batch = chi2[start:end]
-            denmat_batch = denmat[start:end]
+                # Slice the batch
+                chi_batch = chi[start:end]
+                chi1_batch = chi1[start:end]
+                chi2_batch = chi2[start:end]
+                denmat_batch = denmat[start:end]
 
-            # Compute and accumulate the Hessian for this batch
-            hessv += compute_hessian_batch(chi_batch, chi1_batch, chi2_batch, denmat_batch)
-
+                # Compute and accumulate the Hessian for this batch
+                hessv += compute_hessian_batch(chi_batch, chi1_batch, chi2_batch, denmat_batch)
 
         # Normalize by the number of wavefunctions
         hessv /= self._wfns_rep.nwfns
@@ -499,8 +510,5 @@ def _tst():  # pragma: no cover
     """
 
 
-
-
-
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _tst()

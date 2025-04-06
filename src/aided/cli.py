@@ -20,16 +20,16 @@ def parse_args(argv: List[str]):
     parser.add_argument("-c", "--config", type=str, help="JSON config file.")
     parser.add_argument("-v", "--version", action="version", version=f"aided {__version__}")
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     return args
 
 
-def main():
-    args = parse_args(sys.argv[1:])
+def main():  # pragma: no cover
+    _args = parse_args(sys.argv[1:])
     print("Inside main")
 
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

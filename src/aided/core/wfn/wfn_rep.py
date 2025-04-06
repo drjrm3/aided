@@ -90,7 +90,7 @@ class WFNRep:
             if value.size != expected_size:
                 raise ValueError(f"`{param}` must have size {expected_size}, but got {value.size}.")
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """Equality comparison for WFNRep."""
         if not isinstance(other, WFNRep):
             return False

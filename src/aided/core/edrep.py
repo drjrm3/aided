@@ -7,7 +7,6 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from abc import ABCMeta, abstractmethod
-from datetime import datetime
 from enum import Enum
 from typing import List, Tuple
 
@@ -33,27 +32,20 @@ class EDRep(metaclass=ABCMeta):
 
     Types of representations may include:
         - .wfn files (AIMFile)
-        - .rdf files (Radial Density Function files)
-        - .nrdf (Numerical RDF files)
-        - .cube (???)
-        - .grd (???)
-        - etc.
-        - etc.
     """
 
     def __init__(self, input_file: str):
-        # EDRep type (e.g. WFN, NWchem, etc.)
         self._edrep_type = None
         self._units = Units.BOHR
 
     @property
     @abstractmethod
-    def atpos(self) -> np.ndarray:
+    def atpos(self) -> np.ndarray:  # pragma: no cover
         pass
 
     @property
     @abstractmethod
-    def atnames(self) -> np.ndarray:
+    def atnames(self) -> np.ndarray:  # pragma: no cover
         pass
 
     @property
@@ -65,7 +57,7 @@ class EDRep(metaclass=ABCMeta):
         return self._units == Units.BOHR
 
     @abstractmethod
-    def rho(self, x: float, y: float, z: float) -> float:
+    def rho(self, x: float, y: float, z: float) -> float:  # pragma: no cover
         """Generate the ED at a point.
 
         Args: Cartesian points in global space.
@@ -74,7 +66,7 @@ class EDRep(metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def grad(self, x: float, y: float, z: float) -> np.ndarray:
+    def grad(self, x: float, y: float, z: float) -> np.ndarray:  # pragma: no cover
         """Generate the Gradient of the ED at a point.
 
         Args: Cartesian points in global space.
@@ -83,13 +75,25 @@ class EDRep(metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def hess(self, x: float, y: float, z: float) -> np.ndarray:
+    def hess(self, x: float, y: float, z: float) -> np.ndarray:  # pragma: no cover
         """Generate the Hessian of the ED at a point.
 
         Args: Cartesian points in global space.
 
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
+
+    def read_vib_file(self, input_file: str):
+        """
+        Read the log file from the optimization procedure.
+        Expected to include sufficient information to generate the MSDA.
+        """
+        raise NotImplementedError
+
+    def read_msda_matrix(self, msda_file: str):
+        """Read the MSDA matrix from a file."""
+
+        raise NotImplementedError
 
     def bader_surface_of_atom(
         self,
