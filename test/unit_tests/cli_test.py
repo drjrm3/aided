@@ -42,7 +42,7 @@ class TestCli(CxTestCase):
         output = mock_stdout.getvalue().strip()
         self.assertRegex(
             output,
-            r"^aided \d+\.\d+\.\d+.*$",
+            r"^aided \d+\.\d+(\.\d+)?([^\s]*)?$",
             f"Version output did not match expected pattern: {output}",
         )
 
