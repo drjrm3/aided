@@ -307,6 +307,12 @@ def _tst():  # pragma: no cover
     bcp = edwfn.bcp(0, 0, 0)
     print(f"{bcp=}")
 
+    surfaces = []
+    for atname in edwfn.atnames:
+        print(atname)
+        thetas, phis, surface = edwfn.bader_surface_of_atom(atom_name=atname, ntheta=3, nphi=20)
+        surfaces.append(surface)
+
 
 if __name__ == "__main__":  # pragma: no cover
     _tst()
