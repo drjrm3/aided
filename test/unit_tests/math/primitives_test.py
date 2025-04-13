@@ -35,20 +35,20 @@ class TestGpow(CxTestCase):
 
                 # Ensure that anything raised to the 0 is 1.
                 for x in random.random(10):
-                    X = -100 + 200 * x
+                    X = random.uniform(-10, 10)
                     self.assertEqual(gpow(X, 0), 1)
 
                 # 0 to any exponent is 0.
                 for n in random.random(100):
-                    N = int(-10 + 20 * n)
+                    N = random.randint(-10, 10)
                     if N == 0:
                         continue
                     self.assertEqual(gpow(0, N), 0)
 
                 # Test some random values.
                 for x in random.random(100):
-                    X = -100 + 200 * x
-                    for N in random.randint(-10, 20, 100):
+                    X = random.uniform(-10, 10)
+                    for N in random.randint(-10, 10, 100):
                         if x == 0 and N == 0:
                             continue
                         at = gpow(X, N)

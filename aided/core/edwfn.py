@@ -7,11 +7,12 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from numpy.typing import NDArray
-from .edrep import EDRep
 
+from .edrep import EDRep
 from .. import LMNS, np
 from ..io.read_wfn import read_wfn_file
 from aided.math._primitives import gpow
+from aided.core._edwfn import gen_chi
 
 
 class EDWfn(EDRep):
@@ -31,9 +32,9 @@ class EDWfn(EDRep):
         # Read the wfn file.
         self._wfn_rep = read_wfn_file(wfn_file)
 
-        self._chi = np.zeros(self._wfn_rep.nprims, dtype=float)
-        self._chi1 = np.zeros((self._wfn_rep.nprims, 3), dtype=float)
-        self._chi2 = np.zeros((self._wfn_rep.nprims, 6), dtype=float)
+        self._chi = np.zeros(self._wfn_rep.nprims, dtype=np.float64)
+        self._chi1 = np.zeros((self._wfn_rep.nprims, 3), dtype=np.float64)
+        self._chi2 = np.zeros((self._wfn_rep.nprims, 6), dtype=np.float64)
         self._denmat = np.zeros((self._wfn_rep.nprims, self._wfn_rep.nprims), dtype=float)
 
         # Keep track of the last point to avoid unnecessary calculations.
@@ -57,6 +58,35 @@ class EDWfn(EDRep):
         return self._wfn_rep.atnames
 
     def _gen_chi(self, x: float, y: float, z: float, ider: int) -> bool:
+        """Generate the chi matrix for the given point.
+
+        Skip this if the point is the same as the last point.
+
+        Args:
+            x, y, z: Cartesian points in global space.
+            ider: Derivative order.
+
+        Return: True if the chi matrix was generated, False otherwise.
+        """
+
+        did_compute, self._last_point, self._last_der = gen_chi(
+            x,
+            y,
+            z,
+            ider,
+            self._last_der,
+            self._last_point,
+            self._wfn_rep.types,
+            self._wfn_rep.centers,
+            self._wfn_rep.expons,
+            self._wfn_rep.atpos,
+            self._chi,
+            self._chi1,
+            self._chi2,
+        )
+        return did_compute
+
+    def py_gen_chi(self, x: float, y: float, z: float, ider: int) -> bool:
         """Generate the chi matrix for the given point.
 
         Skip this if the point is the same as the last point.
