@@ -1,7 +1,15 @@
 # Copyright (c) J. Robert Michael, PhD
 
 [build-system]
-requires = ["setuptools", "setuptools_scm[toml]>6.2"]
+requires = [
+    "setuptools>=42",
+    "setuptools_scm[toml]>6.2",
+    "scikit-build",
+    "cmake>=3.18",
+    "ninja",
+    "pybind11>=2.11.0",
+]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "aided"
@@ -24,7 +32,7 @@ aided = "aided.__main__:main"
 line-length = 100
 
 [tool.setuptools_scm]
-version_file = "src/aided/version.py"
+version_file = "aided/version.py"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

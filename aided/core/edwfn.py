@@ -11,7 +11,7 @@ from .edrep import EDRep
 
 from .. import LMNS, np
 from ..io.read_wfn import read_wfn_file
-from ..math.primitives import gpow
+from aided.math._primitives import gpow
 
 
 class EDWfn(EDRep):

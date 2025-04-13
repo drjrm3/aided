@@ -59,7 +59,11 @@ jobs:
       # -----------------------------
       - name: Run Pytest with Coverage
         run: |
+          export PYTHONPATH=$(pwd)/test:$PYTHONPATH
           pytest \
             --cov=aided \
             --cov-report=xml \
-            --cov-report=term
+            --cov-report=term \
+            --disable-warnings \
+            --ignore=test/speed_tests \
+            --ignore=_skbuild
