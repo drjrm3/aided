@@ -7,7 +7,7 @@ from .. import np, npt
 
 
 def gpow(
-    x: Union[float, npt.NDArray], expon: Union[float, npt.NDArray]
+    x: Union[float, npt.NDArray], expon: Union[int, npt.NDArray]
 ) -> Union[float, npt.NDArray]:
     """Custom power operator for integer exponents, supporting both scalars and vectors.
 
@@ -27,6 +27,9 @@ def gpow(
     # Convert inputs to NumPy arrays for vectorized operations
     x = np.asarray(x)  # Ensure x is a NumPy array
     expon = np.asarray(expon)  # Ensure expon is a NumPy array
+
+    # Broadcast to a common shape so that x[mask] and expon[mask] work
+    x, expon = np.broadcast_arrays(x, expon)
 
     # Initialize result with ones
     result = np.ones_like(x, dtype=float)

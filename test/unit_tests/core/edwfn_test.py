@@ -6,14 +6,12 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import os
 
-import numpy
 from numpy.random import randint
 
+from aided.core.edwfn import EDWfn
 from aided.core.units import Units
 
 from ..helper import CxTestCase, equal, get_wfn_file
-
-from aided.core.edwfn import EDWfn
 
 NUM_ITERS = 100
 
