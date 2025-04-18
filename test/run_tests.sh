@@ -3,8 +3,8 @@
 cd $(dirname ${0})
 
 set -e
-
-pip3 install .. #1> /dev/null 2> /dev/null
+pip3 install .. 1> /dev/null 2> /dev/null
+set +e
 
 echo -n "[*] Version ... "
 python3 -m aided --version
