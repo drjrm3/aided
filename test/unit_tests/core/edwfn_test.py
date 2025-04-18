@@ -6,7 +6,8 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import os
 
-from numpy.random import randint
+import numpy
+from numpy.random import randint, random, seed, uniform
 
 from aided.core.edwfn import EDWfn
 from aided.core.units import Units
@@ -14,7 +15,6 @@ from aided.core.units import Units
 from ..helper import CxTestCase, equal, get_wfn_file
 
 NUM_ITERS = 100
-
 
 class TestEDRepNotImplemeneted(CxTestCase):
     """Tests all not implemented methods."""
@@ -52,6 +52,58 @@ class TestEDRep(CxTestCase):
         """Test that the units are in atomic units."""
         self.assertEqual(self.edwfn.in_au, True)
 
+class TestGenChi(CxTestCase):
+
+    def set_up(self):
+        """Set up the test case."""
+        self.wfn_file = get_wfn_file()
+
+    def test_gen_chi_ider0(self):
+        """Tests gen chi for ider0"""
+        self.edwfn = EDWfn(self.wfn_file)
+        for i in range(NUM_ITERS):
+            x = uniform(-10.0, 10.0)
+            y = uniform(-10.0, 10.0)
+            z = uniform(-10.0, 10.0)
+            self.edwfn._gen_chi(x, y, z, ider=0)
+            at_chi = self.edwfn._chi
+            self.edwfn.py_gen_chi(x, y, z, ider=0)
+            gt_chi = self.edwfn._chi
+
+            all_equal = [equal(a, b, 1e-12) for a, b in zip(at_chi, gt_chi)]
+            self.assertTrue(all(all_equal))
+
+    def test_gen_chi_ider1(self):
+        """Tests gen chi for ider1"""
+        self.edwfn = EDWfn(self.wfn_file)
+        for i in range(NUM_ITERS):
+            x = uniform(-10.0, 10.0)
+            y = uniform(-10.0, 10.0)
+            z = uniform(-10.0, 10.0)
+            self.edwfn._gen_chi(x, y, z, ider=1)
+            at_chi = self.edwfn._chi1
+            self.edwfn.py_gen_chi(x, y, z, ider=1)
+            gt_chi = self.edwfn._chi1
+
+            all_equal = [equal(a, b, 1e-12) for a, b in zip(at_chi.flatten(), gt_chi.flatten())]
+            self.assertTrue(all(all_equal))
+
+    def test_gen_chi_ider2(self):
+        """Tests gen chi for ider2"""
+        self.edwfn = EDWfn(self.wfn_file)
+        for i in range(NUM_ITERS):
+            x = uniform(-10.0, 10.0)
+            y = uniform(-10.0, 10.0)
+            z = uniform(-10.0, 10.0)
+            self.edwfn._gen_chi(x, y, z, ider=2)
+            at_chi = self.edwfn._chi2
+            self.edwfn.py_gen_chi(x, y, z, ider=2)
+            gt_chi = self.edwfn._chi2
+
+            self.assertTrue(sum(abs(at_chi.flatten())) > 0.0)
+
+            all_equal = [equal(a, b, 1e-12) for a, b in zip(at_chi.flatten(), gt_chi.flatten())]
+            self.assertTrue(all(all_equal))
 
 class TestValidationSet(CxTestCase):
 

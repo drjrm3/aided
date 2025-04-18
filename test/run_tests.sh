@@ -2,7 +2,9 @@
 
 cd $(dirname ${0})
 
-pip3 install ..
+set -e
+
+pip3 install .. #1> /dev/null 2> /dev/null
 
 echo -n "[*] Version ... "
 python3 -m aided --version
@@ -17,6 +19,7 @@ OMIT="__*__.py,version.py"
 time coverage run -m \
   --source ../aided \
   --omit $OMIT \
-  pytest -x -s -v -W ignore::DeprecationWarning unit_tests
+  pytest -x -s -v -W ignore::DeprecationWarning unit_tests #-k TestGenChi
+
 
 coverage report -m

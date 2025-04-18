@@ -30,7 +30,7 @@ pybind11::object dispatch_gpow(pybind11::object x,
 {
     if (!x_is_array && !e_is_array)
     {
-        return pybind11::cast(gpow_scalar(x.cast<T>(), e.cast<E>()));
+        return pybind11::cast(gpow(x.cast<T>(), e.cast<E>()));
     }
     else if (x_is_array && !e_is_array)
     {
@@ -59,7 +59,6 @@ pybind11::object gpow_py(pybind11::object x, pybind11::object e) {
     PyKind x_kind = py_type_signature(x, x_is_array);
     PyKind e_kind = py_type_signature(e, e_is_array);
 
-
     // clang-format off
     if (x_kind == PyKind::Float32 && e_kind == PyKind::Int32)   DISPATCH(float, int)
     if (x_kind == PyKind::Float64 && e_kind == PyKind::Int32)   DISPATCH(double, int)
@@ -80,5 +79,4 @@ pybind11::object gpow_py(pybind11::object x, pybind11::object e) {
 PYBIND11_MODULE(_primitives, m) {
     m.def("gpow", &gpow_py, "Custom power function for scalars and vectors");
 }
-
 } // namespace aided

@@ -5,6 +5,8 @@
 // Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 #include <vector>
 
+#define PYBIND11_DETAILED_ERROR_MESSAGES 1
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
@@ -23,7 +25,7 @@ enum class PyKind {
 // Get the type signature of a Python object. This is used to determine the type
 // of the object and whether it is an array or a scalar. The function returns
 // a PyKind enum value that indicates the type of the object.
-inline PyKind py_type_signature(pybind11::object obj, bool is_array)
+inline PyKind py_type_signature(pybind11::object obj, bool is_array=false)
 {
     if (!is_array)
     {

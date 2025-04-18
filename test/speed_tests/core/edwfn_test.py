@@ -12,6 +12,11 @@ import numpy as np
 
 from aided.core.edwfn import EDWfn
 
+def test_rho(wfnfile: str):
+    wfn = EDWfn(wfnfile)
+
+    wfn.rho(0, 0, 0)
+
 def test_gen_chi(wfnfile: str, num_iters: int):
     """Test the speed of the _gen_chi function.
 
