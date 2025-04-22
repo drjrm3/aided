@@ -23,7 +23,7 @@ maintainers = [
     {name = "J. Robert Michael, PhD"}
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 
 [project.scripts]
 aided = "aided.__main__:main"
@@ -36,3 +36,7 @@ version_file = "aided/version.py"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+Homepage = "https://github.com/drjrm3/aided"
+Source = "https://github.com/drjrm3/aided"

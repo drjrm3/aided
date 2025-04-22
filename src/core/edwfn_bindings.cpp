@@ -5,7 +5,6 @@
 // exposes the gpow function to Python.
 //
 // Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
-#define PYBIND11_DETAILED_ERROR_MESSAGES 1
 
 #include <cmath>
 

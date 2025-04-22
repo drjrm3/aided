@@ -5,6 +5,7 @@ version.py
 .clangd
 _skbuild
 compile_commands.json
+MANIFEST.in
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
