@@ -5,8 +5,6 @@
 // Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 #include <vector>
 
-#define PYBIND11_DETAILED_ERROR_MESSAGES 1
-
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
