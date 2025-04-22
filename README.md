@@ -5,7 +5,7 @@
 
 Python 3.10 or later is recommended.
 
-AIDED can be installed from PyPI **TODO: Link once uploaded to PyPI**
+AIDED can be installed from [PyPI](https://pypi.org/project/aided) view `pip install aided`
 
 `pip install aided`
 
