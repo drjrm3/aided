@@ -12,7 +12,8 @@ from numpy.typing import NDArray
 
 from .edrep import EDRep
 
-from .. import LMNS, np, npt
+from .. import np, npt
+from ..constants import LMNS
 from ..io.read_wfn import read_wfn_files
 from ..math.primitives import gpow
 

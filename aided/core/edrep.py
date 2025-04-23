@@ -365,7 +365,7 @@ class EDRep(metaclass=ABCMeta):
 
         return atom_name, atom_position
 
-    def bcp(self, x: float, y: float, z: float, method: str = "BFGS"):
+    def bcp(self, x: float, y: float, z: float, method: str = "BFGS", tol: float = 1e-7):
         """Find the BCP at a point.
 
         Given a starting value of x, y, z, find the Bond Critical Point which has properties of:
@@ -374,6 +374,7 @@ class EDRep(metaclass=ABCMeta):
         Args:
             x, y, z: Cartesian points in global space.
             method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)
+            tol: Tolerance for the optimization.
 
         Returns: Array of 3 elements: x, y, z
         """
@@ -389,19 +390,17 @@ class EDRep(metaclass=ABCMeta):
             return np.linalg.norm(self.grad(point[0], point[1], point[2]))
 
         bcp = minimize(
-            fun=objective,
-            x0=np.array([x, y, z]),
-            method=method,
-            callback=callback,
+            fun=objective, x0=np.array([x, y, z]), method=method, callback=callback, tol=tol
         )
 
         return bcp, intermediate_points
 
-    def find_bcps(self, max_pt_distance: float = 0.1) -> Tuple[List, List]:
+    def find_bcps(self, max_pt_distance: float = 0.1, tol: float = 1e-7) -> Tuple[List, List]:
         """Find all BCPs in the system.
 
         Args:
             max_pt_distance: Max distance to allow from a BPC to the line connecting two atoms.
+            tol: Tolerance for the optimization.
 
         Returns:
             bcps: List of BCPs found.
