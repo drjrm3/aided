@@ -172,8 +172,6 @@ class EDRep(metaclass=ABCMeta):
 
             # Check if this point is already in the list.
             if xyz_in_starts(x, y, z, xyz_starts):
-                # FIXME: Why is this not being called?
-                print(f"[!] Skipping point {start_pos} because it is already in the list.")
                 continue
             xyz_starts.add((x, y, z))
             point = self._find_bader_surface_point(

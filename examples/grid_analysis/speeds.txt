@@ -1,0 +1,3 @@
+[*] Time taken for rho ....    2.89065 seconds
+[*] Time taken for grad ...   24.37954 seconds
+[*] Time taken for hess ...   24.33104 seconds

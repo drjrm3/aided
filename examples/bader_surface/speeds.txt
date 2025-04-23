@@ -1,0 +1,6 @@
+[*] Time taken for H1:   16.83545 seconds
+[*] Time taken for C2:   20.71479 seconds
+[*] Time taken for N3:   12.93388 seconds
+[*] Time taken for H4:   15.77823 seconds
+[*] Time taken for H5:   15.56052 seconds
+[*] Time taken for O6:   10.78019 seconds
