@@ -1,5 +1,5 @@
 """
-aided.core.EDWfn
+aided.core.edwfn
 
 Electron Density Manfestation abstract class.
 

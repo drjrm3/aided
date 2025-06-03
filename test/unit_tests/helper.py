@@ -13,6 +13,15 @@ import unittest as ut
 class CxTestCase(ut.TestCase):
     """High level Connex TestCase class which others can inherit from."""
 
+    @property
+    def test_data_dir(self) -> str:
+        """Returns the path to the test data directory."""
+        _this_dir = os.path.dirname(os.path.abspath(__file__))
+        _test_data_dir = os.path.realpath(os.path.join(_this_dir, "../data"))
+        if not os.path.exists(_test_data_dir):
+            raise FileNotFoundError(f"Test data directory {_test_data_dir} does not exist.")
+        return _test_data_dir
+
     def setUp(self):
         """Global setUp method which others will run and call local set_up methods."""
         self.tmp_dir = tempfile.mkdtemp()

@@ -16,6 +16,7 @@ from ..helper import CxTestCase, equal, get_wfn_file
 
 NUM_ITERS = 100
 
+
 class TestEDRepNotImplemeneted(CxTestCase):
     """Tests all not implemented methods."""
 
@@ -51,6 +52,7 @@ class TestEDRep(CxTestCase):
     def test_in_au(self):
         """Test that the units are in atomic units."""
         self.assertEqual(self.edwfn.in_au, True)
+
 
 class TestValidationSet(CxTestCase):
 
@@ -111,9 +113,9 @@ class TestValidationSet(CxTestCase):
 
             gx, gy, gz = self.edwfn.grad(x, y, z)
 
-            self.assertTrue(equal(gx, _gx), 1e-12)
-            self.assertTrue(equal(gy, _gy), 1e-12)
-            self.assertTrue(equal(gz, _gz), 1e-12)
+            self.assertTrue(equal(gx, _gx, 1e-10), f"{gx} != {_gx}")
+            self.assertTrue(equal(gy, _gy, 1e-10), f"{gy} != {_gy}")
+            self.assertTrue(equal(gz, _gz, 1e-10), f"{gz} != {_gz}")
 
     def test_2hess_validation(self):
         """Randomly tests hess values for the validation set."""
@@ -127,9 +129,9 @@ class TestValidationSet(CxTestCase):
 
             hxx, hyy, hzz, hxy, hxz, hyz = self.edwfn.hess(x, y, z)
 
-            self.assertTrue(equal(hxx, _hxx), 1e-12)
-            self.assertTrue(equal(hyy, _hyy), 1e-12)
-            self.assertTrue(equal(hzz, _hzz), 1e-12)
-            self.assertTrue(equal(hxy, _hxy), 1e-12)
-            self.assertTrue(equal(hxz, _hxz), 1e-12)
-            self.assertTrue(equal(hyz, _hyz), 1e-12)
+            self.assertTrue(equal(hxx, _hxx, 1e-10), f"{hxx} != {_hxx}")
+            self.assertTrue(equal(hyy, _hyy, 1e-10), f"{hyy} != {_hyy}")
+            self.assertTrue(equal(hzz, _hzz, 1e-10), f"{hzz} != {_hzz}")
+            self.assertTrue(equal(hxy, _hxy, 1e-10), f"{hxy} != {_hxy}")
+            self.assertTrue(equal(hxz, _hxz, 1e-10), f"{hxz} != {_hxz}")
+            self.assertTrue(equal(hyz, _hyz, 1e-10), f"{hyz} != {_hyz}")

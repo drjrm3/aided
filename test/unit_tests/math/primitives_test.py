@@ -8,12 +8,25 @@ from ..helper import CxTestCase
 import numpy as np
 from numpy import random
 
+from aided.math.primitives import coth
+
+
 @pytest.fixture(params=["primitives", "_primitives"])
 def gpow_module(request):
     """Fixture to import either the Python or C++ gpow module."""
     module_name = f"aided.math.{request.param}"
     mod = importlib.import_module(module_name)
     return mod
+
+
+class TestCoth(CxTestCase):
+    """Test coth"""
+
+    def test_coth(self):
+        """Test coth function."""
+
+        x = random.rand()
+        self.assertEqual(coth(x), 1 / np.tanh(x))
 
 
 class TestGpow(CxTestCase):
@@ -57,8 +70,9 @@ class TestGpow(CxTestCase):
                             continue
                         gt = X**N
 
-                        self.assertLess(abs((at - gt) / gt), 1e-14, 
-                                       msg=f"gpow({X}, {N}) = {at} != {gt}")
+                        self.assertLess(
+                            abs((at - gt) / gt), 1e-14, msg=f"gpow({X}, {N}) = {at} != {gt}"
+                        )
 
     def test_gpow_scalar_x_array_expon(self):
         """Test gpow where x is a scalar and expon is an array"""
@@ -72,7 +86,7 @@ class TestGpow(CxTestCase):
                 expon[0] = 0  # Ensure zero exponent is handled
                 expon[1] = -5  # Test negative exponent case
                 results = gpow(x, expon)
-                expected = x ** expon
+                expected = x**expon
 
                 # Ensure anything to power 0 is 1
                 self.assertEqual(results[0], 1.0)
@@ -100,7 +114,9 @@ class TestGpow(CxTestCase):
 
                 # It is expected that one of the cases will be 0**n where n may be negative.
                 # We handle this as ignoring the 'expected' value though and ensure gpow gives 0.
-                with np.errstate(divide="ignore", invalid="ignore"):  # Suppress divide-by-zero warnings
+                with np.errstate(
+                    divide="ignore", invalid="ignore"
+                ):  # Suppress divide-by-zero warnings
                     expected = x**expon
 
                 # Ensure zero base is handled correctly

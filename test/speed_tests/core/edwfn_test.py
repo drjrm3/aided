@@ -12,10 +12,12 @@ import numpy as np
 
 from aided.core.edwfn import EDWfn
 
+
 def test_rho(wfnfile: str):
     wfn = EDWfn(wfnfile)
 
     wfn.rho(0, 0, 0)
+
 
 def test_gen_chi(wfnfile: str, num_iters: int):
     """Test the speed of the _gen_chi function.
@@ -39,6 +41,7 @@ def test_gen_chi(wfnfile: str, num_iters: int):
         rate = (num_iters / tdiff) / 1000
         print(f"_gen_chi runs at a speed of {rate:5.1f}K calls/sec for ider={ider}.")
 
+
 def main(args):
     """Main routine for speed tests.
 
@@ -48,4 +51,3 @@ def main(args):
             - args.num_iters: Number of iterations for speed tests.
     """
     test_gen_chi(args.wfnfile, args.num_iters)
-

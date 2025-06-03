@@ -1,6 +1,14 @@
-"""Constants to use throughout AIDED"""
-# fmt: off
+"""
+Constants to use throughout AIDED
+
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
+"""
+
 # Integer exponents "l,m,n" for spherical harmonics.
+from typing import Dict
+
+
+# fmt: off
 LMNS = [
     (0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1), (2, 0, 0),
     (0, 2, 0), (0, 0, 2), (1, 1, 0), (1, 0, 1), (0, 1, 1),
@@ -10,4 +18,47 @@ LMNS = [
     (1, 3, 0), (0, 3, 1), (1, 0, 3), (0, 1, 3), (2, 2, 0),
     (2, 0, 2), (0, 2, 2), (2, 1, 1), (1, 2, 1), (1, 1, 2)
 ]
-# fmt: on
+
+
+# Bulk atomic weights
+ATOMIC_MASSES: Dict[int, float] = {
+     1:  1.008000000000000,
+     2:  4.002602000000000,
+     3:  6.940000000000000,
+     4:  9.012183100000000,
+     5: 10.810000000000000,
+     6: 12.011000000000000,
+     7: 14.007000000000000,
+     8: 15.999000000000000,
+     9: 18.998403163000000,
+    10: 20.179700000000000,
+    11: 22.989769280000000,
+    12: 24.305000000000000,
+    13: 26.981538500000000,
+    14: 28.085000000000000,
+    15: 30.973761998000000,
+    # ...
+}
+
+ATOMIC_NAMES: Dict[int, str] = {
+     1: "H",
+     2: "He",
+     3: "Li",
+     4: "Be",
+     5: "B",
+     6: "C",
+     7: "N",
+     8: "O",
+     9: "F",
+    10: "Ne",
+    11: "Na",
+    12: "Mg",
+    13: "Al",
+    14: "Si",
+    15: "P",
+    # ...
+}
+
+ATOMIC_NUMBERS: Dict[str, int] = {v: k for k, v in ATOMIC_NAMES.items()}
+
+# TODO: Add isotopes if needed in future

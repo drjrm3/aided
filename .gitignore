@@ -7,6 +7,11 @@ _skbuild
 compile_commands.json
 MANIFEST.in
 
+*.log
+
+# Include test data *.log files
+!test/data/**/*.log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -65,7 +70,6 @@ cover/
 *.pot
 
 # Django stuff:
-*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal

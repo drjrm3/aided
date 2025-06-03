@@ -67,6 +67,12 @@ jobs:
       # -----------------------------
       - name: Run Pytest with Coverage
         run: |
+          pwd
+          ls test/data/
+          ls test/data/msda/g09
+          ls /home/runner/work/aided/aided/test/data/msda
+          ls /home/runner/work/aided/aided/test/data/msda/g09
+          ls /home/runner/work/aided/aided/test/data/msda/g09/formamide.b3lyp.6311gss.log
           export PYTHONPATH=$(pwd)/test:$PYTHONPATH
           pytest \
             --cov=aided \
