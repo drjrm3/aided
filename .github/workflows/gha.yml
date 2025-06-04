@@ -1,6 +1,14 @@
 name: CI
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - main
+      - staging
+  pull_request:
+    branches:
+      - main
+      - staging
 
 permissions:
   contents: read

@@ -1,3 +1,7 @@
+[![CI](https://github.com/drjrm3/aided/actions/workflows/gha.yml/badge.svg)](https://github.com/drjrm3/aided/actions/workflows/gha.yml)
+[![codecov](https://codecov.io/gh/drjrm3/aided/branch/staging/graph/badge.svg)](https://codecov.io/gh/drjrm3/aided)
+
+
 # AIDED
 **A**nalysis and **I**nvestigation of the **D**ynamic **E**lectron **D**ensity (AIDED) is an application which performs Electron Density (ED) topological analysis on the Dynamic Electron Density.
 
