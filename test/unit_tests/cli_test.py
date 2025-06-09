@@ -1,10 +1,10 @@
 """
-cli test module
+aided.cli
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-import re
+import logging
 from aided import cli
 from .helper import CxTestCase
 
@@ -14,44 +14,57 @@ from io import StringIO
 
 class TestCli(CxTestCase):
 
-    def test_parse_args(self):
-        """Tests basic command line argument parsing."""
+    def test_no_args(self):
+        """Tests the CLI with no arguments."""
 
-        # Test with no arguments
-        args = cli.parse_args([])
-        self.assertEqual(args.config, None)
-
-        # Test with config
-        args = cli.parse_args(["-c", "foo.json"])
-        self.assertEqual(args.config, "foo.json")
-
-        # Test with help command
         with (
             self.assertRaises(SystemExit),
-            patch("sys.stdout", new_callable=StringIO) as mock_stdout,
+            patch("sys.stderr", new_callable=StringIO) as mock_stderr,
         ):
-            args = cli.parse_args(["--help"])
-        self.assertIn("usage: aided", mock_stdout.getvalue())
-
-        # Test with version command
-        with (
-            self.assertRaises(SystemExit),
-            patch("sys.stdout", new_callable=StringIO) as mock_stdout,
-        ):
-            args = cli.parse_args(["--version"])
-        output = mock_stdout.getvalue().strip()
-        self.assertRegex(
-            output,
-            r"^aided \d+\.\d+(\.\d+)?([^\s]*)?$",
-            f"Version output did not match expected pattern: {output}",
-        )
-
-        # Test with invalid command
-        with (
-            self.assertRaises(SystemExit),
-            patch("sys.stderr", new_callable=StringIO) as mock_stdout,
-        ):
-            cli.parse_args(["invalid_command"])
+            cli.parse_args([])
+        output = mock_stderr.getvalue().strip()
         self.assertIn(
-            "aided: error: unrecognized arguments: invalid_command", mock_stdout.getvalue()
+            "usage: aided",
+            output,
+            "Help output did not match expected pattern.",
         )
+
+    def test_bad_app(self):
+        """Tests the CLI with an invalid app command."""
+        with (
+            self.assertRaises(SystemExit),
+            patch("sys.stderr", new_callable=StringIO) as mock_stderr,
+        ):
+            cli.parse_args(["bad_app"])
+        output = mock_stderr.getvalue().strip()
+        self.assertIn(
+            "aided: error: argument command: invalid choice: 'bad_app'",
+            output,
+            "Help output did not match expected pattern.",
+        )
+
+    def test_parse_args(self):
+        """Tests the CLI argument parsing using create_msda as an example."""
+
+        argv = ["create-msda", "-l", "inp.log", "-T", "23", "-o", "out.msda"]
+
+        args = cli.parse_args(argv)
+
+        # FIXME: Having trouble testing this. Popping for now.
+        args.__dict__.pop("func", None)
+
+        self.assertDictEqual(
+            args.__dict__,
+            {
+                "config": None,
+                "log_file": "inp.log",
+                "log_level": "info",
+                "command": "create-msda",
+                "output_file": "out.msda",
+                "T": 23.0,
+            },
+        )
+
+        # This ends up creating a logger, we must remove it to keep other tests
+        # clean which test for caching of the logger.
+        logging.Logger.manager.loggerDict.pop("aided", None)

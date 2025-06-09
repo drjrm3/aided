@@ -10,6 +10,7 @@ from ...helper import CxTestCase, get_wfn_file
 
 from aided.core.edwfn import EDWfn
 
+
 class TestBCPs(CxTestCase):
     def set_up(self):
         """Set up the test case."""

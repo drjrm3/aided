@@ -10,7 +10,7 @@ from datetime import datetime
 import numpy as np
 
 
-#from aided.math.primitives import gpow
+# from aided.math.primitives import gpow
 # When using aided.math.primitives the speed is:
 # gpow(x, 0) ..... runs at a speed of 138.6K evals/sec.
 # gpow(xs, 0) .... runs at a speed of   7.0M evals/sec.
@@ -20,6 +20,7 @@ import numpy as np
 # gpow(xs, ns) ... runs at a speed of   9.4M evals/sec.
 
 from aided.math._primitives import gpow
+
 # When using aided.math.primitives_cpp the speed is:
 # gpow(x, 0) ..... runs at a speed of 359.6K evals/sec.
 # gpow(xs, 0) .... runs at a speed of  17.5M evals/sec.
@@ -27,7 +28,6 @@ from aided.math._primitives import gpow
 # gpow(0, ns) .... runs at a speed of  16.2M evals/sec.
 # gpow(x, n) ..... runs at a speed of   1.9M evals/sec.
 # gpow(xs, ns) ... runs at a speed of   8.2M evals/sec.
-
 
 
 def test_gpow(num_iters: int, nvals: int = 100):
@@ -50,7 +50,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
         val = gpow(x, 0)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
-    rate = (num_iters / tdiff) / 1e+3
+    rate = (num_iters / tdiff) / 1e3
     print(f"gpow(x, 0) ..... runs at a speed of {rate:5.1f}K evals/sec.")
 
     ##############################################
@@ -61,7 +61,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
         vals = gpow(xs, 0)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
-    rate = ((num_iters * nvals) / tdiff) / 1e+6
+    rate = ((num_iters * nvals) / tdiff) / 1e6
     print(f"gpow(xs, 0) .... runs at a speed of {rate:5.1f}M evals/sec.")
 
     ###########################
@@ -72,7 +72,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
         val = gpow(0, n)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
-    rate = (num_iters / tdiff) / 1e+3
+    rate = (num_iters / tdiff) / 1e3
     print(f"gpow(0, n) ..... runs at a speed of {rate:5.1f}K evals/sec.")
 
     ##########################################
@@ -83,7 +83,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
         vals = gpow(0, ns)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
-    rate = ((num_iters * nvals) / tdiff) / 1e+6
+    rate = ((num_iters * nvals) / tdiff) / 1e6
     print(f"gpow(0, ns) .... runs at a speed of {rate:5.1f}M evals/sec.")
 
     #####################
@@ -94,7 +94,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
         val = gpow(x, n)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
-    rate = (num_iters / tdiff) / 1e+6
+    rate = (num_iters / tdiff) / 1e6
     print(f"gpow(x, n) ..... runs at a speed of {rate:5.1f}M evals/sec.")
 
     ##########################################
@@ -105,12 +105,11 @@ def test_gpow(num_iters: int, nvals: int = 100):
         vals = gpow(xs, ns)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
-    rate = ((num_iters * nvals) / tdiff) / 1e+6
+    rate = ((num_iters * nvals) / tdiff) / 1e6
     print(f"gpow(xs, ns) ... runs at a speed of {rate:5.1f}M evals/sec.")
+
 
 def main(args):
     """Main routine for speed tests."""
 
     test_gpow(args.num_iters)
-
-

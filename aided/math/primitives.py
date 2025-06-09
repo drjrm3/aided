@@ -6,9 +6,11 @@ from typing import Union
 from .. import np, npt
 
 
-def gpow(
-    x: Union[float, npt.NDArray], expon: Union[int, npt.NDArray]
-) -> Union[float, npt.NDArray]:
+def coth(x: Union[float, npt.NDArray]) -> Union[float, npt.NDArray]:
+    return 1 / np.tanh(x)
+
+
+def gpow(x: Union[float, npt.NDArray], expon: Union[int, npt.NDArray]) -> Union[float, npt.NDArray]:
     """Custom power operator for integer exponents, supporting both scalars and vectors.
 
     This computes np.power on most elements but handles special cases where x or expon is zero.

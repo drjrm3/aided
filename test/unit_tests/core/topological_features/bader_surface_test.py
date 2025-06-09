@@ -12,6 +12,7 @@ from ...helper import CxTestCase, get_wfn_file
 from aided.core.edwfn import EDWfn
 from aided.math.geometry import spherical_angles_from_vector
 
+
 class TestTraceGradientToPoint(CxTestCase):
     def set_up(self):
         """Set up the test case."""
@@ -24,7 +25,6 @@ class TestTraceGradientToPoint(CxTestCase):
 
         with self.assertRaises(ValueError):
             self.wfn.trace_gradient_to_atom(0.0, 0.0, 0.0, method="bad_method")
-
 
     def test_trace_gradient_to_point(self):
         """Test tracing gradient to a point."""
@@ -50,6 +50,7 @@ class TestTraceGradientToPoint(CxTestCase):
                 self.assertEqual(atom, _atom, output)
                 self.assertEqual(numpy.linalg.norm(atpos - _atpos), 0.0)
 
+
 class TestBaderSurfacePoint(CxTestCase):
     def set_up(self):
         """Set up the test case."""
@@ -59,40 +60,43 @@ class TestBaderSurfacePoint(CxTestCase):
     def test_bader_surface_point_interior(self):
         """Test Bader surface of a point on the interior of the molecule."""
         # Coordinates
-        C2 = self.wfn.atpos[ self.wfn.atnames == "C2" ][0]
-        N3 = self.wfn.atpos[ self.wfn.atnames == "N3" ][0]
+        C2 = self.wfn.atpos[self.wfn.atnames == "C2"][0]
+        N3 = self.wfn.atpos[self.wfn.atnames == "N3"][0]
 
         # Convert difference vectors to (theta, phi)
         theta_c2_n3, phi_c2_n3 = spherical_angles_from_vector(N3 - C2)
         theta_n3_o2, phi_n3_o2 = spherical_angles_from_vector(C2 - N3)
 
         # Choose a small “starting_radius”
-        start_r = 0.3  
-        max_r   = 2.5  
-        step    = 0.1  
-        tol     = 1e-12
+        start_r = 0.3
+        max_r = 2.5
+        step = 0.1
+        tol = 1e-12
 
         # Find bader surface point in C2 in the direction of N3
-        start_pos_c2 = C2 + start_r * numpy.array([
-           numpy.sin(theta_c2_n3)*numpy.cos(phi_c2_n3),
-           numpy.sin(theta_c2_n3)*numpy.sin(phi_c2_n3),
-           numpy.cos(theta_c2_n3)
-        ])
-        pt_02_n3 = self.wfn._find_bader_surface_point(start_pos_c2, start_r,
-                                                      theta_c2_n3, phi_c2_n3,
-                                                      max_r, step, tol)
+        start_pos_c2 = C2 + start_r * numpy.array(
+            [
+                numpy.sin(theta_c2_n3) * numpy.cos(phi_c2_n3),
+                numpy.sin(theta_c2_n3) * numpy.sin(phi_c2_n3),
+                numpy.cos(theta_c2_n3),
+            ]
+        )
+        pt_02_n3 = self.wfn._find_bader_surface_point(
+            start_pos_c2, start_r, theta_c2_n3, phi_c2_n3, max_r, step, tol
+        )
 
         # Find bader surface point in N3 in the direction of C2
-        start_pos_n3 = N3 + start_r * numpy.array([
-           numpy.sin(theta_n3_o2)*numpy.cos(phi_n3_o2),
-           numpy.sin(theta_n3_o2)*numpy.sin(phi_n3_o2),
-           numpy.cos(theta_n3_o2)
-        ])
-        pt_n3_o2 = self.wfn._find_bader_surface_point(start_pos_n3, start_r,
-                                                  theta_n3_o2, phi_n3_o2,
-                                                  max_r, step, tol)
+        start_pos_n3 = N3 + start_r * numpy.array(
+            [
+                numpy.sin(theta_n3_o2) * numpy.cos(phi_n3_o2),
+                numpy.sin(theta_n3_o2) * numpy.sin(phi_n3_o2),
+                numpy.cos(theta_n3_o2),
+            ]
+        )
+        pt_n3_o2 = self.wfn._find_bader_surface_point(
+            start_pos_n3, start_r, theta_n3_o2, phi_n3_o2, max_r, step, tol
+        )
 
         # Ensure they are within tol of each other
         dist = numpy.linalg.norm(pt_02_n3 - pt_n3_o2)
         assert dist < tol, f"Points differ by {dist} Bohr!"
-
