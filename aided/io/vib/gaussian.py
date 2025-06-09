@@ -46,7 +46,7 @@ class GaussianLogReader(LogReader):
 
     @property
     def nmodes(self) -> int:
-        """Number of number vibrational modes."""
+        """Number of vibrational modes."""
         last_freq_block = self.__freq_blocks[-1]
         assert len(last_freq_block) > 0, "Last frequency block is empty."
 
