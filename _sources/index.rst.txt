@@ -8,7 +8,7 @@ Welcome to aided's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   autoapi/index
+    modules
 
 Indices and tables
 ==================

@@ -80,8 +80,42 @@ phi: The azimuthal angle (angle in the x-y plane from the x-axis).</p>
 </dd></dl>
 
 </section>
-<section id="aided-math-primitives-module">
-<h2>aided.math.primitives module<a class="headerlink" href="#aided-math-primitives-module" title="Link to this heading">¶</a></h2>
+<section id="module-aided.math.primitives">
+<span id="aided-math-primitives-module"></span><h2>aided.math.primitives module<a class="headerlink" href="#module-aided.math.primitives" title="Link to this heading">¶</a></h2>
+<p>Simple mathematical primitives.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.math.primitives.coth">
+<span class="sig-prename descclassname"><span class="pre">aided.math.primitives.</span></span><span class="sig-name descname"><span class="pre">coth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/math/primitives.html#coth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.math.primitives.coth" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.math.primitives.gpow">
+<span class="sig-prename descclassname"><span class="pre">aided.math.primitives.</span></span><span class="sig-name descname"><span class="pre">gpow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/math/primitives.html#gpow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.math.primitives.gpow" title="Link to this definition">¶</a></dt>
+<dd><p>Custom power operator for integer exponents, supporting both scalars and vectors.</p>
+<dl class="simple">
+<dt>This computes np.power on most elements but handles special cases where x or expon is zero.</dt><dd><ul class="simple">
+<li><p>If expon is zero, it returns 1.0. This is handled by initialization and exclusion.</p></li>
+<li><p>If x is zero, it returns 0.0. This is handled by a special case.</p></li>
+<li><p>For everything else, it computes x ** expon.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Base value.</p></li>
+<li><p><strong>expon</strong> – Exponent value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting value of x raised to the power of expon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>result</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-aided.math">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aided.math" title="Link to this heading">¶</a></h2>

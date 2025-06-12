@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aided.core.edwfns &#8212; aided  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for aided.core.edwfns</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">aided.core.edwfns</span>
+
+<span class="sd">Electron Density Representations from .wfn files.</span>
+
+<span class="sd">Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.edrep</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDRep</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">LMNS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..io.read_wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_wfn_files</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..math.primitives</span><span class="w"> </span><span class="kn">import</span> <span class="n">gpow</span>
+
+
+<div class="viewcode-block" id="compute_hessian_batch">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfns.compute_hessian_batch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_hessian_batch</span><span class="p">(</span>
+    <span class="n">chi</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">chi2</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">denmat</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the Hessian for a batch of wavefunctions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chi: Chi matrix.</span>
+<span class="sd">        chi1: First derivative of chi matrix.</span>
+<span class="sd">        chi2: Second derivative of chi matrix.</span>
+<span class="sd">        denmat: Density matrix.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        hessv: Hessian vector as diagonals [dxx, dyy, dzz, dxy, dxz, dyz].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Compute diagonal terms</span>
+    <span class="n">hessv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">hessv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+        <span class="n">denmat</span><span class="p">,</span>
+        <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="p">)</span>
+    <span class="n">hessv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+        <span class="n">denmat</span><span class="p">,</span>
+        <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="p">)</span>
+    <span class="n">hessv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+        <span class="n">denmat</span><span class="p">,</span>
+        <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Compute off-diagonal terms</span>
+    <span class="n">hessv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+        <span class="n">denmat</span><span class="p">,</span>
+        <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="p">)</span>
+    <span class="n">hessv</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+        <span class="n">denmat</span><span class="p">,</span>
+        <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="p">)</span>
+    <span class="n">hessv</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+        <span class="n">denmat</span><span class="p">,</span>
+        <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hessv</span></div>
+
+
+
+<div class="viewcode-block" id="EDWfns">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfns.EDWfns">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EDWfns</span><span class="p">(</span><span class="n">EDRep</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Electron Density Representation from multiple .wfn file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wfn_file_list</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">io_procs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization with list of .wfn files and number of processes to use.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wfn_file_list: List of .wfn files.</span>
+<span class="sd">            io_procs: Number of proceess to use for io operations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_file</span><span class="o">=</span><span class="n">wfn_file_list</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">wfn_file_list</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finp</span><span class="p">:</span>
+            <span class="n">wfn_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">finp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
+
+        <span class="c1"># Read the wfn file.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span> <span class="o">=</span> <span class="n">read_wfn_files</span><span class="p">(</span><span class="n">wfn_files</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="n">io_procs</span><span class="p">)</span>
+
+        <span class="c1"># Assumes that all atnames are the same.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">atnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Assumes that all .wfns represent the same molecule and we want the averaged position.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atpos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">atpos</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Initialize the chi matrices.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Keep track of the last point to avoid unnecessary calculations.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_point</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_der</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># Create simple abbreviations for wfn_rep. Remove this if it becomes performance bottleneck.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">occs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">coeffs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nprims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nwfns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span>
+
+        <span class="c1"># Calculate the density matrix.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gen_denmat</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Equality comparison.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_wfns_rep</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">atpos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="c1"># Average the atomic positions.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atpos</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">atnames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="c1"># This assumes that all atnames are equal.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atnames</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gen_chi_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wfn_group</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ider</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Worker function for generating chi matrix for the given point in parallel.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gen_chi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ider</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the chi matrix for the given point.</span>
+
+<span class="sd">        Skip this if the point is the same as the last point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x, y, z: Cartesian points in global space.</span>
+<span class="sd">            ider: Derivative order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Skip this if the point is the same as the last point.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_point</span> <span class="o">==</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_der</span> <span class="o">==</span> <span class="n">ider</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_point</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_der</span> <span class="o">=</span> <span class="n">ider</span>
+
+        <span class="k">for</span> <span class="n">iwfn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nwfns</span><span class="p">):</span>
+
+            <span class="c1"># Precompute constants</span>
+            <span class="n">nprims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nprims</span>
+            <span class="n">types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span>
+            <span class="n">centers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">centers</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span>
+            <span class="n">atpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">atpos</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span>
+            <span class="n">expons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">expons</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span>
+
+            <span class="c1"># Extract spherical harmonics indices (l, m, n) for all primitives</span>
+            <span class="n">lmn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">LMNS</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">])</span>  <span class="c1"># Shape: (nprims, 3)</span>
+            <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">lmn</span><span class="o">.</span><span class="n">T</span>
+
+            <span class="c1"># Extract centers and positions</span>
+            <span class="n">center_indices</span> <span class="o">=</span> <span class="n">centers</span>
+            <span class="n">center_coords</span> <span class="o">=</span> <span class="n">atpos</span><span class="p">[</span><span class="n">center_indices</span><span class="p">]</span>  <span class="c1"># Shape: (nprims, 3)</span>
+
+            <span class="c1"># Compute coordinates relative to atomic centers</span>
+            <span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pz</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">x</span> <span class="o">-</span> <span class="n">center_coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">y</span> <span class="o">-</span> <span class="n">center_coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">z</span> <span class="o">-</span> <span class="n">center_coords</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">)</span>  <span class="c1"># Shape: (nprims,)</span>
+
+            <span class="c1"># Compute the argument of the Gaussian primitive and the exponential</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">expons</span>  <span class="c1"># Shape: (nprims,)</span>
+            <span class="n">expon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">px</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">py</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">pz</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># Shape: (nprims,)</span>
+
+            <span class="c1"># Compute powers using gpow</span>
+            <span class="n">xl</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>  <span class="c1"># Shape: (nprims,)</span>
+            <span class="n">ym</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">py</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>  <span class="c1"># Shape: (nprims,)</span>
+            <span class="n">zn</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">pz</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>  <span class="c1"># Shape: (nprims,)</span>
+
+            <span class="c1"># Compute `chi`</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">]</span> <span class="o">=</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">expon</span>  <span class="c1"># Shape: (nprims,)</span>
+
+            <span class="c1"># First derivatives (if ider &gt;= 1)</span>
+            <span class="k">if</span> <span class="n">ider</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">twoa</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">alpha</span>  <span class="c1"># Shape: (nprims,)</span>
+
+                <span class="n">term11</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">l</span>  <span class="c1"># Shape: (nprims,)</span>
+                <span class="n">term12</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">py</span><span class="p">,</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span>  <span class="c1"># Shape: (nprims,)</span>
+                <span class="n">term13</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">pz</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span>  <span class="c1"># Shape: (nprims,)</span>
+
+                <span class="n">xyexp</span> <span class="o">=</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">expon</span>  <span class="c1"># Shape: (nprims,)</span>
+                <span class="n">xzexp</span> <span class="o">=</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">expon</span>  <span class="c1"># Shape: (nprims,)</span>
+                <span class="n">yzexp</span> <span class="o">=</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">expon</span>  <span class="c1"># Shape: (nprims,)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">yzexp</span> <span class="o">*</span> <span class="p">(</span><span class="n">term11</span> <span class="o">-</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">px</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xzexp</span> <span class="o">*</span> <span class="p">(</span><span class="n">term12</span> <span class="o">-</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">py</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">xyexp</span> <span class="o">*</span> <span class="p">(</span><span class="n">term13</span> <span class="o">-</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">pz</span><span class="p">)</span>
+
+                <span class="c1"># Second derivatives (if ider &gt;= 2)</span>
+                <span class="k">if</span> <span class="n">ider</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">twoa_chi</span> <span class="o">=</span> <span class="n">twoa</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">]</span>  <span class="c1"># Shape: (nprims,)</span>
+
+                    <span class="c1"># xx, yy, zz</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">yzexp</span> <span class="o">*</span> <span class="n">l</span> <span class="o">*</span> <span class="p">(</span>
+                        <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="p">)</span> <span class="o">-</span> <span class="n">twoa_chi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">l</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">px</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">py</span><span class="p">,</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">xzexp</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span>
+                        <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="p">)</span> <span class="o">-</span> <span class="n">twoa_chi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">py</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpow</span><span class="p">(</span><span class="n">pz</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">xyexp</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span>
+                        <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="p">)</span> <span class="o">-</span> <span class="n">twoa_chi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">pz</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+                    <span class="n">expee</span> <span class="o">=</span> <span class="n">twoa</span> <span class="o">*</span> <span class="n">expon</span>  <span class="c1"># Shape: (nprims,)</span>
+                    <span class="n">foura_two_chi</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">]</span>  <span class="c1"># Shape: (nprims,)</span>
+
+                    <span class="c1"># xy</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">term11</span> <span class="o">*</span> <span class="n">term12</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">expon</span>
+                        <span class="o">-</span> <span class="n">term12</span> <span class="o">*</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">px</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">expee</span>
+                        <span class="o">-</span> <span class="n">term11</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">py</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">expee</span>
+                        <span class="o">+</span> <span class="n">px</span> <span class="o">*</span> <span class="n">py</span> <span class="o">*</span> <span class="n">foura_two_chi</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># xz</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">term11</span> <span class="o">*</span> <span class="n">term13</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">expon</span>
+                        <span class="o">-</span> <span class="n">term13</span> <span class="o">*</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">px</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">expee</span>
+                        <span class="o">-</span> <span class="n">term11</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">pz</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">expee</span>
+                        <span class="o">+</span> <span class="n">px</span> <span class="o">*</span> <span class="n">pz</span> <span class="o">*</span> <span class="n">foura_two_chi</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># yz</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:</span><span class="n">nprims</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">term12</span> <span class="o">*</span> <span class="n">term13</span> <span class="o">*</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">expon</span>
+                        <span class="o">-</span> <span class="n">term13</span> <span class="o">*</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">py</span> <span class="o">*</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">expee</span>
+                        <span class="o">-</span> <span class="n">term12</span> <span class="o">*</span> <span class="n">zn</span> <span class="o">*</span> <span class="n">pz</span> <span class="o">*</span> <span class="n">xl</span> <span class="o">*</span> <span class="n">expee</span>
+                        <span class="o">+</span> <span class="n">py</span> <span class="o">*</span> <span class="n">pz</span> <span class="o">*</span> <span class="n">foura_two_chi</span>
+                    <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gen_denmat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the density matrix for the given point.</span>
+
+<span class="sd">        Denmat effectively computes:</span>
+<span class="sd">            D_pq = sum_i occ_i * C_ip * C_iq</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">iwfn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;i,ip,iq-&gt;pq&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span><span class="p">[</span><span class="n">iwfn</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">[</span><span class="n">iwfn</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="EDWfns.rho">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfns.EDWfns.rho">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ED at a point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x, y, z: Cartesian points in global space.</span>
+
+<span class="sd">        Returns: Value of ED in chosen units.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gen_chi</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">ider</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">rhov</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">iwfn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">):</span>
+            <span class="n">rhov</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">rhov</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        # Pre-compute chi products once for all iwfn</span>
+<span class="sd">        chi_product = self._chi[:, :, np.newaxis] * self._chi[:, np.newaxis, :]</span>
+
+<span class="sd">        # Perform the matrix product for all iwfn at once</span>
+<span class="sd">        rhov = np.einsum(&quot;ijk,ijk-&gt;i&quot;, self._denmat, chi_product)</span>
+
+<span class="sd">        # Average across all iwfn</span>
+<span class="sd">        rhov = np.sum(rhov) / self._wfns_rep.nwfns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">rhov</span></div>
+
+
+<div class="viewcode-block" id="EDWfns.grad">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfns.EDWfns.grad">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Gradient of the ED at a point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x, y, z: Cartesian points in global space.</span>
+
+<span class="sd">        Returns: Array of 3 elements: dx, dy, dz</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gen_chi</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">ider</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">gradv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iwfn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span><span class="p">):</span>
+
+            <span class="c1"># Compute pairwise products of _chi and _chi1</span>
+            <span class="n">chi_i_chi1_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,jk-&gt;ijk&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+            <span class="n">chi_j_chi1_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;j,ik-&gt;ijk&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+
+            <span class="c1"># Combine the contributions to the gradient</span>
+            <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>  <span class="c1"># Iterate over x, y, z dimensions</span>
+                <span class="n">gradv</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">chi_i_chi1_j</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">dim</span><span class="p">]</span> <span class="o">+</span> <span class="n">chi_j_chi1_i</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">dim</span><span class="p">])</span>
+                <span class="p">)</span>
+
+        <span class="n">gradv</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span>
+
+        <span class="k">return</span> <span class="n">gradv</span></div>
+
+
+<div class="viewcode-block" id="EDWfns.hess">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfns.EDWfns.hess">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Hessian of the ED at a point.</span>
+
+<span class="sd">        This function can be very memory intensive, so delete partial computations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x, y, z: Cartesian points in global space.</span>
+<span class="sd">            batch_size: Number of wavefunctions to process at once. If zero, process all at once.</span>
+
+<span class="sd">        Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gen_chi</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">ider</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">hessv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="c1"># Extract the components for clarity</span>
+        <span class="n">chi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi</span>
+        <span class="n">chi1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span>
+        <span class="n">chi2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span>
+        <span class="n">denmat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span>
+        <span class="n">nwfns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">batch_size</span><span class="p">:</span>
+            <span class="c1"># This is fast but memory intensive for a large number of wavefunctions.</span>
+            <span class="c1"># Compute diagonal terms</span>
+            <span class="n">hessv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+                <span class="n">denmat</span><span class="p">,</span>
+                <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+            <span class="p">)</span>
+            <span class="n">hessv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+                <span class="n">denmat</span><span class="p">,</span>
+                <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+            <span class="p">)</span>
+            <span class="n">hessv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+                <span class="n">denmat</span><span class="p">,</span>
+                <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Compute off-diagonal terms</span>
+            <span class="n">hessv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+                <span class="n">denmat</span><span class="p">,</span>
+                <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+            <span class="p">)</span>
+            <span class="n">hessv</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+                <span class="n">denmat</span><span class="p">,</span>
+                <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+            <span class="p">)</span>
+            <span class="n">hessv</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ijk,ijk-&gt;&quot;</span><span class="p">,</span>
+                <span class="n">denmat</span><span class="p">,</span>
+                <span class="n">chi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi1</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">+</span> <span class="n">chi2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Process wavefunctions in batches.</span>
+            <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nwfns</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">nwfns</span><span class="p">)</span>
+
+                <span class="c1"># Slice the batch</span>
+                <span class="n">chi_batch</span> <span class="o">=</span> <span class="n">chi</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+                <span class="n">chi1_batch</span> <span class="o">=</span> <span class="n">chi1</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+                <span class="n">chi2_batch</span> <span class="o">=</span> <span class="n">chi2</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+                <span class="n">denmat_batch</span> <span class="o">=</span> <span class="n">denmat</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+                <span class="c1"># Compute and accumulate the Hessian for this batch</span>
+                <span class="n">hessv</span> <span class="o">+=</span> <span class="n">compute_hessian_batch</span><span class="p">(</span><span class="n">chi_batch</span><span class="p">,</span> <span class="n">chi1_batch</span><span class="p">,</span> <span class="n">chi2_batch</span><span class="p">,</span> <span class="n">denmat_batch</span><span class="p">)</span>
+
+        <span class="c1"># Normalize by the number of wavefunctions</span>
+        <span class="n">hessv</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfns_rep</span><span class="o">.</span><span class="n">nwfns</span>
+
+        <span class="k">return</span> <span class="n">hessv</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tst</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+    <span class="c1"># pylint: disable=all</span>
+    <span class="c1"># This is a test area for validating work above.</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.edwfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDWfn</span>
+
+    <span class="c1"># Get one or more input files.</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Test wfn reading.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--input&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input wfn file(s)&quot;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finp</span><span class="p">:</span>
+        <span class="n">wfn_file</span> <span class="o">=</span> <span class="n">finp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="n">edwfn</span> <span class="o">=</span> <span class="n">EDWfn</span><span class="p">(</span><span class="n">wfn_file</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reading wfn files ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="n">tic</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">edwfns</span> <span class="o">=</span> <span class="n">EDWfns</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">io_procs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">dif</span> <span class="o">=</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Done in </span><span class="si">{</span><span class="n">dif</span><span class="si">:</span><span class="s2">16.12f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Static ... &quot;</span><span class="p">)</span>
+    <span class="n">static_bcps</span><span class="p">,</span> <span class="n">static_bonds</span> <span class="o">=</span> <span class="n">edwfn</span><span class="o">.</span><span class="n">find_bcps</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">bond</span><span class="p">,</span> <span class="n">bcp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">static_bonds</span><span class="p">,</span> <span class="n">static_bcps</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bond</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">bcp</span><span class="o">.</span><span class="n">x</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dynamic ... &quot;</span><span class="p">)</span>
+    <span class="n">dynamic_bcps</span><span class="p">,</span> <span class="n">dynamic_bonds</span> <span class="o">=</span> <span class="n">edwfns</span><span class="o">.</span><span class="n">find_bcps</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">bond</span><span class="p">,</span> <span class="n">bcp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dynamic_bonds</span><span class="p">,</span> <span class="n">dynamic_bcps</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bond</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">bcp</span><span class="o">.</span><span class="n">x</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    tic = datetime.now()</span>
+<span class="sd">    rho_gs = edwfn.rho(0.0, 0.0, 0.0)</span>
+<span class="sd">    rho_at = edwfns.rho(0.0, 0.0, 0.0)</span>
+<span class="sd">    toc = datetime.now()</span>
+<span class="sd">    dif = (toc - tic).total_seconds()</span>
+
+<span class="sd">    print(f&quot;|rho_at| ..... {rho_at:16.12f}&quot;)</span>
+<span class="sd">    print(f&quot;|rho_gs| ..... {rho_gs:16.12f}&quot;)</span>
+<span class="sd">    print(f&quot;Time taken ... {dif:16.12f} seconds&quot;)</span>
+<span class="sd">    sys.stdout.flush()</span>
+
+<span class="sd">    tic = datetime.now()</span>
+<span class="sd">    grad_gs = edwfn.grad(0.0, 0.0, 0.0)</span>
+<span class="sd">    grad_at = edwfns.grad(0.0, 0.0, 0.0)</span>
+<span class="sd">    toc = datetime.now()</span>
+<span class="sd">    dif = (toc - tic).total_seconds()</span>
+<span class="sd">    print(f&quot;|grad_at| .... {&#39; &#39;.join(f&#39;{_g:16.12f}&#39; for _g in grad_at)}&quot;)</span>
+<span class="sd">    print(f&quot;|grad_gs| .... {&#39; &#39;.join(f&#39;{_g:16.12f}&#39; for _g in grad_gs)}&quot;)</span>
+<span class="sd">    print(f&quot;Time taken ... {dif:16.12f} seconds&quot;)</span>
+<span class="sd">    sys.stdout.flush()</span>
+
+<span class="sd">    tic = datetime.now()</span>
+<span class="sd">    hess_gs = edwfn.hess(0.0, 0.0, 0.0)</span>
+<span class="sd">    hess_at = edwfns.hess(0.0, 0.0, 0.0)</span>
+<span class="sd">    toc = datetime.now()</span>
+<span class="sd">    dif = (toc - tic).total_seconds()</span>
+<span class="sd">    print(f&quot;|hess_at| .... {&#39; &#39;.join(f&#39;{_g:16.12f}&#39; for _g in hess_at)}&quot;)</span>
+<span class="sd">    print(f&quot;|hess_gs| .... {&#39; &#39;.join(f&#39;{_g:16.12f}&#39; for _g in hess_gs)}&quot;)</span>
+<span class="sd">    print(f&quot;Time taken ... {dif:16.12f} seconds&quot;)</span>
+<span class="sd">    sys.stdout.flush()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">_tst</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">aided</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
