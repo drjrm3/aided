@@ -1,0 +1,46 @@
+name: Deploy Sphinx Docs
+
+on:
+  push:
+    branches:
+      - staging
+      - 48/gh-sphinx # For testing
+
+permissions:
+  contents: write
+
+jobs:
+  make-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install sphinx myst-parser sphinx-rtd-theme
+          pip install .
+
+      - name: Generate API docs
+        run: |
+          mkdir -p docs/source/apidocs
+          sphinx-apidoc -o docs/source aided
+          sphinx-apidoc -o docs/source/apidocs -f -e -M aided
+
+      - name: Build HTML documentation
+        working-directory: docs
+        run: make html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
+
