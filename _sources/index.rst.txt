@@ -15,14 +15,14 @@ Welcome to aided's documentation!
    :maxdepth: 2
    :caption: Apps
 
-    apps/create_msda
+   apps/create_msda
 
 .. toctree::
    :maxdepth: 2
    :caption: API Reference:
    :glob:
 
-    modules
+   apidocs/modules
 
 Indices and tables
 ==================

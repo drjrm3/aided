@@ -18,7 +18,8 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="aided" href="apidocs/modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,25 +41,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to aided’s documentation!</a><ul>
-<li><a class="reference internal" href="#aided">AIDED</a><ul>
-<li><a class="reference internal" href="#installing">Installing</a></li>
-<li><a class="reference internal" href="#getting-started">Getting started</a></li>
-<li><a class="reference internal" href="#scientific-background">Scientific Background</a></li>
-<li><a class="reference internal" href="#methodology-and-workflows">Methodology and Workflows</a><ul>
-<li><a class="reference internal" href="#input-types-for-static-ed-analysis">Input types for static ED Analysis</a></li>
-<li><a class="reference internal" href="#input-types-of-dynamic-ed-analysis">Input types of dynamic ED Analysis</a></li>
+              <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidocs/modules.html">aided</a></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -111,7 +98,7 @@
 <li><p>The probability (non-negative scalar value) of finding an electron at a point.</p></li>
 </ul>
   <center>
-<p><img alt="Electron density of Ethylene" src="contrib/imgs/bader_ed.gif" /></p>
+<p><img alt="Electron density of Ethylene" src="_images/bader_ed.gif" /></p>
 <p>Contour plot of the Electron Density of the Ethylene molecule (<a class="reference external" href="https://www.chemistry.mcmaster.ca/aim/aim_1.html">source</a>).</p>
   </center>
 </li>
@@ -121,7 +108,7 @@
 <li><p>Properties like the Gradient, Hessian, and Laplcian can be used to identify features of the topological space.</p></li>
 </ul>
   <center>
-<p><img alt="Gradient traces of Ethylene" src="contrib/imgs/bader_gradient.gif" /></p>
+<p><img alt="Gradient traces of Ethylene" src="_images/bader_gradient.gif" /></p>
 <p>Gradient trajectories of ED for Ethylene molecule (<a class="reference external" href="https://www.chemistry.mcmaster.ca/aim/aim_1.html">source</a>).</p>
   </center>
 </li>
@@ -133,11 +120,11 @@
 <li><p>Based on the TP of gradients, the gradient trajectories can be traced to find the Surface of Zero flux. In QTAIM this defines the atomic boundaries.</p></li>
 </ul>
   <center>
-<p><img alt="Gradient traces of Ethylene" src="contrib/imgs/bader_gradient.gif" />
-<img alt="SZF Gradient traces of Ethylene" src="contrib/imgs/bader_szf_gradient.gif" /></p>
+<p><img alt="Gradient traces of Ethylene" src="_images/bader_gradient.gif" />
+<img alt="SZF Gradient traces of Ethylene" src="_images/bader_szf_gradient.gif" /></p>
 <p>The gradient trajector can be used to find the surface(s) of zero flux, defining the atomic boundaries. (<a class="reference external" href="https://www.chemistry.mcmaster.ca/aim/aim_1.html">source</a>).</p>
-<p><img alt="Electron density of Ethylene" src="contrib/imgs/bader_ed.gif" />
-<img alt="SZF electron density of Ethylene" src="contrib/imgs/bader_szf_ed.gif" /></p>
+<p><img alt="Electron density of Ethylene" src="_images/bader_ed.gif" />
+<img alt="SZF electron density of Ethylene" src="_images/bader_szf_ed.gif" /></p>
 <p>The surface of zero flux (atomic boundaries) superimposed upon the original Electron Density.  (<a class="reference external" href="https://www.chemistry.mcmaster.ca/aim/aim_1.html">source</a>).</p>
   </center>
 </li>
@@ -149,7 +136,7 @@
 <h4>Input types for static ED Analysis<a class="headerlink" href="#input-types-for-static-ed-analysis" title="Link to this heading"></a></h4>
 <p>Generally a file is given describing ED of Wavefunction (WFN) to be used to construct the ED. This WFN file can be used to analytically determine the ED or associated TPs at any point in space. Alternatively, a grid can be given which contains TPs evaluated at each point in space and the ED or TPs can be derived from the grid numerically.</p>
 <p>The workflows are as follows:</p>
-<p><img alt="Workflows" src="contrib/imgs/workflows/aided_workflows.png" /></p>
+<p><img alt="Workflows" src="_images/aided_workflows.png" /></p>
 </section>
 <section id="input-types-of-dynamic-ed-analysis">
 <h4>Input types of dynamic ED Analysis<a class="headerlink" href="#input-types-of-dynamic-ed-analysis" title="Link to this heading"></a></h4>
@@ -180,6 +167,13 @@
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidocs/modules.html">aided</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apidocs/aided.html">aided package</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </section>
 <section id="indices-and-tables">
@@ -194,7 +188,9 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apidocs/modules.html" class="btn btn-neutral float-right" title="aided" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
