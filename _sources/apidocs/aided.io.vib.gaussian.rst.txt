@@ -1,0 +1,7 @@
+aided.io.vib.gaussian module
+============================
+
+.. automodule:: aided.io.vib.gaussian
+   :members:
+   :show-inheritance:
+   :undoc-members:

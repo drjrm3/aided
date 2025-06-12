@@ -1,0 +1,16 @@
+aided.apps.create\_msda package
+===============================
+
+.. automodule:: aided.apps.create_msda
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.apps.create_msda.cli
+   aided.apps.create_msda.main

@@ -1,0 +1,7 @@
+aided.math.primitives module
+============================
+
+.. automodule:: aided.math.primitives
+   :members:
+   :show-inheritance:
+   :undoc-members:

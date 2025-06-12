@@ -1,0 +1,7 @@
+aided.io.vib.writer module
+==========================
+
+.. automodule:: aided.io.vib.writer
+   :members:
+   :show-inheritance:
+   :undoc-members:

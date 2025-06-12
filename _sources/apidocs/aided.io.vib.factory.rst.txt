@@ -1,0 +1,7 @@
+aided.io.vib.factory module
+===========================
+
+.. automodule:: aided.io.vib.factory
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,7 @@
+aided.core.wfn.wfns\_rep module
+===============================
+
+.. automodule:: aided.core.wfn.wfns_rep
+   :members:
+   :show-inheritance:
+   :undoc-members:

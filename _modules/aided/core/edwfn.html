@@ -84,7 +84,7 @@
 
 
 <div class="viewcode-block" id="numba_rho">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.numba_rho">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_rho">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_rho</span><span class="p">(</span><span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the density using numba</span>
@@ -106,7 +106,7 @@
 
 
 <div class="viewcode-block" id="numba_grad">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.numba_grad">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_grad">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_grad</span><span class="p">(</span><span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the gradient using numba</span>
@@ -130,7 +130,7 @@
 
 
 <div class="viewcode-block" id="numba_hess">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.numba_hess">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_hess">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_hess</span><span class="p">(</span>
     <span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi2</span><span class="p">:</span> <span class="n">NDArray</span>
@@ -184,7 +184,7 @@
 
 
 <div class="viewcode-block" id="EDWfn">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.EDWfn">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EDWfn</span><span class="p">(</span><span class="n">EDRep</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Electron Density Representation from a single .wfn file.</span>
@@ -266,7 +266,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,ip,iq-&gt;pq&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EDWfn.rho">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.EDWfn.rho">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.rho">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ED at a point.</span>
 
@@ -283,7 +283,7 @@
 
 
 <div class="viewcode-block" id="EDWfn.grad">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.EDWfn.grad">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.grad">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Gradient of the ED at a point.</span>
 
@@ -300,7 +300,7 @@
 
 
 <div class="viewcode-block" id="EDWfn.hess">
-<a class="viewcode-back" href="../../../aided.core.html#aided.core.edwfn.EDWfn.hess">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.hess">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">hess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Hessian of the ED at a point.</span>
 

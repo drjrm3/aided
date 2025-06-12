@@ -1,0 +1,19 @@
+aided.io.vib package
+====================
+
+.. automodule:: aided.io.vib
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.io.vib.factory
+   aided.io.vib.gaussian
+   aided.io.vib.log_reader
+   aided.io.vib.reader
+   aided.io.vib.writer

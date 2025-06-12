@@ -81,7 +81,7 @@
 
 
 <div class="viewcode-block" id="LogReader">
-<a class="viewcode-back" href="../../../../aided.io.vib.html#aided.io.vib.log_reader.LogReader">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LogReader</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for log readers.&quot;&quot;&quot;</span>
 
@@ -107,7 +107,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses must implement this method.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LogReader.gen_msda">
-<a class="viewcode-back" href="../../../../aided.io.vib.html#aided.io.vib.log_reader.LogReader.gen_msda">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader.gen_msda">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">gen_msda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the mass-weighted displacement array.&quot;&quot;&quot;</span>

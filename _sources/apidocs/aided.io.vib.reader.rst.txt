@@ -1,0 +1,7 @@
+aided.io.vib.reader module
+==========================
+
+.. automodule:: aided.io.vib.reader
+   :members:
+   :show-inheritance:
+   :undoc-members:

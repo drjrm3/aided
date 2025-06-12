@@ -1,0 +1,7 @@
+aided.apps.create\_msda.main module
+===================================
+
+.. automodule:: aided.apps.create_msda.main
+   :members:
+   :show-inheritance:
+   :undoc-members:

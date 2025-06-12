@@ -1,0 +1,27 @@
+aided.core package
+==================
+
+.. automodule:: aided.core
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.core.wfn
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.core.edrep
+   aided.core.edwfn
+   aided.core.edwfns
+   aided.core.units
+   aided.core.utils

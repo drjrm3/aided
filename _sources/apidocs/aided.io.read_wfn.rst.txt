@@ -1,0 +1,7 @@
+aided.io.read\_wfn module
+=========================
+
+.. automodule:: aided.io.read_wfn
+   :members:
+   :show-inheritance:
+   :undoc-members:

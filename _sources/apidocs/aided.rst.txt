@@ -1,0 +1,28 @@
+aided package
+=============
+
+.. automodule:: aided
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.apps
+   aided.core
+   aided.io
+   aided.math
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.cli
+   aided.constants
+   aided.version

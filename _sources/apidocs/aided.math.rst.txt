@@ -1,0 +1,16 @@
+aided.math package
+==================
+
+.. automodule:: aided.math
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.math.geometry
+   aided.math.primitives

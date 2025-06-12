@@ -1,0 +1,7 @@
+aided.math.geometry module
+==========================
+
+.. automodule:: aided.math.geometry
+   :members:
+   :show-inheritance:
+   :undoc-members:

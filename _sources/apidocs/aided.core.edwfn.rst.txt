@@ -1,0 +1,7 @@
+aided.core.edwfn module
+=======================
+
+.. automodule:: aided.core.edwfn
+   :members:
+   :show-inheritance:
+   :undoc-members:

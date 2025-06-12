@@ -1,0 +1,16 @@
+aided.core.wfn package
+======================
+
+.. automodule:: aided.core.wfn
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.core.wfn.wfn_rep
+   aided.core.wfn.wfns_rep

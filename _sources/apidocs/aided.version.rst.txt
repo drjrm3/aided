@@ -1,0 +1,7 @@
+aided.version module
+====================
+
+.. automodule:: aided.version
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,7 @@
+aided.apps.create\_msda.cli module
+==================================
+
+.. automodule:: aided.apps.create_msda.cli
+   :members:
+   :show-inheritance:
+   :undoc-members:

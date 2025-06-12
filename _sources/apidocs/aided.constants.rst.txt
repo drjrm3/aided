@@ -1,0 +1,7 @@
+aided.constants module
+======================
+
+.. automodule:: aided.constants
+   :members:
+   :show-inheritance:
+   :undoc-members:
