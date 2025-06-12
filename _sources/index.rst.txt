@@ -18,7 +18,7 @@ Welcome to aided's documentation!
    apps/create_msda
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: API Reference:
    :glob:
 
