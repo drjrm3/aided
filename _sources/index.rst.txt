@@ -25,6 +25,12 @@ Welcome to aided's documentation!
 
    modules
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Module Index:
+
+   `modindex`
+
 Indices and tables
 ==================
 

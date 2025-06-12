@@ -4,9 +4,9 @@ aided
 .. toctree::
    :maxdepth: 4
 
-   aided.core
-   aided.core.edrep
-   aided.core.wfn
-   aided.io
-   aided.math
-   aided.cli
+   apidocs/aided.core
+   apidocs/aided.core.edrep
+   apidocs/aided.core.wfn
+   apidocs/aided.io
+   apidocs/aided.math
+   apidocs/aided.cli
