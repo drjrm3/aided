@@ -14,8 +14,9 @@ Welcome to aided's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Apps
+   :glob:
 
-   apps/create_msda
+   apps/*
 
 .. toctree::
    :maxdepth: 4
