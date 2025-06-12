@@ -1,0 +1,29 @@
+aided.core.wfn package
+======================
+
+Submodules
+----------
+
+aided.core.wfn.wfn\_rep module
+------------------------------
+
+.. automodule:: aided.core.wfn.wfn_rep
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.core.wfn.wfns\_rep module
+-------------------------------
+
+.. automodule:: aided.core.wfn.wfns_rep
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: aided.core.wfn
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,29 @@
+aided.apps.create\_msda package
+===============================
+
+Submodules
+----------
+
+aided.apps.create\_msda.cli module
+----------------------------------
+
+.. automodule:: aided.apps.create_msda.cli
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.apps.create\_msda.main module
+-----------------------------------
+
+.. automodule:: aided.apps.create_msda.main
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: aided.apps.create_msda
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,29 @@
+aided.math package
+==================
+
+Submodules
+----------
+
+aided.math.geometry module
+--------------------------
+
+.. automodule:: aided.math.geometry
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.math.primitives module
+----------------------------
+
+.. automodule:: aided.math.primitives
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: aided.math
+   :members:
+   :show-inheritance:
+   :undoc-members:

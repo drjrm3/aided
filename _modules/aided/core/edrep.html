@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aided.core.edrep &#8212; aided  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for aided.core.edrep</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">aided.core.EDRep</span>
+
+<span class="sd">Electron Density Representation abstract class.</span>
+
+<span class="sd">Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">Units</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..math.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_from_point_to_line</span>
+
+
+<div class="viewcode-block" id="EDRepType">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRepType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EDRepType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">WFN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">RDF</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">NRDF</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="EDRep">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EDRep</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Electron Density Representation.</span>
+
+<span class="sd">    High level class which represents the information needed to express the ED but is abstracted</span>
+<span class="sd">    away from the type of file.</span>
+
+<span class="sd">    Types of representations may include:</span>
+<span class="sd">        - .wfn files (AIMFile)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edrep_type</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="o">=</span> <span class="n">Units</span><span class="o">.</span><span class="n">BOHR</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">atpos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">atnames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">in_au</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="o">==</span> <span class="n">Units</span><span class="o">.</span><span class="n">BOHR</span>
+
+<div class="viewcode-block" id="EDRep.rho">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.rho">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ED at a point.</span>
+
+<span class="sd">        Args: Cartesian points in global space.</span>
+
+<span class="sd">        Returns: Value of ED in chosen units.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="EDRep.grad">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.grad">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Gradient of the ED at a point.</span>
+
+<span class="sd">        Args: Cartesian points in global space.</span>
+
+<span class="sd">        Returns: Array of 3 elements: dx, dy, dz</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="EDRep.hess">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.hess">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Hessian of the ED at a point.</span>
+
+<span class="sd">        Args: Cartesian points in global space.</span>
+
+<span class="sd">        Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="EDRep.read_vib_file">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.read_vib_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_vib_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the log file from the optimization procedure.</span>
+
+<span class="sd">        Expected to include sufficient information to generate the MSDA.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="EDRep.read_msda_matrix">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.read_msda_matrix">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_msda_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msda_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the MSDA matrix from a file.&quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="EDRep.bader_surface_of_atom">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.bader_surface_of_atom">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bader_surface_of_atom</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">atom_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ntheta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">nphi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">starting_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">max_distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">,</span>
+        <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">ncores</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a Bader Surface for an atom.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            atom_name: Name of the atom to generate the surface for.</span>
+<span class="sd">            ntheta: Number of points to generate in the theta direction.</span>
+<span class="sd">            nphi: Number of points to generate in the phi direction.</span>
+<span class="sd">            starting_radius: Radius to generate the surface in Bohr.</span>
+<span class="sd">            max_distance: The max distance (in Bohr) from the atom to find a point on the surface.</span>
+<span class="sd">            step_size: The step size to take when searching for the surface.</span>
+<span class="sd">            tol: The tolerance to use when searching for the surface.</span>
+<span class="sd">            cores: Number of cores to use for parallel processing.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            thetas: Array of theta values.</span>
+<span class="sd">            phis: Array of phi values.</span>
+<span class="sd">            bader_surface: Numpy array of points on the surface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Find the atom position (atpos) of the atom.</span>
+        <span class="n">atom_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iat</span><span class="p">,</span> <span class="n">atpos</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atpos</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">atnames</span><span class="p">[</span><span class="n">iat</span><span class="p">]</span> <span class="o">==</span> <span class="n">atom_name</span><span class="p">:</span>
+                <span class="n">atom_position</span> <span class="o">=</span> <span class="n">atpos</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Atom </span><span class="si">{</span><span class="n">atom_name</span><span class="si">}</span><span class="s2"> not found in system.&quot;</span><span class="p">)</span>
+
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">starting_radius</span>
+
+        <span class="c1"># TODO: Speed this up. Consider KD tree or other spatial search.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">xyz_in_starts</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">starts</span><span class="p">:</span> <span class="n">Set</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Check if the point is in the list of starting points.&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="n">starts</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># TODO: Put this in a math.* module.</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">thetas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">phis</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">theta</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">ntheta</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">phi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">nphi</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">atom_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">atom_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">atom_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+                <span class="n">thetas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+                <span class="n">phis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">pts</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span>
+        <span class="n">phis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">phis</span><span class="p">)</span>
+
+        <span class="c1"># Keep track of the xyz start points and if one is already in the list, skip it.</span>
+        <span class="n">xyz_starts</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="c1"># TODO: If ncores &gt; 1, use multiprocessing to speed this up.</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">start_pos</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">thetas</span><span class="p">,</span> <span class="n">phis</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">start_pos</span>
+
+            <span class="c1"># Check if this point is already in the list.</span>
+            <span class="k">if</span> <span class="n">xyz_in_starts</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">xyz_starts</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">xyz_starts</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+            <span class="n">point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_bader_surface_point</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">max_distance</span><span class="p">,</span> <span class="n">step_size</span><span class="p">,</span> <span class="n">tol</span>
+            <span class="p">)</span>
+            <span class="n">surface</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">point</span>
+            <span class="n">thetas</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+            <span class="n">phis</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">surface</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">thetas</span><span class="p">,</span> <span class="n">phis</span><span class="p">,</span> <span class="n">surface</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_bader_surface_point</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">max_distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find a point on the Bader Surface.</span>
+
+<span class="sd">        Starts at a given position and moves away from the atom in the direction of (theta, phi)</span>
+<span class="sd">        starting at a radius &#39;radius&#39; away from the atom. This is accomplished by stepping away</span>
+<span class="sd">        from the atom and continually tracing the gradient. Once it finds a different atom, it</span>
+<span class="sd">        has two points (point and last_point) which are on either side of the Bader surface. It then</span>
+<span class="sd">        continues to refine these two points until they are a distance of &#39;tol&#39; apart.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            start_pos: Starting position to search from.</span>
+<span class="sd">            radius: The initial radial distance away from the atom.</span>
+<span class="sd">            theta: The theta value of the starting position.</span>
+<span class="sd">            phi: The phi value of the starting position.</span>
+<span class="sd">            max_distance: The max distance (in Bohr) from the atom to find a point on the surface.</span>
+<span class="sd">            step_size: The step size to take when searching for the surface.</span>
+<span class="sd">            tol: The tolerance to use when searching for the surface.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            point: The point on the Bader Surface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">point</span> <span class="o">=</span> <span class="n">start_pos</span>
+
+        <span class="c1"># Get this atom name and position by finding the closest atom to the start position.</span>
+        <span class="n">this_atom_name</span><span class="p">,</span> <span class="n">this_atom_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_gradient_to_atom</span><span class="p">(</span>
+            <span class="n">start_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">start_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">start_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Continue to step away from the atom until the gradient trace finds a different atom.</span>
+        <span class="n">last_point</span> <span class="o">=</span> <span class="n">point</span>
+        <span class="n">_atom_name</span> <span class="o">=</span> <span class="n">this_atom_name</span>
+        <span class="k">while</span> <span class="n">_atom_name</span> <span class="o">==</span> <span class="n">this_atom_name</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="n">max_distance</span><span class="p">:</span>
+            <span class="n">_atom_name</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_gradient_to_atom</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">last_point</span> <span class="o">=</span> <span class="n">point</span>
+            <span class="c1"># If we did not find &#39;this atom&#39; then we have crossed the Bader surface. In this case</span>
+            <span class="c1"># we increment the point a distnace of &#39;step_size&#39; in the direction of (theta, phi).</span>
+            <span class="k">if</span> <span class="n">_atom_name</span> <span class="o">==</span> <span class="n">this_atom_name</span><span class="p">:</span>
+                <span class="n">radius</span> <span class="o">+=</span> <span class="n">step_size</span>
+                <span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">this_atom_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span>
+                        <span class="n">this_atom_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span>
+                        <span class="n">this_atom_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;=</span> <span class="n">max_distance</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">point</span>
+
+        <span class="c1"># Since we have found a different atom, we need to step back towards the atom until we find.</span>
+        <span class="n">radius</span> <span class="o">-=</span> <span class="n">step_size</span>
+        <span class="n">last_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">this_atom_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span>
+                <span class="n">this_atom_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span>
+                <span class="n">this_atom_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Now we must search between point and last_point to find the Bader surface unti othe distance</span>
+        <span class="c1"># between the two points is less than &#39;tol&#39;.</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point</span> <span class="o">-</span> <span class="n">last_point</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="n">midpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">point</span> <span class="o">+</span> <span class="n">last_point</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">_atom_name</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_gradient_to_atom</span><span class="p">(</span><span class="n">midpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">midpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">midpoint</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">_atom_name</span> <span class="o">==</span> <span class="n">this_atom_name</span><span class="p">:</span>
+                <span class="n">last_point</span> <span class="o">=</span> <span class="n">midpoint</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">point</span> <span class="o">=</span> <span class="n">midpoint</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">point</span>
+
+<div class="viewcode-block" id="EDRep.trace_gradient_to_atom">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.trace_gradient_to_atom">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trace_gradient_to_atom</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span>
+        <span class="n">step_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trace the gradient of the ED to an atom.</span>
+
+<span class="sd">        Perform this by using scipy.optimize.minimize to find the location where the gradient is</span>
+<span class="sd">        zero but the electron density (rho) is maximized.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x, y, z: Cartesian points in global space.</span>
+<span class="sd">            method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)</span>
+<span class="sd">            step_limit: Maximum distance to move in one step.</span>
+<span class="sd">            max_iter: Maximum number of iterations to perform.</span>
+<span class="sd">            tol: Distance from the atom at which to stop searching. If tol is zero, stop when</span>
+<span class="sd">                objective is minimized as normal.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            atom_name: Name of the atom found.</span>
+<span class="sd">            atom_position: Position of the atom found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">class</span><span class="w"> </span><span class="nc">EarlyStop</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">point</span> <span class="o">=</span> <span class="n">point</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c1"># FIXME: Add something (a callable) to allow for the search to stop within a distance of</span>
+        <span class="c1"># &#39;distance&#39; from any atom found.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">early_stop</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">for</span> <span class="n">iat</span><span class="p">,</span> <span class="n">atpos</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atpos</span><span class="p">):</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atpos</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;=</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">tol</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;[!] Early stopping near atom </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atnames</span><span class="p">[</span><span class="n">iat</span><span class="p">]</span><span class="si">}</span><span class="s2"> at distance </span><span class="si">{</span><span class="n">distance</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">EarlyStop</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">dbg_callback</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Callback method to track points.&quot;&quot;&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">],&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">callback</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Dummy callback&quot;&quot;&quot;</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown method: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">current_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+            <span class="c1"># Build a trust region box around the point</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">current_point</span> <span class="o">-</span> <span class="n">step_limit</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">current_point</span> <span class="o">+</span> <span class="n">step_limit</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+                <span class="n">fun</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span>
+                <span class="n">x0</span><span class="o">=</span><span class="n">current_point</span><span class="p">,</span>
+                <span class="n">jac</span><span class="o">=</span><span class="n">grad</span><span class="p">,</span>
+                <span class="n">bounds</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">new_point</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">new_point</span> <span class="o">-</span> <span class="n">current_point</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+                <span class="n">found_position</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="k">break</span>
+
+            <span class="n">current_point</span> <span class="o">=</span> <span class="n">new_point</span>
+
+        <span class="c1"># Find the atom position (atpos) which is closest to the atom found.</span>
+        <span class="n">atom_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">atom_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">atom_distance</span> <span class="o">=</span> <span class="mf">1e6</span>
+        <span class="k">for</span> <span class="n">iat</span><span class="p">,</span> <span class="n">atpos</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atpos</span><span class="p">):</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atpos</span> <span class="o">-</span> <span class="n">found_position</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">atom_distance</span><span class="p">:</span>
+                <span class="n">atom_distance</span> <span class="o">=</span> <span class="n">distance</span>
+                <span class="n">atom_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atnames</span><span class="p">[</span><span class="n">iat</span><span class="p">]</span>
+                <span class="n">atom_position</span> <span class="o">=</span> <span class="n">atpos</span>
+
+        <span class="k">return</span> <span class="n">atom_name</span><span class="p">,</span> <span class="n">atom_position</span></div>
+
+
+<div class="viewcode-block" id="EDRep.bcp">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.bcp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;BFGS&quot;</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-7</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the BCP at a point.</span>
+
+<span class="sd">        Given a starting value of x, y, z, find the Bond Critical Point which has properties of:</span>
+<span class="sd">            - Being a local minima in the gradient field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x, y, z: Cartesian points in global space.</span>
+<span class="sd">            method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)</span>
+<span class="sd">            tol: Tolerance for the optimization.</span>
+
+<span class="sd">        Returns: Array of 3 elements: x, y, z</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">intermediate_points</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])]</span>
+
+        <span class="c1"># Callback method to track points.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">callback</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="n">intermediate_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="c1"># Objective function to minimize.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="n">bcp</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+            <span class="n">fun</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]),</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bcp</span><span class="p">,</span> <span class="n">intermediate_points</span></div>
+
+
+<div class="viewcode-block" id="EDRep.find_bcps">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.edrep.EDRep.find_bcps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_bcps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_pt_distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-7</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find all BCPs in the system.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_pt_distance: Max distance to allow from a BPC to the line connecting two atoms.</span>
+<span class="sd">            tol: Tolerance for the optimization.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bcps: List of BCPs found.</span>
+<span class="sd">            bond_pairs: List of bond pairs found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bcps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">bond_pairs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">intermediate_points</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">iat</span><span class="p">,</span> <span class="p">(</span><span class="n">iat_name</span><span class="p">,</span> <span class="n">iat_pos</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atnames</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">atpos</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">jat_name</span><span class="p">,</span> <span class="n">jat_pos</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atnames</span><span class="p">[</span><span class="n">iat</span><span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">atpos</span><span class="p">[</span><span class="n">iat</span><span class="p">:]):</span>
+                <span class="k">if</span> <span class="n">iat_name</span> <span class="o">==</span> <span class="n">jat_name</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># TODO: Check distance between nuclei and see if this is reasonable for a bond.</span>
+
+                <span class="c1"># Get starting position for BCP.</span>
+                <span class="n">start_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">iat_pos</span> <span class="o">+</span> <span class="n">jat_pos</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+                <span class="c1"># Find the BCP from the starting position.</span>
+                <span class="n">bcp</span><span class="p">,</span> <span class="n">_pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bcp</span><span class="p">(</span><span class="n">start_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">start_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">start_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+                <span class="c1"># TODO: Check distance between BCP and nuclei and see if this is reasonable.</span>
+
+                <span class="c1"># Get the distance from bcp.x to the line connecting the two atoms.</span>
+                <span class="n">bcp_dist</span> <span class="o">=</span> <span class="n">distance_from_point_to_line</span><span class="p">(</span><span class="n">bcp</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">iat_pos</span><span class="p">,</span> <span class="n">jat_pos</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">bcp_dist</span> <span class="o">&gt;</span> <span class="n">max_pt_distance</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">at1_name</span><span class="p">,</span> <span class="n">at2_name</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">iat_name</span><span class="p">,</span> <span class="n">jat_name</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">iat_name</span><span class="p">,</span> <span class="n">jat_name</span><span class="p">)</span>
+
+                <span class="c1"># If we have already found this bond pair, skip it.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">at1_name</span><span class="p">,</span> <span class="n">at2_name</span><span class="p">)</span> <span class="ow">in</span> <span class="n">bond_pairs</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="k">continue</span>
+
+                <span class="n">bond_pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">at1_name</span><span class="p">,</span> <span class="n">at2_name</span><span class="p">))</span>
+                <span class="n">bcps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bcp</span><span class="p">)</span>
+                <span class="n">intermediate_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_pts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bcps</span><span class="p">,</span> <span class="n">bond_pairs</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tst</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+    <span class="c1"># pylint: disable=all</span>
+    <span class="c1"># This is a test area for validating work above.</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.edwfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDWfn</span>
+
+    <span class="c1"># Get one or more input files.</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Test wfn reading.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--input&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input wfn file(s)&quot;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">wfn_file</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">input</span>
+
+    <span class="n">edwfn</span> <span class="o">=</span> <span class="n">EDWfn</span><span class="p">(</span><span class="n">wfn_file</span><span class="p">)</span>
+
+    <span class="n">surface</span> <span class="o">=</span> <span class="n">edwfn</span><span class="o">.</span><span class="n">bader_surface_of_atom</span><span class="p">(</span>
+        <span class="s2">&quot;C2&quot;</span><span class="p">,</span>
+        <span class="n">ntheta</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">nphi</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">starting_radius</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">max_distance</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+        <span class="n">step_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">_tst</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">aided</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

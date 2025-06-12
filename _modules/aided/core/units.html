@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aided.core.units &#8212; aided  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for aided.core.units</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">aided.core.units</span>
+
+<span class="sd">Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">np_pi</span>
+
+
+<span class="c1"># fmt: off</span>
+<div class="viewcode-block" id="Units">
+<a class="viewcode-back" href="../../../aided.core.html#aided.core.units.Units">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Units</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Units to use for distance / properties.</span>
+<span class="sd">        - BOHR = au : Used internally for all calculations.</span>
+<span class="sd">        - ANGSTROM = 10e-10 : Optionally can be read in or printed out in this format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Atomic Units</span>
+    <span class="n">BOHR</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Angstrom</span>
+    <span class="n">ANG</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<span class="c1"># Physical constants</span>
+<span class="n">HBAR</span> <span class="o">=</span> <span class="mf">1.054_571_817e-34</span>     <span class="c1"># Reduced Planck constant, J·s</span>
+<span class="n">KB</span>   <span class="o">=</span> <span class="mf">1.380_649e-23</span>         <span class="c1"># Boltzmann constant, J/K</span>
+<span class="n">C_CM_S</span> <span class="o">=</span> <span class="mf">2.997_924_58e10</span>     <span class="c1"># Speed of light, cm/s</span>
+<span class="n">AMU</span>  <span class="o">=</span> <span class="mf">1.660_539_066_60e-27</span>  <span class="c1"># Atomic mass unit, kg</span>
+
+<span class="c1"># Conversion factors</span>
+<span class="n">AU_TO_ANG</span> <span class="o">=</span> <span class="mf">0.52917721090380</span>     <span class="c1"># Bohr to Angstrom conversion</span>
+<span class="n">ANG_TO_AU</span> <span class="o">=</span> <span class="mf">1.88972612545782</span>     <span class="c1"># Angstrom to Bohr conversion</span>
+<span class="n">ANG_TO_M</span>  <span class="o">=</span> <span class="mf">1e-10</span>                <span class="c1"># Angstrom to meter conversion</span>
+<span class="n">AMU_TO_KG</span> <span class="o">=</span> <span class="mf">1.660_539_066_60e-27</span> <span class="c1"># Atomic mass unit to kg conversion</span>
+<span class="n">ANG2_TO_M2</span> <span class="o">=</span> <span class="mf">1e-20</span>               <span class="c1"># Angstrom squared to meter squared conversion</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># ************************************************************************** ###</span>
+<span class="c1"># ***             Conversion factors used in PhD work.                   *** ###</span>
+<span class="c1"># ************************************************************************** ###</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># NOTE: This section was generated with extensive conversations with ChatGPT ###</span>
+<span class="c1"># to assist in descriptively documenting the derivations of these constants. ###</span>
+<span class="c1"># from my PhD work. The comments are verbose to ensure clarity.              ###</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="c1"># &quot;aa&quot;  –  converts the exact coth argument  ħ ω / 2kₑT</span>
+<span class="c1">#          into the format  AA · ν / T  used by Gaussian</span>
+<span class="c1">#          ( ν in cm⁻¹, T in kelvin ).</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="c1"># Step-by-step transformation:</span>
+<span class="c1">#</span>
+<span class="c1">#   ω  (rad·s⁻¹)        →  2π c ν              (insert 2π and speed of light)</span>
+<span class="c1">#   ħω / 2kᴮT           replace ω              (introduce ν)</span>
+<span class="c1">#   ↓</span>
+<span class="c1">#   (ħ π c / kᴮ) · ν/T</span>
+<span class="c1">#</span>
+<span class="c1"># Everything in brackets is a **constant with units cm·K**.</span>
+<span class="n">THERM_FACTOR_CM_K</span> <span class="o">=</span> <span class="n">HBAR</span> <span class="o">*</span> <span class="n">np_pi</span> <span class="o">*</span> <span class="n">C_CM_S</span> <span class="o">/</span> <span class="n">KB</span>   <span class="c1"># 0.719385043 …  cm·K</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="c1"># &quot;BB&quot;  –  gathers all unit factors in the zero-point prefactor</span>
+<span class="c1">#          [ħ / (2ω)] / μ  and expresses it in</span>
+<span class="c1">#          Å² · cm · amu   (Gaussian’s favourite mix).</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="c1"># Pieces to include:</span>
+<span class="c1">#</span>
+<span class="c1">#   1) ħ / (2ω)                – SI     (J·s / s⁻¹  =  J)</span>
+<span class="c1">#          → divide by (2π c ν) to replace ω with ν  (cm⁻¹)</span>
+<span class="c1">#</span>
+<span class="c1">#   2) convert   J  →  Å²·kg·cm⁻²·s⁻²</span>
+<span class="c1">#          – multiply by   1 / (1 Å² in m²)          (× 10²⁰)</span>
+<span class="c1">#</span>
+<span class="c1">#   3) divide by the reduced mass μ_s **in amu**</span>
+<span class="c1">#          – so multiply by  1 / AMU_TO_KG</span>
+<span class="c1">#</span>
+<span class="c1"># The constant part emerging from (1)…(3) is:</span>
+<span class="n">ZPE_PREF_ANG2</span> <span class="o">=</span> <span class="p">(</span>
+      <span class="n">HBAR</span>                              <span class="c1"># ħ</span>
+    <span class="o">/</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">np_pi</span> <span class="o">*</span> <span class="n">C_CM_S</span><span class="p">)</span>            <span class="c1"># 1 / (2 ω) with ω = 2π c ν</span>
+    <span class="o">/</span> <span class="n">AMU_TO_KG</span>                         <span class="c1"># kg  →  amu</span>
+    <span class="o">/</span> <span class="n">ANG2_TO_M2</span>                        <span class="c1"># m²  →  Å²</span>
+<span class="p">)</span>
+<span class="c1"># numeric value: 16.857629181311183  Å²·cm·amu</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">aided</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

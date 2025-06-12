@@ -1,0 +1,37 @@
+aided.io package
+================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.io.vib
+
+Submodules
+----------
+
+aided.io.read\_wfn module
+-------------------------
+
+.. automodule:: aided.io.read_wfn
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.io.utils module
+---------------------
+
+.. automodule:: aided.io.utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: aided.io
+   :members:
+   :show-inheritance:
+   :undoc-members:

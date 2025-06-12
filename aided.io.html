@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>aided.io package &#8212; aided  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="aided-io-package">
+<h1>aided.io package<a class="headerlink" href="#aided-io-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="aided.io.vib.html">aided.io.vib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#aided-io-vib-factory-module">aided.io.vib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#aided-io-vib-gaussian-module">aided.io.vib.gaussian module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#aided-io-vib-log-reader-module">aided.io.vib.log_reader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#aided-io-vib-reader-module">aided.io.vib.reader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#aided-io-vib-writer-module">aided.io.vib.writer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.vib.html#module-aided.io.vib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-aided.io.read_wfn">
+<span id="aided-io-read-wfn-module"></span><h2>aided.io.read_wfn module<a class="headerlink" href="#module-aided.io.read_wfn" title="Link to this heading">¶</a></h2>
+<p>aided.io.read_wfn</p>
+<p>Read AIMfile WFN representation files. This reads it in both single file mode and also a batch of
+files which it then returns as WFNRep or WFNsRep, respectively.</p>
+<p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.io.read_wfn.read_wfn_file">
+<span class="sig-prename descclassname"><span class="pre">aided.io.read_wfn.</span></span><span class="sig-name descname"><span class="pre">read_wfn_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided.core.wfn.html#aided.core.wfn.wfn_rep.WFNRep" title="aided.core.wfn.wfn_rep.WFNRep"><span class="pre">WFNRep</span></a></span></span><a class="reference internal" href="_modules/aided/io/read_wfn.html#read_wfn_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.read_wfn.read_wfn_file" title="Link to this definition">¶</a></dt>
+<dd><p>Read all of the parameters needed for a WFNRep from a .wfn file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>wfn_file</strong> – .wfn file representing an AIM file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A wfn representation as a dataclass representation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>wfn_rep</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.io.read_wfn.read_wfn_files">
+<span class="sig-prename descclassname"><span class="pre">aided.io.read_wfn.</span></span><span class="sig-name descname"><span class="pre">read_wfn_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nprocs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided.core.wfn.html#aided.core.wfn.wfns_rep.WFNsRep" title="aided.core.wfn.wfns_rep.WFNsRep"><span class="pre">WFNsRep</span></a></span></span><a class="reference internal" href="_modules/aided/io/read_wfn.html#read_wfn_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.read_wfn.read_wfn_files" title="Link to this definition">¶</a></dt>
+<dd><p>Read all of the parameters needed for a WFNRep from a .wfn file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wfn_files</strong> – A list of .wfn files representing an AIM file.</p></li>
+<li><p><strong>nprocs</strong> – Number of processors to read with.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A representation of multiple wfns as a dataclass</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>wfns_rep</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-aided.io.utils">
+<span id="aided-io-utils-module"></span><h2>aided.io.utils module<a class="headerlink" href="#module-aided.io.utils" title="Link to this heading">¶</a></h2>
+<p>aided.io.utils</p>
+<p>Utility functions to use for File I/O.</p>
+<p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.io.utils.convert_scientific_notation">
+<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">convert_scientific_notation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/utils.html#convert_scientific_notation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.convert_scientific_notation" title="Link to this definition">¶</a></dt>
+<dd><p>Converts scientific notation from ‘D’ to ‘E’ in a list of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_lines</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Each string represents a line of space-separated values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The the modified lines with ‘D’ replaced by ‘E’ in scientific notation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>result (List[str])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.io.utils.get_edrep_type_by_file_extention">
+<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">get_edrep_type_by_file_extention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided.core.html#aided.core.edrep.EDRepType" title="aided.core.edrep.EDRepType"><span class="pre">EDRepType</span></a></span></span><a class="reference internal" href="_modules/aided/io/utils.html#get_edrep_type_by_file_extention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.get_edrep_type_by_file_extention" title="Link to this definition">¶</a></dt>
+<dd><p>Get the EDRep type based on file extention alone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>str</em>) – The name of the file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The electron density represenation type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="aided.core.html#aided.core.edrep.EDRepType" title="aided.core.edrep.EDRepType">EDRepType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="aided.io.utils.is_number">
+<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">is_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/aided/io/utils.html#is_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.is_number" title="Link to this definition">¶</a></dt>
+<dd><p>Check if a string is a number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – The string to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the string is a number, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-aided.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aided.io" title="Link to this heading">¶</a></h2>
+<p>aided.fio</p>
+<p>File Input Output methods.</p>
+<p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">aided</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/aided.io.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

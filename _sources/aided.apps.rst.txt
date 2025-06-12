@@ -1,0 +1,18 @@
+aided.apps package
+==================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aided.apps.create_msda
+
+Module contents
+---------------
+
+.. automodule:: aided.apps
+   :members:
+   :show-inheritance:
+   :undoc-members:

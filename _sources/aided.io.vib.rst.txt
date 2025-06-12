@@ -1,0 +1,53 @@
+aided.io.vib package
+====================
+
+Submodules
+----------
+
+aided.io.vib.factory module
+---------------------------
+
+.. automodule:: aided.io.vib.factory
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.io.vib.gaussian module
+----------------------------
+
+.. automodule:: aided.io.vib.gaussian
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.io.vib.log\_reader module
+-------------------------------
+
+.. automodule:: aided.io.vib.log_reader
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.io.vib.reader module
+--------------------------
+
+.. automodule:: aided.io.vib.reader
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.io.vib.writer module
+--------------------------
+
+.. automodule:: aided.io.vib.writer
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: aided.io.vib
+   :members:
+   :show-inheritance:
+   :undoc-members:
