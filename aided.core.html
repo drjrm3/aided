@@ -1,40 +1,146 @@
+
+
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en" data-content_root="./">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aided.core package &mdash; aided  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
-    <title>aided.core package &#8212; aided  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
-    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
 
-  
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="index.html" class="icon icon-home">
+            aided
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">aided.core package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-aided.core.edrep">aided.core.edrep module</a><ul>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep"><code class="docutils literal notranslate"><span class="pre">EDRep</span></code></a><ul>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.atnames"><code class="docutils literal notranslate"><span class="pre">EDRep.atnames</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.atpos"><code class="docutils literal notranslate"><span class="pre">EDRep.atpos</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.bader_surface_of_atom"><code class="docutils literal notranslate"><span class="pre">EDRep.bader_surface_of_atom()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.bcp"><code class="docutils literal notranslate"><span class="pre">EDRep.bcp()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.find_bcps"><code class="docutils literal notranslate"><span class="pre">EDRep.find_bcps()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.grad"><code class="docutils literal notranslate"><span class="pre">EDRep.grad()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.hess"><code class="docutils literal notranslate"><span class="pre">EDRep.hess()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.in_au"><code class="docutils literal notranslate"><span class="pre">EDRep.in_au</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.read_msda_matrix"><code class="docutils literal notranslate"><span class="pre">EDRep.read_msda_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.read_vib_file"><code class="docutils literal notranslate"><span class="pre">EDRep.read_vib_file()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.rho"><code class="docutils literal notranslate"><span class="pre">EDRep.rho()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.trace_gradient_to_atom"><code class="docutils literal notranslate"><span class="pre">EDRep.trace_gradient_to_atom()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRep.units"><code class="docutils literal notranslate"><span class="pre">EDRep.units</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRepType"><code class="docutils literal notranslate"><span class="pre">EDRepType</span></code></a><ul>
+<li><a class="reference internal" href="#aided.core.edrep.EDRepType.NRDF"><code class="docutils literal notranslate"><span class="pre">EDRepType.NRDF</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRepType.RDF"><code class="docutils literal notranslate"><span class="pre">EDRepType.RDF</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edrep.EDRepType.WFN"><code class="docutils literal notranslate"><span class="pre">EDRepType.WFN</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.core.edwfn">aided.core.edwfn module</a><ul>
+<li><a class="reference internal" href="#aided.core.edwfn.EDWfn"><code class="docutils literal notranslate"><span class="pre">EDWfn</span></code></a><ul>
+<li><a class="reference internal" href="#aided.core.edwfn.EDWfn.atnames"><code class="docutils literal notranslate"><span class="pre">EDWfn.atnames</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfn.EDWfn.atpos"><code class="docutils literal notranslate"><span class="pre">EDWfn.atpos</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfn.EDWfn.grad"><code class="docutils literal notranslate"><span class="pre">EDWfn.grad()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfn.EDWfn.hess"><code class="docutils literal notranslate"><span class="pre">EDWfn.hess()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfn.EDWfn.rho"><code class="docutils literal notranslate"><span class="pre">EDWfn.rho()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aided.core.edwfn.numba_grad"><code class="docutils literal notranslate"><span class="pre">numba_grad()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfn.numba_hess"><code class="docutils literal notranslate"><span class="pre">numba_hess()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfn.numba_rho"><code class="docutils literal notranslate"><span class="pre">numba_rho()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.core.edwfns">aided.core.edwfns module</a><ul>
+<li><a class="reference internal" href="#aided.core.edwfns.EDWfns"><code class="docutils literal notranslate"><span class="pre">EDWfns</span></code></a><ul>
+<li><a class="reference internal" href="#aided.core.edwfns.EDWfns.atnames"><code class="docutils literal notranslate"><span class="pre">EDWfns.atnames</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfns.EDWfns.atpos"><code class="docutils literal notranslate"><span class="pre">EDWfns.atpos</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfns.EDWfns.grad"><code class="docutils literal notranslate"><span class="pre">EDWfns.grad()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfns.EDWfns.hess"><code class="docutils literal notranslate"><span class="pre">EDWfns.hess()</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.edwfns.EDWfns.rho"><code class="docutils literal notranslate"><span class="pre">EDWfns.rho()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aided.core.edwfns.compute_hessian_batch"><code class="docutils literal notranslate"><span class="pre">compute_hessian_batch()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.core.units">aided.core.units module</a><ul>
+<li><a class="reference internal" href="#aided.core.units.Units"><code class="docutils literal notranslate"><span class="pre">Units</span></code></a><ul>
+<li><a class="reference internal" href="#aided.core.units.Units.ANG"><code class="docutils literal notranslate"><span class="pre">Units.ANG</span></code></a></li>
+<li><a class="reference internal" href="#aided.core.units.Units.BOHR"><code class="docutils literal notranslate"><span class="pre">Units.BOHR</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.core.utils">aided.core.utils module</a><ul>
+<li><a class="reference internal" href="#aided.core.utils.split_work"><code class="docutils literal notranslate"><span class="pre">split_work()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.core">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
 
-          <div class="body" role="main">
-            
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">aided</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">aided.core package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/aided.core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="aided-core-package">
-<h1>aided.core package<a class="headerlink" href="#aided-core-package" title="Link to this heading">¶</a></h1>
+<h1>aided.core package<a class="headerlink" href="#aided-core-package" title="Link to this heading"></a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a><ul>
@@ -75,16 +181,16 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
 <section id="module-aided.core.edrep">
-<span id="aided-core-edrep-module"></span><h2>aided.core.edrep module<a class="headerlink" href="#module-aided.core.edrep" title="Link to this heading">¶</a></h2>
+<span id="aided-core-edrep-module"></span><h2>aided.core.edrep module<a class="headerlink" href="#module-aided.core.edrep" title="Link to this heading"></a></h2>
 <p>aided.core.EDRep</p>
 <p>Electron Density Representation abstract class.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edrep.</span></span><span class="sig-name descname"><span class="pre">EDRep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edrep.</span></span><span class="sig-name descname"><span class="pre">EDRep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Electron Density Representation.</p>
 <p>High level class which represents the information needed to express the ED but is abstracted
@@ -97,17 +203,17 @@ away from the type of file.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.atnames">
-<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edrep.EDRep.atnames" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edrep.EDRep.atnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.atpos">
-<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atpos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edrep.EDRep.atpos" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atpos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edrep.EDRep.atpos" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.bader_surface_of_atom">
-<span class="sig-name descname"><span class="pre">bader_surface_of_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntheta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starting_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.bader_surface_of_atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.bader_surface_of_atom" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bader_surface_of_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntheta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starting_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.bader_surface_of_atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.bader_surface_of_atom" title="Link to this definition"></a></dt>
 <dd><p>Generate a Bader Surface for an atom.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -135,7 +241,7 @@ bader_surface: Numpy array of points on the surface.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.bcp">
-<span class="sig-name descname"><span class="pre">bcp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'BFGS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-07</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.bcp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.bcp" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bcp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'BFGS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-07</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.bcp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.bcp" title="Link to this definition"></a></dt>
 <dd><p>Find the BCP at a point.</p>
 <dl class="simple">
 <dt>Given a starting value of x, y, z, find the Bond Critical Point which has properties of:</dt><dd><ul class="simple">
@@ -159,7 +265,7 @@ bader_surface: Numpy array of points on the surface.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.find_bcps">
-<span class="sig-name descname"><span class="pre">find_bcps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_pt_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.find_bcps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.find_bcps" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">find_bcps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_pt_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.find_bcps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.find_bcps" title="Link to this definition"></a></dt>
 <dd><p>Find all BCPs in the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -180,7 +286,7 @@ bond_pairs: List of bond pairs found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.grad">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.grad" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.grad" title="Link to this definition"></a></dt>
 <dd><p>Generate the Gradient of the ED at a point.</p>
 <p>Args: Cartesian points in global space.</p>
 <p>Returns: Array of 3 elements: dx, dy, dz</p>
@@ -188,7 +294,7 @@ bond_pairs: List of bond pairs found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.hess">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.hess" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.hess" title="Link to this definition"></a></dt>
 <dd><p>Generate the Hessian of the ED at a point.</p>
 <p>Args: Cartesian points in global space.</p>
 <p>Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.</p>
@@ -196,25 +302,25 @@ bond_pairs: List of bond pairs found.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.in_au">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">in_au</span></span><a class="headerlink" href="#aided.core.edrep.EDRep.in_au" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">in_au</span></span><a class="headerlink" href="#aided.core.edrep.EDRep.in_au" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.read_msda_matrix">
-<span class="sig-name descname"><span class="pre">read_msda_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msda_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.read_msda_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.read_msda_matrix" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">read_msda_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msda_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.read_msda_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.read_msda_matrix" title="Link to this definition"></a></dt>
 <dd><p>Read the MSDA matrix from a file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.read_vib_file">
-<span class="sig-name descname"><span class="pre">read_vib_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.read_vib_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.read_vib_file" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">read_vib_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.read_vib_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.read_vib_file" title="Link to this definition"></a></dt>
 <dd><p>Read the log file from the optimization procedure.</p>
 <p>Expected to include sufficient information to generate the MSDA.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.rho">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.rho" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.rho" title="Link to this definition"></a></dt>
 <dd><p>Generate the ED at a point.</p>
 <p>Args: Cartesian points in global space.</p>
 <p>Returns: Value of ED in chosen units.</p>
@@ -222,7 +328,7 @@ bond_pairs: List of bond pairs found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.trace_gradient_to_atom">
-<span class="sig-name descname"><span class="pre">trace_gradient_to_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'L-BFGS-B'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.trace_gradient_to_atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.trace_gradient_to_atom" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">trace_gradient_to_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'L-BFGS-B'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRep.trace_gradient_to_atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.trace_gradient_to_atom" title="Link to this definition"></a></dt>
 <dd><p>Trace the gradient of the ED to an atom.</p>
 <p>Perform this by using scipy.optimize.minimize to find the location where the gradient is
 zero but the electron density (rho) is maximized.</p>
@@ -251,56 +357,56 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.units">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">units</span></span><a class="headerlink" href="#aided.core.edrep.EDRep.units" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">units</span></span><a class="headerlink" href="#aided.core.edrep.EDRep.units" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRepType">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edrep.</span></span><span class="sig-name descname"><span class="pre">EDRepType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRepType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRepType" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edrep.</span></span><span class="sig-name descname"><span class="pre">EDRepType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edrep.html#EDRepType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRepType" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRepType.NRDF">
-<span class="sig-name descname"><span class="pre">NRDF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#aided.core.edrep.EDRepType.NRDF" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">NRDF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#aided.core.edrep.EDRepType.NRDF" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRepType.RDF">
-<span class="sig-name descname"><span class="pre">RDF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#aided.core.edrep.EDRepType.RDF" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">RDF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#aided.core.edrep.EDRepType.RDF" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="aided.core.edrep.EDRepType.WFN">
-<span class="sig-name descname"><span class="pre">WFN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#aided.core.edrep.EDRepType.WFN" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">WFN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#aided.core.edrep.EDRepType.WFN" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-aided.core.edwfn">
-<span id="aided-core-edwfn-module"></span><h2>aided.core.edwfn module<a class="headerlink" href="#module-aided.core.edwfn" title="Link to this heading">¶</a></h2>
+<span id="aided-core-edwfn-module"></span><h2>aided.core.edwfn module<a class="headerlink" href="#module-aided.core.edwfn" title="Link to this heading"></a></h2>
 <p>aided.core.edwfn</p>
 <p>Electron Density Manfestation abstract class.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.core.edwfn.EDWfn">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">EDWfn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">EDWfn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#aided.core.edrep.EDRep" title="aided.core.edrep.EDRep"><code class="xref py py-class docutils literal notranslate"><span class="pre">EDRep</span></code></a></p>
 <p>Electron Density Representation from a single .wfn file.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edwfn.EDWfn.atnames">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atnames</span></span><a class="headerlink" href="#aided.core.edwfn.EDWfn.atnames" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atnames</span></span><a class="headerlink" href="#aided.core.edwfn.EDWfn.atnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edwfn.EDWfn.atpos">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atpos</span></span><a class="headerlink" href="#aided.core.edwfn.EDWfn.atpos" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atpos</span></span><a class="headerlink" href="#aided.core.edwfn.EDWfn.atpos" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edwfn.EDWfn.grad">
-<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn.grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn.grad" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn.grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn.grad" title="Link to this definition"></a></dt>
 <dd><p>Generate the Gradient of the ED at a point.</p>
 <p>Args: Cartesian points in global space.</p>
 <p>Returns: Array of 3 elements: dx, dy, dz</p>
@@ -308,7 +414,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edwfn.EDWfn.hess">
-<span class="sig-name descname"><span class="pre">hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn.hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn.hess" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn.hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn.hess" title="Link to this definition"></a></dt>
 <dd><p>Generate the Hessian of the ED at a point.</p>
 <p>Args: Cartesian points in global space.</p>
 <p>Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.</p>
@@ -316,7 +422,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edwfn.EDWfn.rho">
-<span class="sig-name descname"><span class="pre">rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn.rho" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#EDWfn.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.EDWfn.rho" title="Link to this definition"></a></dt>
 <dd><p>Generate the ED at a point.</p>
 <p>Args: Cartesian points in global space.</p>
 <p>Returns: Value of ED in chosen units.</p>
@@ -326,7 +432,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.core.edwfn.numba_grad">
-<span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">numba_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#numba_grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.numba_grad" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">numba_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#numba_grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.numba_grad" title="Link to this definition"></a></dt>
 <dd><p>Compute the gradient using numba</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -344,7 +450,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.core.edwfn.numba_hess">
-<span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">numba_hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#numba_hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.numba_hess" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">numba_hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#numba_hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.numba_hess" title="Link to this definition"></a></dt>
 <dd><p>Compute the hessian using numba</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -363,7 +469,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.core.edwfn.numba_rho">
-<span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">numba_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#numba_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.numba_rho" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.core.edwfn.</span></span><span class="sig-name descname"><span class="pre">numba_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edwfn.html#numba_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfn.numba_rho" title="Link to this definition"></a></dt>
 <dd><p>Compute the density using numba</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -380,28 +486,28 @@ atom_position: Position of the atom found.</p>
 
 </section>
 <section id="module-aided.core.edwfns">
-<span id="aided-core-edwfns-module"></span><h2>aided.core.edwfns module<a class="headerlink" href="#module-aided.core.edwfns" title="Link to this heading">¶</a></h2>
+<span id="aided-core-edwfns-module"></span><h2>aided.core.edwfns module<a class="headerlink" href="#module-aided.core.edwfns" title="Link to this heading"></a></h2>
 <p>aided.core.edwfns</p>
 <p>Electron Density Representations from .wfn files.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.core.edwfns.EDWfns">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edwfns.</span></span><span class="sig-name descname"><span class="pre">EDWfns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_procs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.edwfns.</span></span><span class="sig-name descname"><span class="pre">EDWfns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_procs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#aided.core.edrep.EDRep" title="aided.core.edrep.EDRep"><code class="xref py py-class docutils literal notranslate"><span class="pre">EDRep</span></code></a></p>
 <p>Electron Density Representation from multiple .wfn file.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edwfns.EDWfns.atnames">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edwfns.EDWfns.atnames" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edwfns.EDWfns.atnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.core.edwfns.EDWfns.atpos">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atpos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edwfns.EDWfns.atpos" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atpos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#aided.core.edwfns.EDWfns.atpos" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edwfns.EDWfns.grad">
-<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns.grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns.grad" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns.grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns.grad" title="Link to this definition"></a></dt>
 <dd><p>Generate the Gradient of the ED at a point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -417,7 +523,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edwfns.EDWfns.hess">
-<span class="sig-name descname"><span class="pre">hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns.hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns.hess" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns.hess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns.hess" title="Link to this definition"></a></dt>
 <dd><p>Generate the Hessian of the ED at a point.</p>
 <p>This function can be very memory intensive, so delete partial computations.</p>
 <dl class="field-list simple">
@@ -435,7 +541,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.core.edwfns.EDWfns.rho">
-<span class="sig-name descname"><span class="pre">rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns.rho" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#EDWfns.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.EDWfns.rho" title="Link to this definition"></a></dt>
 <dd><p>Generate the ED at a point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -453,7 +559,7 @@ atom_position: Position of the atom found.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.core.edwfns.compute_hessian_batch">
-<span class="sig-prename descclassname"><span class="pre">aided.core.edwfns.</span></span><span class="sig-name descname"><span class="pre">compute_hessian_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#compute_hessian_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.compute_hessian_batch" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.core.edwfns.</span></span><span class="sig-name descname"><span class="pre">compute_hessian_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denmat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/aided/core/edwfns.html#compute_hessian_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edwfns.compute_hessian_batch" title="Link to this definition"></a></dt>
 <dd><p>Compute the Hessian for a batch of wavefunctions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -475,12 +581,12 @@ atom_position: Position of the atom found.</p>
 
 </section>
 <section id="module-aided.core.units">
-<span id="aided-core-units-module"></span><h2>aided.core.units module<a class="headerlink" href="#module-aided.core.units" title="Link to this heading">¶</a></h2>
+<span id="aided-core-units-module"></span><h2>aided.core.units module<a class="headerlink" href="#module-aided.core.units" title="Link to this heading"></a></h2>
 <p>aided.core.units</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.core.units.Units">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.units.</span></span><span class="sig-name descname"><span class="pre">Units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/units.html#Units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.units.Units" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.units.</span></span><span class="sig-name descname"><span class="pre">Units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/core/units.html#Units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.units.Units" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <dl class="simple">
 <dt>Units to use for distance / properties.</dt><dd><ul class="simple">
@@ -491,24 +597,24 @@ atom_position: Position of the atom found.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="aided.core.units.Units.ANG">
-<span class="sig-name descname"><span class="pre">ANG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#aided.core.units.Units.ANG" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ANG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#aided.core.units.Units.ANG" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="aided.core.units.Units.BOHR">
-<span class="sig-name descname"><span class="pre">BOHR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#aided.core.units.Units.BOHR" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BOHR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#aided.core.units.Units.BOHR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-aided.core.utils">
-<span id="aided-core-utils-module"></span><h2>aided.core.utils module<a class="headerlink" href="#module-aided.core.utils" title="Link to this heading">¶</a></h2>
+<span id="aided-core-utils-module"></span><h2>aided.core.utils module<a class="headerlink" href="#module-aided.core.utils" title="Link to this heading"></a></h2>
 <p>aided.core.utils</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.core.utils.split_work">
-<span class="sig-prename descclassname"><span class="pre">aided.core.utils.</span></span><span class="sig-name descname"><span class="pre">split_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/utils.html#split_work"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.utils.split_work" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.core.utils.</span></span><span class="sig-name descname"><span class="pre">split_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/core/utils.html#split_work"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.utils.split_work" title="Link to this definition"></a></dt>
 <dd><p>Divide n units into num_groups groups for work distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -528,72 +634,38 @@ atom_position: Position of the atom found.</p>
 
 </section>
 <section id="module-aided.core">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aided.core" title="Link to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aided.core" title="Link to this heading"></a></h2>
 <p>Provides classes for working with Electron Density Wavefunctions to higher level modules.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 </section>
 </section>
 
 
+           </div>
           </div>
-          
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">aided</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
-      
-      |
-      <a href="_sources/aided.core.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>

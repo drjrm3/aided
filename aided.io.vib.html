@@ -1,49 +1,121 @@
+
+
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en" data-content_root="./">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aided.io.vib package &mdash; aided  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
-    <title>aided.io.vib package &#8212; aided  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
-    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
 
-  
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="index.html" class="icon icon-home">
+            aided
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">aided.io.vib package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-aided.io.vib.factory">aided.io.vib.factory module</a><ul>
+<li><a class="reference internal" href="#aided.io.vib.factory.detect_log_type"><code class="docutils literal notranslate"><span class="pre">detect_log_type()</span></code></a></li>
+<li><a class="reference internal" href="#aided.io.vib.factory.log_reader_factory"><code class="docutils literal notranslate"><span class="pre">log_reader_factory()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.io.vib.gaussian">aided.io.vib.gaussian module</a><ul>
+<li><a class="reference internal" href="#aided.io.vib.gaussian.GaussianLogReader"><code class="docutils literal notranslate"><span class="pre">GaussianLogReader</span></code></a><ul>
+<li><a class="reference internal" href="#aided.io.vib.gaussian.GaussianLogReader.gen_msda"><code class="docutils literal notranslate"><span class="pre">GaussianLogReader.gen_msda()</span></code></a></li>
+<li><a class="reference internal" href="#aided.io.vib.gaussian.GaussianLogReader.nmodes"><code class="docutils literal notranslate"><span class="pre">GaussianLogReader.nmodes</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.io.vib.log_reader">aided.io.vib.log_reader module</a><ul>
+<li><a class="reference internal" href="#aided.io.vib.log_reader.LogReader"><code class="docutils literal notranslate"><span class="pre">LogReader</span></code></a><ul>
+<li><a class="reference internal" href="#aided.io.vib.log_reader.LogReader.gen_msda"><code class="docutils literal notranslate"><span class="pre">LogReader.gen_msda()</span></code></a></li>
+<li><a class="reference internal" href="#aided.io.vib.log_reader.LogReader.natoms"><code class="docutils literal notranslate"><span class="pre">LogReader.natoms</span></code></a></li>
+<li><a class="reference internal" href="#aided.io.vib.log_reader.LogReader.nmodes"><code class="docutils literal notranslate"><span class="pre">LogReader.nmodes</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.io.vib.reader">aided.io.vib.reader module</a><ul>
+<li><a class="reference internal" href="#aided.io.vib.reader.read_msda"><code class="docutils literal notranslate"><span class="pre">read_msda()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.io.vib.writer">aided.io.vib.writer module</a><ul>
+<li><a class="reference internal" href="#aided.io.vib.writer.msda_to_file"><code class="docutils literal notranslate"><span class="pre">msda_to_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-aided.io.vib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
 
-          <div class="body" role="main">
-            
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">aided</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">aided.io.vib package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/aided.io.vib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="aided-io-vib-package">
-<h1>aided.io.vib package<a class="headerlink" href="#aided-io-vib-package" title="Link to this heading">¶</a></h1>
+<h1>aided.io.vib package<a class="headerlink" href="#aided-io-vib-package" title="Link to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
 <section id="module-aided.io.vib.factory">
-<span id="aided-io-vib-factory-module"></span><h2>aided.io.vib.factory module<a class="headerlink" href="#module-aided.io.vib.factory" title="Link to this heading">¶</a></h2>
+<span id="aided-io-vib-factory-module"></span><h2>aided.io.vib.factory module<a class="headerlink" href="#module-aided.io.vib.factory" title="Link to this heading"></a></h2>
 <p>aided.io.vib.factory</p>
 <p>Generates a log reader based on the contents of the file.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.vib.factory.detect_log_type">
-<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">detect_log_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#detect_log_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.detect_log_type" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">detect_log_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#detect_log_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.detect_log_type" title="Link to this definition"></a></dt>
 <dd><p>Detect the type of log file based on its contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -60,7 +132,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.vib.factory.log_reader_factory">
-<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">log_reader_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><span class="pre">LogReader</span></a></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#log_reader_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.log_reader_factory" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">log_reader_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><span class="pre">LogReader</span></a></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#log_reader_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.log_reader_factory" title="Link to this definition"></a></dt>
 <dd><p>Factory function to create a log reader based on the file type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -77,18 +149,18 @@
 
 </section>
 <section id="module-aided.io.vib.gaussian">
-<span id="aided-io-vib-gaussian-module"></span><h2>aided.io.vib.gaussian module<a class="headerlink" href="#module-aided.io.vib.gaussian" title="Link to this heading">¶</a></h2>
+<span id="aided-io-vib-gaussian-module"></span><h2>aided.io.vib.gaussian module<a class="headerlink" href="#module-aided.io.vib.gaussian" title="Link to this heading"></a></h2>
 <p>aided.io.vib.gaussian</p>
 <p>Read vibrational data from Gaussian log files.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.io.vib.gaussian.GaussianLogReader">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.io.vib.gaussian.</span></span><span class="sig-name descname"><span class="pre">GaussianLogReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/io/vib/gaussian.html#GaussianLogReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.io.vib.gaussian.</span></span><span class="sig-name descname"><span class="pre">GaussianLogReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/io/vib/gaussian.html#GaussianLogReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogReader</span></code></a></p>
 <p>Reads Gaussian log files and extracts vibrational data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.io.vib.gaussian.GaussianLogReader.gen_msda">
-<span class="sig-name descname"><span class="pre">gen_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/gaussian.html#GaussianLogReader.gen_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader.gen_msda" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">gen_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/gaussian.html#GaussianLogReader.gen_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader.gen_msda" title="Link to this definition"></a></dt>
 <dd><p>Generate mean square displacement amplitudes (MSDA) at temperature T.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -105,7 +177,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.io.vib.gaussian.GaussianLogReader.nmodes">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nmodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader.nmodes" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nmodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader.nmodes" title="Link to this definition"></a></dt>
 <dd><p>Number of vibrational modes.</p>
 </dd></dl>
 
@@ -113,41 +185,41 @@
 
 </section>
 <section id="module-aided.io.vib.log_reader">
-<span id="aided-io-vib-log-reader-module"></span><h2>aided.io.vib.log_reader module<a class="headerlink" href="#module-aided.io.vib.log_reader" title="Link to this heading">¶</a></h2>
+<span id="aided-io-vib-log-reader-module"></span><h2>aided.io.vib.log_reader module<a class="headerlink" href="#module-aided.io.vib.log_reader" title="Link to this heading"></a></h2>
 <p>aided.io.vib.log_reader</p>
 <p>Base class for log readers.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.io.vib.log_reader.LogReader">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.io.vib.log_reader.</span></span><span class="sig-name descname"><span class="pre">LogReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/io/vib/log_reader.html#LogReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.log_reader.LogReader" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.io.vib.log_reader.</span></span><span class="sig-name descname"><span class="pre">LogReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/io/vib/log_reader.html#LogReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.log_reader.LogReader" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for log readers.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.io.vib.log_reader.LogReader.gen_msda">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/log_reader.html#LogReader.gen_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.log_reader.LogReader.gen_msda" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/log_reader.html#LogReader.gen_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.log_reader.LogReader.gen_msda" title="Link to this definition"></a></dt>
 <dd><p>Generate the mass-weighted displacement array.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.io.vib.log_reader.LogReader.natoms">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">natoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.io.vib.log_reader.LogReader.natoms" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">natoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.io.vib.log_reader.LogReader.natoms" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="aided.io.vib.log_reader.LogReader.nmodes">
-<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nmodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.io.vib.log_reader.LogReader.nmodes" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nmodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.io.vib.log_reader.LogReader.nmodes" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-aided.io.vib.reader">
-<span id="aided-io-vib-reader-module"></span><h2>aided.io.vib.reader module<a class="headerlink" href="#module-aided.io.vib.reader" title="Link to this heading">¶</a></h2>
+<span id="aided-io-vib-reader-module"></span><h2>aided.io.vib.reader module<a class="headerlink" href="#module-aided.io.vib.reader" title="Link to this heading"></a></h2>
 <p>Read in an MSDA to a file.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.vib.reader.read_msda">
-<span class="sig-prename descclassname"><span class="pre">aided.io.vib.reader.</span></span><span class="sig-name descname"><span class="pre">read_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/reader.html#read_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.reader.read_msda" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.vib.reader.</span></span><span class="sig-name descname"><span class="pre">read_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/reader.html#read_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.reader.read_msda" title="Link to this definition"></a></dt>
 <dd><p>Reads in an MSDA from a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -164,12 +236,12 @@
 
 </section>
 <section id="module-aided.io.vib.writer">
-<span id="aided-io-vib-writer-module"></span><h2>aided.io.vib.writer module<a class="headerlink" href="#module-aided.io.vib.writer" title="Link to this heading">¶</a></h2>
+<span id="aided-io-vib-writer-module"></span><h2>aided.io.vib.writer module<a class="headerlink" href="#module-aided.io.vib.writer" title="Link to this heading"></a></h2>
 <p>Write out MSDA to a file.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.vib.writer.msda_to_file">
-<span class="sig-prename descclassname"><span class="pre">aided.io.vib.writer.</span></span><span class="sig-name descname"><span class="pre">msda_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_numbers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/aided/io/vib/writer.html#msda_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.writer.msda_to_file" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.vib.writer.</span></span><span class="sig-name descname"><span class="pre">msda_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_numbers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/aided/io/vib/writer.html#msda_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.writer.msda_to_file" title="Link to this definition"></a></dt>
 <dd><p>Write the MSDA data structure to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -184,72 +256,38 @@
 
 </section>
 <section id="module-aided.io.vib">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aided.io.vib" title="Link to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aided.io.vib" title="Link to this heading"></a></h2>
 <p>Methods to read vibrational data from various geometry optimization application outputs.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 </section>
 </section>
 
 
+           </div>
           </div>
-          
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">aided</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
-      
-      |
-      <a href="_sources/aided.io.vib.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>
