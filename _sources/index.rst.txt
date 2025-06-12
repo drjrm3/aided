@@ -23,7 +23,7 @@ Welcome to aided's documentation!
    :caption: API Reference:
    :glob:
 
-   apidocs/modules
+   modules
 
 Indices and tables
 ==================
