@@ -18,7 +18,9 @@
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="aided.core.edwfn module" href="aided.core.edwfn.html" />
+    <link rel="prev" title="aided.core.wfn.wfns_rep module" href="aided.core.wfn.wfns_rep.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,6 +46,42 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../apps/create_msda.html">Create msda</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">aided</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aided.core.html">aided.core package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">aided.core.edrep module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#aided.core.edrep.EDRep"><code class="docutils literal notranslate"><span class="pre">EDRep</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.atnames"><code class="docutils literal notranslate"><span class="pre">EDRep.atnames</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.atpos"><code class="docutils literal notranslate"><span class="pre">EDRep.atpos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.bader_surface_of_atom"><code class="docutils literal notranslate"><span class="pre">EDRep.bader_surface_of_atom()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.bcp"><code class="docutils literal notranslate"><span class="pre">EDRep.bcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.find_bcps"><code class="docutils literal notranslate"><span class="pre">EDRep.find_bcps()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.grad"><code class="docutils literal notranslate"><span class="pre">EDRep.grad()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.hess"><code class="docutils literal notranslate"><span class="pre">EDRep.hess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.in_au"><code class="docutils literal notranslate"><span class="pre">EDRep.in_au</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.read_msda_matrix"><code class="docutils literal notranslate"><span class="pre">EDRep.read_msda_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.read_vib_file"><code class="docutils literal notranslate"><span class="pre">EDRep.read_vib_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.rho"><code class="docutils literal notranslate"><span class="pre">EDRep.rho()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.trace_gradient_to_atom"><code class="docutils literal notranslate"><span class="pre">EDRep.trace_gradient_to_atom()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRep.units"><code class="docutils literal notranslate"><span class="pre">EDRep.units</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#aided.core.edrep.EDRepType"><code class="docutils literal notranslate"><span class="pre">EDRepType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRepType.NRDF"><code class="docutils literal notranslate"><span class="pre">EDRepType.NRDF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRepType.RDF"><code class="docutils literal notranslate"><span class="pre">EDRepType.RDF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aided.core.edrep.EDRepType.WFN"><code class="docutils literal notranslate"><span class="pre">EDRepType.WFN</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.io.html">aided.io package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.math.html">aided.math package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.cli.html">aided.cli module</a></li>
+</ul>
+</li>
+</ul>
 
         </div>
       </div>
@@ -59,6 +97,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">aided</a></li>
+          <li class="breadcrumb-item"><a href="aided.core.html">aided.core package</a></li>
       <li class="breadcrumb-item active">aided.core.edrep module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidocs/aided.core.edrep.rst.txt" rel="nofollow"> View page source</a>
@@ -101,19 +141,29 @@ away from the type of file.</p>
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.bader_surface_of_atom">
 <span class="sig-name descname"><span class="pre">bader_surface_of_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntheta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starting_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/aided/core/edrep.html#EDRep.bader_surface_of_atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.bader_surface_of_atom" title="Link to this definition"></a></dt>
 <dd><p>Generate a Bader Surface for an atom.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>atom_name: Name of the atom to generate the surface for.
-ntheta: Number of points to generate in the theta direction.
-nphi: Number of points to generate in the phi direction.
-starting_radius: Radius to generate the surface in Bohr.
-max_distance: The max distance (in Bohr) from the atom to find a point on the surface.
-step_size: The step size to take when searching for the surface.
-tol: The tolerance to use when searching for the surface.
-cores: Number of cores to use for parallel processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atom_name</strong> – Name of the atom to generate the surface for.</p></li>
+<li><p><strong>ntheta</strong> – Number of points to generate in the theta direction.</p></li>
+<li><p><strong>nphi</strong> – Number of points to generate in the phi direction.</p></li>
+<li><p><strong>starting_radius</strong> – Radius to generate the surface in Bohr.</p></li>
+<li><p><strong>max_distance</strong> – The max distance (in Bohr) from the atom to find a point on the surface.</p></li>
+<li><p><strong>step_size</strong> – The step size to take when searching for the surface.</p></li>
+<li><p><strong>tol</strong> – The tolerance to use when searching for the surface.</p></li>
+<li><p><strong>cores</strong> – Number of cores to use for parallel processing.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>thetas (np.ndarray): Array of theta values.
-phis (np.ndarray): Array of phi values.
-bader_surface (np.ndaray): Numpy array of points on the surface.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>thetas (np.ndarray): Array of theta values.</p></li>
+<li><p>phis (np.ndarray): Array of phi values.</p></li>
+<li><p>bader_surface (np.ndaray): Numpy array of points on the surface.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -127,9 +177,16 @@ bader_surface (np.ndaray): Numpy array of points on the surface.</p>
 <li><p>Being a local minima in the gradient field.</p></li>
 </ul>
 </dd>
-<dt>Args:</dt><dd><p>x, y, z: Cartesian points in global space.
-method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)
-tol: Tolerance for the optimization.</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Cartesian points in global space.</p></li>
+<li><p><strong>y</strong> – Cartesian points in global space.</p></li>
+<li><p><strong>z</strong> – Cartesian points in global space.</p></li>
+<li><p><strong>method</strong> – Optimization method to use (BFGS, CG, Netwon-CG, etc.)</p></li>
+<li><p><strong>tol</strong> – Tolerance for the optimization.</p></li>
+</ul>
 </dd>
 </dl>
 <p>Returns: Array of 3 elements: x, y, z</p>
@@ -139,12 +196,22 @@ tol: Tolerance for the optimization.</p>
 <dt class="sig sig-object py" id="aided.core.edrep.EDRep.find_bcps">
 <span class="sig-name descname"><span class="pre">find_bcps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_pt_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/aided/core/edrep.html#EDRep.find_bcps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.edrep.EDRep.find_bcps" title="Link to this definition"></a></dt>
 <dd><p>Find all BCPs in the system.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>max_pt_distance: Max distance to allow from a BPC to the line connecting two atoms.
-tol: Tolerance for the optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_pt_distance</strong> – Max distance to allow from a BPC to the line connecting two atoms.</p></li>
+<li><p><strong>tol</strong> – Tolerance for the optimization.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>bcps: List of BCPs found.
-bond_pairs: List of bond pairs found.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>bcps: List of BCPs found.</p></li>
+<li><p>bond_pairs: List of bond pairs found.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -197,18 +264,28 @@ bond_pairs: List of bond pairs found.</p>
 <dd><p>Trace the gradient of the ED to an atom.</p>
 <p>Perform this by using scipy.optimize.minimize to find the location where the gradient is
 zero but the electron density (rho) is maximized.</p>
-<dl>
-<dt>Args:</dt><dd><p>x, y, z: Cartesian points in global space.
-method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)
-step_limit: Maximum distance to move in one step.
-max_iter: Maximum number of iterations to perform.
-tol: Distance from the atom at which to stop searching. If tol is zero, stop when</p>
-<blockquote>
-<div><p>objective is minimized as normal.</p>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Cartesian points in global space.</p></li>
+<li><p><strong>y</strong> – Cartesian points in global space.</p></li>
+<li><p><strong>z</strong> – Cartesian points in global space.</p></li>
+<li><p><strong>method</strong> – Optimization method to use (BFGS, CG, Netwon-CG, etc.)</p></li>
+<li><p><strong>step_limit</strong> – Maximum distance to move in one step.</p></li>
+<li><p><strong>max_iter</strong> – Maximum number of iterations to perform.</p></li>
+<li><p><strong>tol</strong> – Distance from the atom at which to stop searching. If tol is zero, stop when
+objective is minimized as normal.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>atom_name: Name of the atom found.
-atom_position: Position of the atom found.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>atom_name: Name of the atom found.</p></li>
+<li><p>atom_position: Position of the atom found.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -246,7 +323,10 @@ atom_position: Position of the atom found.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aided.core.wfn.wfns_rep.html" class="btn btn-neutral float-left" title="aided.core.wfn.wfns_rep module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aided.core.edwfn.html" class="btn btn-neutral float-right" title="aided.core.edwfn module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

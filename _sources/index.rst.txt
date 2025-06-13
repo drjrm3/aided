@@ -12,10 +12,11 @@ Welcome to aided's documentation!
    apps/*
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: API Reference:
+   :glob:
 
-    _autoapi/aided/index
+   modules
 
 Indices and tables
 ==================

@@ -44,6 +44,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="apps/create_msda.html">Create msda</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">aided</a></li>
+</ul>
 
         </div>
       </div>
@@ -83,22 +87,38 @@
 <dt class="sig sig-object py" id="aided.io.vib.factory.detect_log_type">
 <span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">detect_log_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#detect_log_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.detect_log_type" title="Link to this definition"></a></dt>
 <dd><p>Detect the type of log file based on its contents.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>logfile (str | Path): Path to the log file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logfile</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the log file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Type of the log file (‘QChem’, ‘Gaussian’, etc.)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>str: Type of the log file (‘QChem’, ‘Gaussian’, etc.)</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.vib.factory.log_reader_factory">
-<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">log_reader_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><span class="pre">LogReader</span></a></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#log_reader_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.log_reader_factory" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">log_reader_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><span class="pre">LogReader</span></a></span></span><a class="reference internal" href="_modules/aided/io/vib/factory.html#log_reader_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.log_reader_factory" title="Link to this definition"></a></dt>
 <dd><p>Factory function to create a log reader based on the file type.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>logfile (str | Path): Path to the log file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logfile</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the log file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>LogReader: An instance of a subclass of LogReader.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>LogReader: An instance of a subclass of LogReader.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -112,16 +132,24 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="aided.io.vib.gaussian.GaussianLogReader">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.io.vib.gaussian.</span></span><span class="sig-name descname"><span class="pre">GaussianLogReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aided/io/vib/gaussian.html#GaussianLogReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="apidocs/aided/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogReader</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="apidocs/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogReader</span></code></a></p>
 <p>Reads Gaussian log files and extracts vibrational data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="aided.io.vib.gaussian.GaussianLogReader.gen_msda">
 <span class="sig-name descname"><span class="pre">gen_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/gaussian.html#GaussianLogReader.gen_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.gaussian.GaussianLogReader.gen_msda" title="Link to this definition"></a></dt>
 <dd><p>Generate mean square displacement amplitudes (MSDA) at temperature T.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>temperature (float): Temperature in Kelvin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>temperature</strong> (<em>float</em>) – Temperature in Kelvin.</p>
 </dd>
-<dt>Returns:</dt><dd><p>msda (np.ndarray): Mean square displacement amplitudes in Å², shape (n_mode,).</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>msda (np.ndarray): Mean square displacement amplitudes in Å², shape (n_mode,).</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -172,10 +200,18 @@
 <dt class="sig sig-object py" id="aided.io.vib.reader.read_msda">
 <span class="sig-prename descclassname"><span class="pre">aided.io.vib.reader.</span></span><span class="sig-name descname"><span class="pre">read_msda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/io/vib/reader.html#read_msda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.reader.read_msda" title="Link to this definition"></a></dt>
 <dd><p>Reads in an MSDA from a file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>filename (str): The name of the msda file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the msda file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>msda (np.ndarray): The msda as a 2D numpy array.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>msda (np.ndarray): The msda as a 2D numpy array.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -189,10 +225,13 @@
 <dt class="sig sig-object py" id="aided.io.vib.writer.msda_to_file">
 <span class="sig-prename descclassname"><span class="pre">aided.io.vib.writer.</span></span><span class="sig-name descname"><span class="pre">msda_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_numbers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/aided/io/vib/writer.html#msda_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.writer.msda_to_file" title="Link to this definition"></a></dt>
 <dd><p>Write the MSDA data structure to a file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>msda (npt.NDArray): The MSDA data structure to write.
-atomic_numbers (List[int]): List of atomic numbers corresponding to the MSDA data.
-filename (str): The name of the file to write to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msda</strong> (<em>npt.NDArray</em>) – The MSDA data structure to write.</p></li>
+<li><p><strong>atomic_numbers</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – List of atomic numbers corresponding to the MSDA data.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The name of the file to write to.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

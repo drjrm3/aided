@@ -18,7 +18,9 @@
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="aided.io.read_wfn module" href="aided.io.read_wfn.html" />
+    <link rel="prev" title="aided.io.vib.reader module" href="aided.io.vib.reader.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,6 +46,25 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../apps/create_msda.html">Create msda</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">aided</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aided.core.html">aided.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="aided.io.html">aided.io package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="aided.io.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="aided.io.vib.html">aided.io.vib package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aided.io.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aided.math.html">aided.math package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.cli.html">aided.cli module</a></li>
+</ul>
+</li>
+</ul>
 
         </div>
       </div>
@@ -59,6 +80,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">aided</a></li>
+          <li class="breadcrumb-item"><a href="aided.io.html">aided.io package</a></li>
+          <li class="breadcrumb-item"><a href="aided.io.vib.html">aided.io.vib package</a></li>
       <li class="breadcrumb-item active">aided.io.vib.writer module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidocs/aided.io.vib.writer.rst.txt" rel="nofollow"> View page source</a>
@@ -77,10 +101,13 @@
 <dt class="sig sig-object py" id="aided.io.vib.writer.msda_to_file">
 <span class="sig-prename descclassname"><span class="pre">aided.io.vib.writer.</span></span><span class="sig-name descname"><span class="pre">msda_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msda</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_numbers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/aided/io/vib/writer.html#msda_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.writer.msda_to_file" title="Link to this definition"></a></dt>
 <dd><p>Write the MSDA data structure to a file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>msda (npt.NDArray): The MSDA data structure to write.
-atomic_numbers (List[int]): List of atomic numbers corresponding to the MSDA data.
-filename (str): The name of the file to write to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msda</strong> (<em>npt.NDArray</em>) – The MSDA data structure to write.</p></li>
+<li><p><strong>atomic_numbers</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – List of atomic numbers corresponding to the MSDA data.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The name of the file to write to.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -90,7 +117,10 @@ filename (str): The name of the file to write to.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aided.io.vib.reader.html" class="btn btn-neutral float-left" title="aided.io.vib.reader module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aided.io.read_wfn.html" class="btn btn-neutral float-right" title="aided.io.read_wfn module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

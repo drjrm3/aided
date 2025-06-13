@@ -18,7 +18,9 @@
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="aided.math package" href="aided.math.html" />
+    <link rel="prev" title="aided.io.read_wfn module" href="aided.io.read_wfn.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,6 +46,26 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../apps/create_msda.html">Create msda</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">aided</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aided.core.html">aided.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="aided.io.html">aided.io package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aided.io.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="aided.io.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aided.io.read_wfn.html">aided.io.read_wfn module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">aided.io.utils module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aided.math.html">aided.math package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aided.cli.html">aided.cli module</a></li>
+</ul>
+</li>
+</ul>
 
         </div>
       </div>
@@ -59,6 +81,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">aided</a></li>
+          <li class="breadcrumb-item"><a href="aided.io.html">aided.io package</a></li>
       <li class="breadcrumb-item active">aided.io.utils module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidocs/aided.io.utils.rst.txt" rel="nofollow"> View page source</a>
@@ -78,22 +102,38 @@
 <dt class="sig sig-object py" id="aided.io.utils.convert_scientific_notation">
 <span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">convert_scientific_notation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/aided/io/utils.html#convert_scientific_notation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.convert_scientific_notation" title="Link to this definition"></a></dt>
 <dd><p>Converts scientific notation from ‘D’ to ‘E’ in a list of strings.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>data_lines (List[str]): Each string represents a line of space-separated values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_lines</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Each string represents a line of space-separated values.</p>
 </dd>
-<dt>Returns:</dt><dd><p>result (List[str]): The the modified lines with ‘D’ replaced by ‘E’ in scientific notation.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>result (List[str]): The the modified lines with ‘D’ replaced by ‘E’ in scientific notation.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.utils.get_edrep_type_by_file_extention">
-<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">get_edrep_type_by_file_extention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided/aided.core.edrep.html#aided.core.edrep.EDRepType" title="aided.core.edrep.EDRepType"><span class="pre">EDRepType</span></a></span></span><a class="reference internal" href="../_modules/aided/io/utils.html#get_edrep_type_by_file_extention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.get_edrep_type_by_file_extention" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">get_edrep_type_by_file_extention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRepType" title="aided.core.edrep.EDRepType"><span class="pre">EDRepType</span></a></span></span><a class="reference internal" href="../_modules/aided/io/utils.html#get_edrep_type_by_file_extention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.get_edrep_type_by_file_extention" title="Link to this definition"></a></dt>
 <dd><p>Get the EDRep type based on file extention alone.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>file_name (str): The name of the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>str</em>) – The name of the file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>EDRepType: The electron density represenation type.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>EDRepType: The electron density represenation type.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -102,10 +142,18 @@
 <dt class="sig sig-object py" id="aided.io.utils.is_number">
 <span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">is_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/aided/io/utils.html#is_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.is_number" title="Link to this definition"></a></dt>
 <dd><p>Check if a string is a number.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>s (str): The string to check.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – The string to check.</p>
 </dd>
-<dt>Returns:</dt><dd><p>bool: True if the string is a number, False otherwise.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>bool: True if the string is a number, False otherwise.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -115,7 +163,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aided.io.read_wfn.html" class="btn btn-neutral float-left" title="aided.io.read_wfn module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aided.math.html" class="btn btn-neutral float-right" title="aided.math package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

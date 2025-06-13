@@ -43,6 +43,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apps/create_msda.html">Create msda</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">aided</a></li>
+</ul>
 
         </div>
       </div>
@@ -86,7 +90,7 @@
 
 <span class="c1"># pylint: disable=too-many-instance-attributes, R0801</span>
 <div class="viewcode-block" id="WFNsRep">
-<a class="viewcode-back" href="../../../../apidocs/aided/aided.core.wfn.wfns_rep.html#aided.core.wfn.wfns_rep.WFNsRep">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.wfn.wfns_rep.html#aided.core.wfn.wfns_rep.WFNsRep">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">WFNsRep</span><span class="p">(</span><span class="n">WFNRep</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -119,8 +123,6 @@
     <span class="n">total_energies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">virial_energies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 
-<div class="viewcode-block" id="WFNsRep.__post_init__">
-<a class="viewcode-back" href="../../../../apidocs/aided/aided.core.wfn.wfns_rep.html#aided.core.wfn.wfns_rep.WFNsRep.__post_init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Validate sizes</span>
         <span class="c1"># fmt: off</span>
@@ -154,16 +156,12 @@
             <span class="c1"># fmt: on</span>
 
             <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">expected_size</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">` must have size </span><span class="si">{</span><span class="n">expected_size</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">` must have size </span><span class="si">{</span><span class="n">expected_size</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="WFNsRep.__eq__">
-<a class="viewcode-back" href="../../../../apidocs/aided/aided.core.wfn.wfns_rep.html#aided.core.wfn.wfns_rep.WFNsRep.__eq__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">WFNsRep</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
-</div>
 
 </pre></div>
 
