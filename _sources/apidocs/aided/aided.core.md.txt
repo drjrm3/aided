@@ -1,0 +1,30 @@
+# {py:mod}`aided.core`
+
+```{py:module} aided.core
+```
+
+```{autodoc2-docstring} aided.core
+:allowtitles:
+```
+
+## Subpackages
+
+```{toctree}
+:titlesonly:
+:maxdepth: 3
+
+aided.core.wfn
+```
+
+## Submodules
+
+```{toctree}
+:titlesonly:
+:maxdepth: 1
+
+aided.core.edwfn
+aided.core.edrep
+aided.core.edwfns
+aided.core.units
+aided.core.utils
+```

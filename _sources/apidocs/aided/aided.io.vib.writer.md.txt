@@ -1,0 +1,31 @@
+# {py:mod}`aided.io.vib.writer`
+
+```{py:module} aided.io.vib.writer
+```
+
+```{autodoc2-docstring} aided.io.vib.writer
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`msda_to_file <aided.io.vib.writer.msda_to_file>`
+  - ```{autodoc2-docstring} aided.io.vib.writer.msda_to_file
+    :summary:
+    ```
+````
+
+### API
+
+````{py:function} msda_to_file(msda: aided.npt.NDArray, atomic_numbers: typing.List[int], filename: str) -> None
+:canonical: aided.io.vib.writer.msda_to_file
+
+```{autodoc2-docstring} aided.io.vib.writer.msda_to_file
+```
+````

@@ -1,0 +1,31 @@
+# {py:mod}`aided.core.utils`
+
+```{py:module} aided.core.utils
+```
+
+```{autodoc2-docstring} aided.core.utils
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`split_work <aided.core.utils.split_work>`
+  - ```{autodoc2-docstring} aided.core.utils.split_work
+    :summary:
+    ```
+````
+
+### API
+
+````{py:function} split_work(n: int, num_groups: int) -> typing.List[typing.List[int]]
+:canonical: aided.core.utils.split_work
+
+```{autodoc2-docstring} aided.core.utils.split_work
+```
+````

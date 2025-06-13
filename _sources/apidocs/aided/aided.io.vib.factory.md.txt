@@ -1,0 +1,64 @@
+# {py:mod}`aided.io.vib.factory`
+
+```{py:module} aided.io.vib.factory
+```
+
+```{autodoc2-docstring} aided.io.vib.factory
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`detect_log_type <aided.io.vib.factory.detect_log_type>`
+  - ```{autodoc2-docstring} aided.io.vib.factory.detect_log_type
+    :summary:
+    ```
+* - {py:obj}`log_reader_factory <aided.io.vib.factory.log_reader_factory>`
+  - ```{autodoc2-docstring} aided.io.vib.factory.log_reader_factory
+    :summary:
+    ```
+````
+
+### Data
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`logger <aided.io.vib.factory.logger>`
+  - ```{autodoc2-docstring} aided.io.vib.factory.logger
+    :summary:
+    ```
+````
+
+### API
+
+````{py:data} logger
+:canonical: aided.io.vib.factory.logger
+:value: >
+   'get_logger(...)'
+
+```{autodoc2-docstring} aided.io.vib.factory.logger
+```
+
+````
+
+````{py:function} detect_log_type(logfile: str | pathlib.Path) -> str
+:canonical: aided.io.vib.factory.detect_log_type
+
+```{autodoc2-docstring} aided.io.vib.factory.detect_log_type
+```
+````
+
+````{py:function} log_reader_factory(logfile: str | pathlib.Path) -> aided.io.vib.log_reader.LogReader
+:canonical: aided.io.vib.factory.log_reader_factory
+
+```{autodoc2-docstring} aided.io.vib.factory.log_reader_factory
+```
+````

@@ -1,0 +1,26 @@
+# {py:mod}`aided.apps`
+
+```{py:module} aided.apps
+```
+
+```{autodoc2-docstring} aided.apps
+:allowtitles:
+```
+
+## Subpackages
+
+```{toctree}
+:titlesonly:
+:maxdepth: 3
+
+aided.apps.create_msda
+```
+
+## Submodules
+
+```{toctree}
+:titlesonly:
+:maxdepth: 1
+
+aided.apps._helper
+```

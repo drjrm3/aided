@@ -1,0 +1,44 @@
+# {py:mod}`aided.apps.create_msda`
+
+```{py:module} aided.apps.create_msda
+```
+
+```{autodoc2-docstring} aided.apps.create_msda
+:allowtitles:
+```
+
+## Submodules
+
+```{toctree}
+:titlesonly:
+:maxdepth: 1
+
+aided.apps.create_msda.main
+aided.apps.create_msda.cli
+```
+
+## Package Contents
+
+### Data
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`register <aided.apps.create_msda.register>`
+  - ```{autodoc2-docstring} aided.apps.create_msda.register
+    :summary:
+    ```
+````
+
+### API
+
+````{py:data} register
+:canonical: aided.apps.create_msda.register
+:value: >
+   'make_register(...)'
+
+```{autodoc2-docstring} aided.apps.create_msda.register
+```
+
+````

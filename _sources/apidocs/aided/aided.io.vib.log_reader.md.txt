@@ -1,0 +1,76 @@
+# {py:mod}`aided.io.vib.log_reader`
+
+```{py:module} aided.io.vib.log_reader
+```
+
+```{autodoc2-docstring} aided.io.vib.log_reader
+:allowtitles:
+```
+
+## Module Contents
+
+### Classes
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`LogReader <aided.io.vib.log_reader.LogReader>`
+  - ```{autodoc2-docstring} aided.io.vib.log_reader.LogReader
+    :summary:
+    ```
+````
+
+### API
+
+`````{py:class} LogReader(logfile: str | pathlib.Path)
+:canonical: aided.io.vib.log_reader.LogReader
+
+Bases: {py:obj}`abc.ABC`
+
+```{autodoc2-docstring} aided.io.vib.log_reader.LogReader
+```
+
+```{rubric} Initialization
+```
+
+```{autodoc2-docstring} aided.io.vib.log_reader.LogReader.__init__
+```
+
+````{py:method} _read_file()
+:canonical: aided.io.vib.log_reader.LogReader._read_file
+
+```{autodoc2-docstring} aided.io.vib.log_reader.LogReader._read_file
+```
+
+````
+
+````{py:property} natoms
+:canonical: aided.io.vib.log_reader.LogReader.natoms
+:type: int
+
+```{autodoc2-docstring} aided.io.vib.log_reader.LogReader.natoms
+```
+
+````
+
+````{py:property} nmodes
+:canonical: aided.io.vib.log_reader.LogReader.nmodes
+:abstractmethod:
+:type: int
+
+```{autodoc2-docstring} aided.io.vib.log_reader.LogReader.nmodes
+```
+
+````
+
+````{py:method} gen_msda(temperature: float) -> aided.npt.NDArray[aided.np.float64]
+:canonical: aided.io.vib.log_reader.LogReader.gen_msda
+:abstractmethod:
+
+```{autodoc2-docstring} aided.io.vib.log_reader.LogReader.gen_msda
+```
+
+````
+
+`````

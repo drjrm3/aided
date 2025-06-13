@@ -1,0 +1,86 @@
+# {py:mod}`aided.cli`
+
+```{py:module} aided.cli
+```
+
+```{autodoc2-docstring} aided.cli
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`_discover_apps <aided.cli._discover_apps>`
+  - ```{autodoc2-docstring} aided.cli._discover_apps
+    :summary:
+    ```
+* - {py:obj}`root_parser <aided.cli.root_parser>`
+  - ```{autodoc2-docstring} aided.cli.root_parser
+    :summary:
+    ```
+* - {py:obj}`parse_args <aided.cli.parse_args>`
+  - ```{autodoc2-docstring} aided.cli.parse_args
+    :summary:
+    ```
+* - {py:obj}`main <aided.cli.main>`
+  - ```{autodoc2-docstring} aided.cli.main
+    :summary:
+    ```
+````
+
+### Data
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`_APPS_DIR <aided.cli._APPS_DIR>`
+  - ```{autodoc2-docstring} aided.cli._APPS_DIR
+    :summary:
+    ```
+````
+
+### API
+
+````{py:data} _APPS_DIR
+:canonical: aided.cli._APPS_DIR
+:value: >
+   'str(...)'
+
+```{autodoc2-docstring} aided.cli._APPS_DIR
+```
+
+````
+
+````{py:function} _discover_apps(subparsers: argparse._SubParsersAction) -> None
+:canonical: aided.cli._discover_apps
+
+```{autodoc2-docstring} aided.cli._discover_apps
+```
+````
+
+````{py:function} root_parser()
+:canonical: aided.cli.root_parser
+
+```{autodoc2-docstring} aided.cli.root_parser
+```
+````
+
+````{py:function} parse_args(argv: typing.List[str]) -> argparse.Namespace
+:canonical: aided.cli.parse_args
+
+```{autodoc2-docstring} aided.cli.parse_args
+```
+````
+
+````{py:function} main() -> int
+:canonical: aided.cli.main
+
+```{autodoc2-docstring} aided.cli.main
+```
+````

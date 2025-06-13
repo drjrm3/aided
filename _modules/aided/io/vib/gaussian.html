@@ -43,10 +43,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apps/create_msda.html">Create msda</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">aided</a></li>
-</ul>
 
         </div>
       </div>
@@ -96,7 +92,7 @@
 
 
 <div class="viewcode-block" id="GaussianLogReader">
-<a class="viewcode-back" href="../../../../apidocs/aided.io.vib.gaussian.html#aided.io.vib.gaussian.GaussianLogReader">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided/aided.io.vib.gaussian.html#aided.io.vib.gaussian.GaussianLogReader">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GaussianLogReader</span><span class="p">(</span><span class="n">LogReader</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads Gaussian log files and extracts vibrational data.&quot;&quot;&quot;</span>
 
@@ -169,6 +165,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">z</span><span class="p">)])</span>
             <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
+<div class="viewcode-block" id="GaussianLogReader._get_frequency_blocks">
+<a class="viewcode-back" href="../../../../apidocs/aided/aided.io.vib.gaussian.html#aided.io.vib.gaussian.GaussianLogReader._get_frequency_blocks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_frequency_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads the log file and extracts blocks of lines containing frequency data.</span>
 
@@ -220,7 +218,8 @@
                 <span class="n">block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="n">jdx</span><span class="p">])</span>
             <span class="n">freq_blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">freq_blocks</span>
+        <span class="k">return</span> <span class="n">freq_blocks</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__parse_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract frequencies, normal modes, and other vibrational data from the frequency blocks.</span>
@@ -259,7 +258,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">eig_nums</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">:]])</span>
 
 <div class="viewcode-block" id="GaussianLogReader.gen_msda">
-<a class="viewcode-back" href="../../../../apidocs/aided.io.vib.gaussian.html#aided.io.vib.gaussian.GaussianLogReader.gen_msda">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided/aided.io.vib.gaussian.html#aided.io.vib.gaussian.GaussianLogReader.gen_msda">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">gen_msda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate mean square displacement amplitudes (MSDA) at temperature T.</span>
 

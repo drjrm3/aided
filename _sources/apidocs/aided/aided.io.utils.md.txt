@@ -1,0 +1,53 @@
+# {py:mod}`aided.io.utils`
+
+```{py:module} aided.io.utils
+```
+
+```{autodoc2-docstring} aided.io.utils
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`convert_scientific_notation <aided.io.utils.convert_scientific_notation>`
+  - ```{autodoc2-docstring} aided.io.utils.convert_scientific_notation
+    :summary:
+    ```
+* - {py:obj}`is_number <aided.io.utils.is_number>`
+  - ```{autodoc2-docstring} aided.io.utils.is_number
+    :summary:
+    ```
+* - {py:obj}`get_edrep_type_by_file_extention <aided.io.utils.get_edrep_type_by_file_extention>`
+  - ```{autodoc2-docstring} aided.io.utils.get_edrep_type_by_file_extention
+    :summary:
+    ```
+````
+
+### API
+
+````{py:function} convert_scientific_notation(data_lines: typing.List[str]) -> typing.List[str]
+:canonical: aided.io.utils.convert_scientific_notation
+
+```{autodoc2-docstring} aided.io.utils.convert_scientific_notation
+```
+````
+
+````{py:function} is_number(s) -> bool
+:canonical: aided.io.utils.is_number
+
+```{autodoc2-docstring} aided.io.utils.is_number
+```
+````
+
+````{py:function} get_edrep_type_by_file_extention(file_name: str) -> aided.core.edrep.EDRepType
+:canonical: aided.io.utils.get_edrep_type_by_file_extention
+
+```{autodoc2-docstring} aided.io.utils.get_edrep_type_by_file_extention
+```
+````

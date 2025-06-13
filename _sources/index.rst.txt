@@ -6,24 +6,16 @@ Welcome to aided's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Overview:
-
-   installation.rst
-   examples.rst
-
-.. toctree::
-   :maxdepth: 2
    :caption: Apps
    :glob:
 
    apps/*
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: API Reference:
-   :glob:
 
-   modules
+    _autoapi/aided/index
 
 Indices and tables
 ==================

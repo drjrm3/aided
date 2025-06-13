@@ -1,0 +1,80 @@
+# {py:mod}`aided.core.wfn.wfns_rep`
+
+```{py:module} aided.core.wfn.wfns_rep
+```
+
+```{autodoc2-docstring} aided.core.wfn.wfns_rep
+:allowtitles:
+```
+
+## Module Contents
+
+### Classes
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`WFNsRep <aided.core.wfn.wfns_rep.WFNsRep>`
+  - ```{autodoc2-docstring} aided.core.wfn.wfns_rep.WFNsRep
+    :summary:
+    ```
+````
+
+### API
+
+`````{py:class} WFNsRep
+:canonical: aided.core.wfn.wfns_rep.WFNsRep
+
+Bases: {py:obj}`aided.core.wfn.wfn_rep.WFNRep`
+
+```{autodoc2-docstring} aided.core.wfn.wfns_rep.WFNsRep
+```
+
+````{py:attribute} nwfns
+:canonical: aided.core.wfn.wfns_rep.WFNsRep.nwfns
+:type: int
+:value: >
+   None
+
+```{autodoc2-docstring} aided.core.wfn.wfns_rep.WFNsRep.nwfns
+```
+
+````
+
+````{py:attribute} total_energies
+:canonical: aided.core.wfn.wfns_rep.WFNsRep.total_energies
+:type: aided.np.ndarray
+:value: >
+   None
+
+```{autodoc2-docstring} aided.core.wfn.wfns_rep.WFNsRep.total_energies
+```
+
+````
+
+````{py:attribute} virial_energies
+:canonical: aided.core.wfn.wfns_rep.WFNsRep.virial_energies
+:type: aided.np.ndarray
+:value: >
+   None
+
+```{autodoc2-docstring} aided.core.wfn.wfns_rep.WFNsRep.virial_energies
+```
+
+````
+
+````{py:method} __post_init__()
+:canonical: aided.core.wfn.wfns_rep.WFNsRep.__post_init__
+
+```{autodoc2-docstring} aided.core.wfn.wfns_rep.WFNsRep.__post_init__
+```
+
+````
+
+````{py:method} __eq__(other)
+:canonical: aided.core.wfn.wfns_rep.WFNsRep.__eq__
+
+````
+
+`````

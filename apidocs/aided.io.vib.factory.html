@@ -18,9 +18,7 @@
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="aided.io.vib.gaussian module" href="aided.io.vib.gaussian.html" />
-    <link rel="prev" title="aided.io.vib package" href="aided.io.vib.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,25 +44,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../apps/create_msda.html">Create msda</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">aided</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="aided.core.html">aided.core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="aided.io.html">aided.io package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="aided.io.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="aided.io.vib.html">aided.io.vib package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="aided.io.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="aided.math.html">aided.math package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aided.cli.html">aided.cli module</a></li>
-</ul>
-</li>
-</ul>
 
         </div>
       </div>
@@ -80,9 +59,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../modules.html">aided</a></li>
-          <li class="breadcrumb-item"><a href="aided.io.html">aided.io package</a></li>
-          <li class="breadcrumb-item"><a href="aided.io.vib.html">aided.io.vib package</a></li>
       <li class="breadcrumb-item active">aided.io.vib.factory module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidocs/aided.io.vib.factory.rst.txt" rel="nofollow"> View page source</a>
@@ -102,32 +78,22 @@
 <dt class="sig sig-object py" id="aided.io.vib.factory.detect_log_type">
 <span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">detect_log_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/aided/io/vib/factory.html#detect_log_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.detect_log_type" title="Link to this definition"></a></dt>
 <dd><p>Detect the type of log file based on its contents.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>logfile</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the log file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>logfile (str | Path): Path to the log file.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Type of the log file (‘QChem’, ‘Gaussian’, etc.)</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dt>Returns:</dt><dd><p>str: Type of the log file (‘QChem’, ‘Gaussian’, etc.)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.vib.factory.log_reader_factory">
-<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">log_reader_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><span class="pre">LogReader</span></a></span></span><a class="reference internal" href="../_modules/aided/io/vib/factory.html#log_reader_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.log_reader_factory" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.vib.factory.</span></span><span class="sig-name descname"><span class="pre">log_reader_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="aided/aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader"><span class="pre">LogReader</span></a></span></span><a class="reference internal" href="../_modules/aided/io/vib/factory.html#log_reader_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.vib.factory.log_reader_factory" title="Link to this definition"></a></dt>
 <dd><p>Factory function to create a log reader based on the file type.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>logfile</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the log file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>logfile (str | Path): Path to the log file.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of a subclass of LogReader.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="aided.io.vib.log_reader.html#aided.io.vib.log_reader.LogReader" title="aided.io.vib.log_reader.LogReader">LogReader</a></p>
+<dt>Returns:</dt><dd><p>LogReader: An instance of a subclass of LogReader.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -137,10 +103,7 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="aided.io.vib.html" class="btn btn-neutral float-left" title="aided.io.vib package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="aided.io.vib.gaussian.html" class="btn btn-neutral float-right" title="aided.io.vib.gaussian module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

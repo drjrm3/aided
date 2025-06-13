@@ -43,10 +43,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apps/create_msda.html">Create msda</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">aided</a></li>
-</ul>
 
         </div>
       </div>
@@ -91,7 +87,7 @@
 
 
 <div class="viewcode-block" id="numba_rho">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_rho">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.numba_rho">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_rho</span><span class="p">(</span><span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the density using numba</span>
@@ -113,7 +109,7 @@
 
 
 <div class="viewcode-block" id="numba_grad">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_grad">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.numba_grad">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_grad</span><span class="p">(</span><span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the gradient using numba</span>
@@ -137,7 +133,7 @@
 
 
 <div class="viewcode-block" id="numba_hess">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_hess">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.numba_hess">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_hess</span><span class="p">(</span>
     <span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">chi2</span><span class="p">:</span> <span class="n">NDArray</span>
@@ -191,7 +187,7 @@
 
 
 <div class="viewcode-block" id="EDWfn">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.EDWfn">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EDWfn</span><span class="p">(</span><span class="n">EDRep</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Electron Density Representation from a single .wfn file.</span>
@@ -234,6 +230,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">atnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wfn_rep</span><span class="o">.</span><span class="n">atnames</span>
 
+<div class="viewcode-block" id="EDWfn._gen_chi">
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.EDWfn._gen_chi">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_chi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ider</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the chi matrix for the given point.</span>
 
@@ -261,8 +259,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_chi1</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_chi2</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">did_compute</span>
+        <span class="k">return</span> <span class="n">did_compute</span></div>
 
+
+<div class="viewcode-block" id="EDWfn._gen_denmat">
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.EDWfn._gen_denmat">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_gen_denmat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the density matrix for the given point.</span>
 
@@ -270,10 +271,11 @@
 <span class="sd">            D_pq = sum_i occ_i * C_ip * C_iq</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,ip,iq-&gt;pq&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,ip,iq-&gt;pq&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="EDWfn.rho">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.rho">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.EDWfn.rho">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ED at a point.</span>
 
@@ -290,7 +292,7 @@
 
 
 <div class="viewcode-block" id="EDWfn.grad">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.grad">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.EDWfn.grad">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Gradient of the ED at a point.</span>
 
@@ -307,7 +309,7 @@
 
 
 <div class="viewcode-block" id="EDWfn.hess">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.hess">[docs]</a>
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn.EDWfn.hess">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">hess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Hessian of the ED at a point.</span>
 
@@ -324,6 +326,8 @@
 
 
 
+<div class="viewcode-block" id="_tst">
+<a class="viewcode-back" href="../../../apidocs/aided/aided.core.edwfn.html#aided.core.edwfn._tst">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_tst</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
     <span class="c1"># pylint: disable=all</span>
     <span class="c1"># This is a test area for validating work above.</span>
@@ -350,7 +354,8 @@
     <span class="k">for</span> <span class="n">atname</span> <span class="ow">in</span> <span class="n">edwfn</span><span class="o">.</span><span class="n">atnames</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">atname</span><span class="p">)</span>
         <span class="n">thetas</span><span class="p">,</span> <span class="n">phis</span><span class="p">,</span> <span class="n">surface</span> <span class="o">=</span> <span class="n">edwfn</span><span class="o">.</span><span class="n">bader_surface_of_atom</span><span class="p">(</span><span class="n">atom_name</span><span class="o">=</span><span class="n">atname</span><span class="p">,</span> <span class="n">ntheta</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nphi</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-        <span class="n">surfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span>
+        <span class="n">surfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span></div>
+
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>

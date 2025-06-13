@@ -1,0 +1,64 @@
+# {py:mod}`aided.io.read_wfn`
+
+```{py:module} aided.io.read_wfn
+```
+
+```{autodoc2-docstring} aided.io.read_wfn
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`_read_wfn_worker <aided.io.read_wfn._read_wfn_worker>`
+  - ```{autodoc2-docstring} aided.io.read_wfn._read_wfn_worker
+    :summary:
+    ```
+* - {py:obj}`read_wfn_file <aided.io.read_wfn.read_wfn_file>`
+  - ```{autodoc2-docstring} aided.io.read_wfn.read_wfn_file
+    :summary:
+    ```
+* - {py:obj}`read_wfn_files <aided.io.read_wfn.read_wfn_files>`
+  - ```{autodoc2-docstring} aided.io.read_wfn.read_wfn_files
+    :summary:
+    ```
+* - {py:obj}`_tst <aided.io.read_wfn._tst>`
+  - ```{autodoc2-docstring} aided.io.read_wfn._tst
+    :summary:
+    ```
+````
+
+### API
+
+````{py:function} _read_wfn_worker(iwfn: int, wfn: str) -> typing.Tuple
+:canonical: aided.io.read_wfn._read_wfn_worker
+
+```{autodoc2-docstring} aided.io.read_wfn._read_wfn_worker
+```
+````
+
+````{py:function} read_wfn_file(wfn_file: str) -> aided.core.wfn.WFNRep
+:canonical: aided.io.read_wfn.read_wfn_file
+
+```{autodoc2-docstring} aided.io.read_wfn.read_wfn_file
+```
+````
+
+````{py:function} read_wfn_files(wfns: typing.List[str], nprocs: int = 1) -> aided.core.wfn.WFNsRep
+:canonical: aided.io.read_wfn.read_wfn_files
+
+```{autodoc2-docstring} aided.io.read_wfn.read_wfn_files
+```
+````
+
+````{py:function} _tst()
+:canonical: aided.io.read_wfn._tst
+
+```{autodoc2-docstring} aided.io.read_wfn._tst
+```
+````

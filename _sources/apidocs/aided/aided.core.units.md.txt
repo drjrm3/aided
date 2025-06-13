@@ -1,0 +1,222 @@
+# {py:mod}`aided.core.units`
+
+```{py:module} aided.core.units
+```
+
+```{autodoc2-docstring} aided.core.units
+:allowtitles:
+```
+
+## Module Contents
+
+### Classes
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`Units <aided.core.units.Units>`
+  - ```{autodoc2-docstring} aided.core.units.Units
+    :summary:
+    ```
+````
+
+### Data
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`HBAR <aided.core.units.HBAR>`
+  - ```{autodoc2-docstring} aided.core.units.HBAR
+    :summary:
+    ```
+* - {py:obj}`KB <aided.core.units.KB>`
+  - ```{autodoc2-docstring} aided.core.units.KB
+    :summary:
+    ```
+* - {py:obj}`C_CM_S <aided.core.units.C_CM_S>`
+  - ```{autodoc2-docstring} aided.core.units.C_CM_S
+    :summary:
+    ```
+* - {py:obj}`AMU <aided.core.units.AMU>`
+  - ```{autodoc2-docstring} aided.core.units.AMU
+    :summary:
+    ```
+* - {py:obj}`AU_TO_ANG <aided.core.units.AU_TO_ANG>`
+  - ```{autodoc2-docstring} aided.core.units.AU_TO_ANG
+    :summary:
+    ```
+* - {py:obj}`ANG_TO_AU <aided.core.units.ANG_TO_AU>`
+  - ```{autodoc2-docstring} aided.core.units.ANG_TO_AU
+    :summary:
+    ```
+* - {py:obj}`ANG_TO_M <aided.core.units.ANG_TO_M>`
+  - ```{autodoc2-docstring} aided.core.units.ANG_TO_M
+    :summary:
+    ```
+* - {py:obj}`AMU_TO_KG <aided.core.units.AMU_TO_KG>`
+  - ```{autodoc2-docstring} aided.core.units.AMU_TO_KG
+    :summary:
+    ```
+* - {py:obj}`ANG2_TO_M2 <aided.core.units.ANG2_TO_M2>`
+  - ```{autodoc2-docstring} aided.core.units.ANG2_TO_M2
+    :summary:
+    ```
+* - {py:obj}`THERM_FACTOR_CM_K <aided.core.units.THERM_FACTOR_CM_K>`
+  - ```{autodoc2-docstring} aided.core.units.THERM_FACTOR_CM_K
+    :summary:
+    ```
+* - {py:obj}`ZPE_PREF_ANG2 <aided.core.units.ZPE_PREF_ANG2>`
+  - ```{autodoc2-docstring} aided.core.units.ZPE_PREF_ANG2
+    :summary:
+    ```
+````
+
+### API
+
+`````{py:class} Units(*args, **kwds)
+:canonical: aided.core.units.Units
+
+Bases: {py:obj}`enum.Enum`
+
+```{autodoc2-docstring} aided.core.units.Units
+```
+
+```{rubric} Initialization
+```
+
+```{autodoc2-docstring} aided.core.units.Units.__init__
+```
+
+````{py:attribute} BOHR
+:canonical: aided.core.units.Units.BOHR
+:value: >
+   0
+
+```{autodoc2-docstring} aided.core.units.Units.BOHR
+```
+
+````
+
+````{py:attribute} ANG
+:canonical: aided.core.units.Units.ANG
+:value: >
+   1
+
+```{autodoc2-docstring} aided.core.units.Units.ANG
+```
+
+````
+
+`````
+
+````{py:data} HBAR
+:canonical: aided.core.units.HBAR
+:value: >
+   1.054571817e-34
+
+```{autodoc2-docstring} aided.core.units.HBAR
+```
+
+````
+
+````{py:data} KB
+:canonical: aided.core.units.KB
+:value: >
+   1.380649e-23
+
+```{autodoc2-docstring} aided.core.units.KB
+```
+
+````
+
+````{py:data} C_CM_S
+:canonical: aided.core.units.C_CM_S
+:value: >
+   29979245800.0
+
+```{autodoc2-docstring} aided.core.units.C_CM_S
+```
+
+````
+
+````{py:data} AMU
+:canonical: aided.core.units.AMU
+:value: >
+   1.6605390666e-27
+
+```{autodoc2-docstring} aided.core.units.AMU
+```
+
+````
+
+````{py:data} AU_TO_ANG
+:canonical: aided.core.units.AU_TO_ANG
+:value: >
+   0.5291772109038
+
+```{autodoc2-docstring} aided.core.units.AU_TO_ANG
+```
+
+````
+
+````{py:data} ANG_TO_AU
+:canonical: aided.core.units.ANG_TO_AU
+:value: >
+   1.88972612545782
+
+```{autodoc2-docstring} aided.core.units.ANG_TO_AU
+```
+
+````
+
+````{py:data} ANG_TO_M
+:canonical: aided.core.units.ANG_TO_M
+:value: >
+   1e-10
+
+```{autodoc2-docstring} aided.core.units.ANG_TO_M
+```
+
+````
+
+````{py:data} AMU_TO_KG
+:canonical: aided.core.units.AMU_TO_KG
+:value: >
+   1.6605390666e-27
+
+```{autodoc2-docstring} aided.core.units.AMU_TO_KG
+```
+
+````
+
+````{py:data} ANG2_TO_M2
+:canonical: aided.core.units.ANG2_TO_M2
+:value: >
+   1e-20
+
+```{autodoc2-docstring} aided.core.units.ANG2_TO_M2
+```
+
+````
+
+````{py:data} THERM_FACTOR_CM_K
+:canonical: aided.core.units.THERM_FACTOR_CM_K
+:value: >
+   None
+
+```{autodoc2-docstring} aided.core.units.THERM_FACTOR_CM_K
+```
+
+````
+
+````{py:data} ZPE_PREF_ANG2
+:canonical: aided.core.units.ZPE_PREF_ANG2
+:value: >
+   None
+
+```{autodoc2-docstring} aided.core.units.ZPE_PREF_ANG2
+```
+
+````

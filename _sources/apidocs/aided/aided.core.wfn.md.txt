@@ -1,0 +1,18 @@
+# {py:mod}`aided.core.wfn`
+
+```{py:module} aided.core.wfn
+```
+
+```{autodoc2-docstring} aided.core.wfn
+:allowtitles:
+```
+
+## Submodules
+
+```{toctree}
+:titlesonly:
+:maxdepth: 1
+
+aided.core.wfn.wfns_rep
+aided.core.wfn.wfn_rep
+```

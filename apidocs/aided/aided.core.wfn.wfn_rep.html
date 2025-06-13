@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aided.core.wfn.wfn_rep &mdash; aided  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            aided
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Apps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/create_msda.html">Create msda</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">aided</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aided.core.wfn.wfn_rep</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/apidocs/aided/aided.core.wfn.wfn_rep.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-aided.core.wfn.wfn_rep">
+<span id="aided-core-wfn-wfn-rep"></span><h1><a class="reference internal" href="#module-aided.core.wfn.wfn_rep" title="aided.core.wfn.wfn_rep"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aided.core.wfn.wfn_rep</span></code></a><a class="headerlink" href="#module-aided.core.wfn.wfn_rep" title="Link to this heading"></a></h1>
+<p>aided.core.wfn.wfn_rep</p>
+<p>Read AIMfile output files.</p>
+<p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#aided.core.wfn.wfn_rep.WFNRep" title="aided.core.wfn.wfn_rep.WFNRep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WFNRep</span></code></a></p></td>
+<td><p>Structure of Arrays of AIM file / representation using numpy arrays.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aided.core.wfn.wfn_rep.</span></span><span class="sig-name descname"><span class="pre">WFNRep</span></span><a class="reference internal" href="../../_modules/aided/core/wfn/wfn_rep.html#WFNRep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep" title="Link to this definition"></a></dt>
+<dd><p>Structure of Arrays of AIM file / representation using numpy arrays.</p>
+<p>nmos: Number of Molecular Orbitals
+nprims: Number of Gaussian Primitives
+nats: Number of Nuclei (Atoms)
+atnames: Atom names
+atpos: Atomic positions
+atcharge: Atomic charges
+centers: Atomic center upon which each primitive is based
+types: Gaussian primitive type for each atom
+expons: Exponents for each basis function
+occs: Occupancy number for each MO
+energies: Energy of each MO
+coeffs: Coefficients for each MO
+total_energy: Total energy of the system
+virial_energy: Virial energy of the system</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.nmos">
+<span class="sig-name descname"><span class="pre">nmos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.nmos" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.nprims">
+<span class="sig-name descname"><span class="pre">nprims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.nprims" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.nats">
+<span class="sig-name descname"><span class="pre">nats</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.nats" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.atnames">
+<span class="sig-name descname"><span class="pre">atnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.object_</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.atnames" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.atpos">
+<span class="sig-name descname"><span class="pre">atpos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.atpos" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.atcharge">
+<span class="sig-name descname"><span class="pre">atcharge</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.int_</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.atcharge" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.centers">
+<span class="sig-name descname"><span class="pre">centers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.int_</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.centers" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.types">
+<span class="sig-name descname"><span class="pre">types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.int_</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.types" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.expons">
+<span class="sig-name descname"><span class="pre">expons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.expons" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.occs">
+<span class="sig-name descname"><span class="pre">occs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.occs" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.energies">
+<span class="sig-name descname"><span class="pre">energies</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.energies" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.coeffs">
+<span class="sig-name descname"><span class="pre">coeffs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">aided.npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">aided.np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.coeffs" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.total_energy">
+<span class="sig-name descname"><span class="pre">total_energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.total_energy" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.virial_energy">
+<span class="sig-name descname"><span class="pre">virial_energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.virial_energy" title="Link to this definition"></a></dt>
+<dd><p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aided/core/wfn/wfn_rep.html#WFNRep.__post_init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.__post_init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aided.core.wfn.wfn_rep.WFNRep.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/aided/core/wfn/wfn_rep.html#WFNRep.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.core.wfn.wfn_rep.WFNRep.__eq__" title="Link to this definition"></a></dt>
+<dd><p>Equality comparison for WFNRep.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

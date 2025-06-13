@@ -1,0 +1,8 @@
+# {py:mod}`aided.__main__`
+
+```{py:module} aided.__main__
+```
+
+```{autodoc2-docstring} aided.__main__
+:allowtitles:
+```

@@ -44,10 +44,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="apps/create_msda.html">Create msda</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">aided</a></li>
-</ul>
 
         </div>
       </div>
@@ -86,19 +82,11 @@
 <dt class="sig sig-object py" id="aided.math.geometry.distance_from_point_to_line">
 <span class="sig-prename descclassname"><span class="pre">aided.math.geometry.</span></span><span class="sig-name descname"><span class="pre">distance_from_point_to_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/aided/math/geometry.html#distance_from_point_to_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.math.geometry.distance_from_point_to_line" title="Link to this definition"></a></dt>
 <dd><p>Calculate the distance from a point to a line.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> – The point in question.</p></li>
-<li><p><strong>a</strong> – Two points forming a line.</p></li>
-<li><p><strong>b</strong> – Two points forming a line.</p></li>
-</ul>
+<dl class="simple">
+<dt>Args:</dt><dd><p>x: The point in question.
+a, b: Two points forming a line.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The distance from the point to the line</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>d</p>
+<dt>Returns:</dt><dd><p>d: The distance from the point to the line</p>
 </dd>
 </dl>
 </dd></dl>
@@ -107,16 +95,11 @@
 <dt class="sig sig-object py" id="aided.math.geometry.spherical_angles_from_vector">
 <span class="sig-prename descclassname"><span class="pre">aided.math.geometry.</span></span><span class="sig-name descname"><span class="pre">spherical_angles_from_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/aided/math/geometry.html#spherical_angles_from_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.math.geometry.spherical_angles_from_vector" title="Link to this definition"></a></dt>
 <dd><p>Convert a 3D vector to spherical angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> – A 3D vector of x, y, z coordinates.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>v: A 3D vector of x, y, z coordinates.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The polar angle (angle from the z-axis).
+<dt>Returns:</dt><dd><p>theta: The polar angle (angle from the z-axis).
 phi: The azimuthal angle (angle in the x-y plane from the x-axis).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>theta</p>
 </dd>
 </dl>
 </dd></dl>
@@ -141,19 +124,10 @@ phi: The azimuthal angle (angle in the x-y plane from the x-axis).</p>
 <li><p>For everything else, it computes x ** expon.</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> – Base value.</p></li>
-<li><p><strong>expon</strong> – Exponent value.</p></li>
-</ul>
+<dt>Args:</dt><dd><p>x: Base value.
+expon: Exponent value.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The resulting value of x raised to the power of expon.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>result</p>
+<dt>Returns:</dt><dd><p>result: The resulting value of x raised to the power of expon.</p>
 </dd>
 </dl>
 </dd></dl>
