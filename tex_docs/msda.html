@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>aided.apps.create_msda.cli module &mdash; aided  documentation</title>
+  <title>MSDA Derivation &mdash; aided  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -16,9 +16,12 @@
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="aided.cli module" href="../apidocs/aided.cli.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,8 +52,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">aided</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Derivations</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../tex_docs/msda.html">MSDA Derivation</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MSDA Derivation</a></li>
 </ul>
 
         </div>
@@ -67,9 +70,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">aided.apps.create_msda.cli module</li>
+      <li class="breadcrumb-item active">MSDA Derivation</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/apidocs/aided.apps.create_msda.cli.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tex_docs/msda.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -77,27 +80,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-aided.apps.create_msda.cli">
-<span id="aided-apps-create-msda-cli-module"></span><h1>aided.apps.create_msda.cli module<a class="headerlink" href="#module-aided.apps.create_msda.cli" title="Link to this heading"></a></h1>
-<p>Arguments specific to the command line interface.</p>
-<p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="aided.apps.create_msda.cli.add_arguments">
-<span class="sig-prename descclassname"><span class="pre">aided.apps.create_msda.cli.</span></span><span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ArgumentParser</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/aided/apps/create_msda/cli.html#add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.apps.create_msda.cli.add_arguments" title="Link to this definition"></a></dt>
-<dd><p>Parse command line arguments.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>parser</strong> (<em>ArgumentParser</em>) – The argument parser instance.</p>
-</dd>
-</dl>
-</dd></dl>
-
+  <section id="msda-derivation">
+<h1>MSDA Derivation<a class="headerlink" href="#msda-derivation" title="Link to this heading"></a></h1>
+<p>The normal mode analysis of a system containing N vibrating nuclei in thermal equilibrium
+leads to a 3N-multivariate normal distributino of nuclear displacements relative to their
+equilibrium positions (<span class="math notranslate nohighlight">\(\mathbf{u} = \mathbf{R} - \mathbf{R}^0\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+P(\mathbf{u}) = (2\pi)^{-3N/2} |\mathbf{U}|^{-1/2} \exp\left(-\frac{1}{2} \mathbf{u} \mathbf{U}^{-1} \mathbf{u}^T\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{u}^T\)</span> represents the transpose of <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> is the covariance matrix of the displacements.</p>
+<p>This covariance matrix is the  Mean Square Displacement Amplitude (MSDA) matrix associated with the
+expectation values of the Cartesian nuclear displacement products (second moments):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{U} = \langle \mathbf{u} \mathbf{u}^T \rangle_T
+\]</div>
+<p>The temperature dependence of <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> is embedded in the MSDAs of the normal modes in its eigenvalues
+<span class="math notranslate nohighlight">\(\mathbf{\delta} = (\delta_{i=1,3N})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{U} = \mathbf{L} \mathbf{\delta} \mathbf{L}^T
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\delta_j = \frac{h}{8 \pi^2 \nu_j} \coth\left( \frac{h \nu_j}{2 k_B T} \right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nu_j\)</span> is the frequency of the <span class="math notranslate nohighlight">\(j\)</span>-th normal mode, <span class="math notranslate nohighlight">\(h\)</span> is Planck’s constant, and <span class="math notranslate nohighlight">\(k_B\)</span> is Boltzmann’s constant.</p>
+<p>This page is typeset from the LaTeX source used in the full theory.
+Download the complete PDF <a class="reference download internal" download="" href="../_downloads/edccfb10016a5172684ff94f8508ac02/aided.pdf"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../apidocs/aided.cli.html" class="btn btn-neutral float-left" title="aided.cli module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
