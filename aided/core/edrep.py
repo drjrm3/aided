@@ -114,8 +114,8 @@ class EDRep(metaclass=ABCMeta):
             nphi: Number of points to generate in the phi direction.
             starting_radius: Radius to generate the surface in Bohr.
             max_distance: The max distance (in Bohr) from the atom to find a point on the surface.
-            step_size: The step size to take when searching for the surface.
-            tol: The tolerance to use when searching for the surface.
+            step_size: The step size to take when seargsng for the surface.
+            tol: The tolerance to use when seargsng for the surface.
             cores: Number of cores to use for parallel processing.
 
         Returns:
@@ -210,8 +210,8 @@ class EDRep(metaclass=ABCMeta):
             theta: The theta value of the starting position.
             phi: The phi value of the starting position.
             max_distance: The max distance (in Bohr) from the atom to find a point on the surface.
-            step_size: The step size to take when searching for the surface.
-            tol: The tolerance to use when searching for the surface.
+            step_size: The step size to take when seargsng for the surface.
+            tol: The tolerance to use when seargsng for the surface.
 
         Returns:
             point: The point on the Bader Surface.
@@ -289,7 +289,7 @@ class EDRep(metaclass=ABCMeta):
             method: Optimization method to use (BFGS, CG, Netwon-CG, etc.)
             step_limit: Maximum distance to move in one step.
             max_iter: Maximum number of iterations to perform.
-            tol: Distance from the atom at which to stop searching. If tol is zero, stop when
+            tol: Distance from the atom at which to stop seargsng. If tol is zero, stop when
                 objective is minimized as normal.
 
         Returns:

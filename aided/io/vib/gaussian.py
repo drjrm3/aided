@@ -191,12 +191,12 @@ class GaussianLogReader(LogReader):
             msda (np.ndarray): Mean square displacement amplitudes in Å², shape (n_mode,).
         """
 
-        mode_prefactor = ZPE_PREF_ANG2 / self.freqs / self.reduced_masses  # Å²
+        delta = ZPE_PREF_ANG2 / self.freqs / self.reduced_masses  # Å²
         if temperature > 1e-9:
-            mode_prefactor *= coth(THERM_FACTOR_CM_K * self.freqs / temperature)
+            delta *= coth(THERM_FACTOR_CM_K * self.freqs / temperature)
 
         # modes : (3N, n_mode)        columns = √amu-weighted eigen-vectors
-        # mode_prefactor : (n_mode,)  scalar prefactor for each mode
-        msda = np.einsum("is,s,js->ij", self.modes, mode_prefactor, self.modes)
+        # delta : (n_mode,)           scalar prefactor for each mode
+        msda = np.einsum("is,s,js->ij", self.modes, delta, self.modes)
 
         return msda

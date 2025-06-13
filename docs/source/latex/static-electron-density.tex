@@ -1,0 +1,42 @@
+
+The (static) Electron Density (ED) of a molecule with M positively charged nuclei  and N negatively charged
+electrons gives the probability of finding an electron in the infinitesimally small space
+$d \mathbf{r_x}$ at the point $\mathbf{r_x} = (x, y, z)$:
+
+$$
+\rho(r_x) = N \int \Psi(r_x, \mathbf{r}_2, \ldots, \mathbf{r}_N; \mathbf{R}) \Psi^*(r_x, \mathbf{r}_2, \ldots, \mathbf{r}_N; \mathbf{R}) \, d\mathbf{r}_2 \ldots d\mathbf{r}_N
+$$
+
+where $\Psi$ is the spinless ground-state 'wave function' for the N electrons, distributed in the field of nuclei with fixed positions
+(given by the 3M vectors $\mathbf{R}$).
+
+
+Given an equlibrium geometry $\mathbf{R}$ and accompanying ground-state wave function $\Psi$, a common practice
+is to describe the many electron wavefunction, $\Psi$, as an antisymmetric linear combination of one-electron Molecular Orbitals (MOs), $\Phi_i$,
+each of which is described by a linear combination of Atomic Orbitals (AO), $\phi_j$.
+
+Each AO is expanded in Gaussian Type Orbitals (GTO), $g_k$, centered at a nucleus such that
+
+$$
+g_k(x, y, z) = (x - X_k)^{n_k} (y - Y_k)^{m_k} (z - Z_k)^{l_k} \, \mathrm{Exp}\left[-\alpha_k \left| \mathbf{r} - \mathbf{R}_k \right|^2 \right]
+$$
+
+giving rise to the expressions for AOs and MOs as:
+
+$$
+\phi_j(\mathbf{r}) = \sum_k d_{jk} g_k(\mathbf{r})
+$$
+
+$$
+\Psi_i(\mathbf{r}) = \sum_j c_{ij} \phi_j(\mathbf{r})
+$$
+
+The final ED can then be expressed as:
+
+$$
+\rho(\mathbf{r}) = \sum_{\mu,\nu} \sum_{\mu,\nu} P_{\mu\nu} \phi_\mu(\mathbf{r}) \phi_\nu(\mathbf{r})
+$$
+
+where $P_{\mu\nu}$ is the density matrix, given by $P_{\mu\nu} = 2\sum_k c_{\mu k} c_{\nu k}$ for closed system shells.
+
+TODO: Go into more detail on this calculation.

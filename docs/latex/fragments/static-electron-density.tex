@@ -1,0 +1,84 @@
+\documentclass{standalone}
+\usepackage{aided_preamble}
+\begin{document}
+
+The (static) Electron Density (ED) of a molecule with M positively charged nuclei  and N negatively charged
+electrons gives the probability of finding an electron in the infinitesimally small space
+$d \mathbf{r_x}$ at the point $\mathbf{r_x} = (x, y, z)$:
+
+$$
+\rho(r_x) = N \int \Psi(r_x, \mathbf{r}_2, \ldots, \mathbf{r}_N; \mathbf{R}) \Psi^*(r_x, \mathbf{r}_2, \ldots, \mathbf{r}_N; \mathbf{R}) \, d\mathbf{r}_2 \ldots d\mathbf{r}_N
+$$
+
+where $\Psi$ is the spinless ground-state 'wave function' for the N electrons, distributed in the field of nuclei with fixed positions
+(given by the 3M vectors $\mathbf{R}$).
+
+
+Given an equlibrium geometry $\mathbf{R}$ and accompanying ground-state wave function $\Psi$, a common practice
+is to describe the many electron wavefunction, $\Psi_i$, as an antisymmetric linear combination of one-electron 
+Molecular Orbitals (MOs), $\Psi_i$,
+each of which is described by a linear combination of Atomic Orbitals (AO), $\phi_j$.
+
+% ------------ Basis definitions -------------------------------------------
+An atomic orbital (AO) is a contraction of primitive Gaussians:
+\begin{equation}
+\label{eq:phi_j}
+\phi_j(\mathbf r)=\sum_{k} g_{jk}\,g_k(\mathbf r)
+\end{equation}
+Molecular orbitals (MOs) are written directly in the primitive basis
+using the coefficients that appear in the code:
+\begin{equation}
+\label{eq:Psi_i}
+\Psi_i(\mathbf r)=\sum_{k} C_{ik}\,g_k(\mathbf r)
+\end{equation}
+
+% ------------ Density in the AO basis -------------------------------------
+The electron density is
+\begin{equation}
+\label{eq:rho_phi}
+\rho(\mathbf r)=\sum_{\mu,\nu}P_{\mu\nu}\,
+                \phi_\mu(\mathbf r)\,\phi_\nu(\mathbf r),
+\qquad
+P_{\mu\nu}=2\sum_i n_i\,c_{i\mu}\,c_{i\nu}\
+\end{equation}
+(AO-level MO coefficients \(c_{i\mu}\) are related to \(C_{ik}\) by
+\(C_{ik}= \sum_\mu c_{i\mu}\,g_{\mu k}\).)
+
+% ------------ Transform to the primitive basis ----------------------------
+In \textsc{AIDED} we insert \eqref{eq:phi_j} into \eqref{eq:rho_phi}:
+\begin{align}
+\rho(\mathbf r)
+  &=\sum_{\mu,\nu}P_{\mu\nu}
+    \!\Bigl(\sum_{k} g_{\mu k}\,g_k(\mathbf r)\Bigr)
+    \!\Bigl(\sum_{l} g_{\nu l}\,g_l(\mathbf r)\Bigr)\notag\\
+  &=\sum_{k,l}
+    \Bigl(\sum_{\mu,\nu}g_{\mu k}\,P_{\mu\nu}\,g_{\nu l}\Bigr)
+     g_k(\mathbf r)\, g_l(\mathbf r).
+\end{align}
+
+Define the primitive-basis density matrix
+\begin{equation}
+\label{eq:Dkl}
+D_{kl}=\sum_{\mu,\nu}g_{\mu k}\,P_{\mu\nu}\,g_{\nu l},
+\end{equation}
+so that
+\[
+  \rho(\mathbf r)=\sum_{k,l}D_{kl}\,g_k(\mathbf r)\,g_l(\mathbf r)
+  =g^{\mathsf T}D\,g.
+\]
+
+% ------------ One-shot construction used in the code ----------------------
+Because Gaussian’s *.wfn file already folds the contraction coefficients
+into the exported MO matrix \(C_{ik}\), we may build \(D\) in a \emph{single
+pass} exactly as in the Python routine:
+
+\begin{equation}
+\label{eq:denmat}
+D_{kl}= \sum_{i} n_i\,C_{ik}\,C_{il}.
+\end{equation}
+
+The entire grid calculation then reduces to evaluating
+\(\rho(\mathbf r)=g^{\mathsf T}Dg\) with a \textbf{fixed} \(D\), giving the
+computational speed-up described in the text.
+
+\end{document}

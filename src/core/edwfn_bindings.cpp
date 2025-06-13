@@ -20,7 +20,7 @@
 namespace aided {
 
 #define DISPATCH(T)                            \
-    return dispatch_gen_chi<T>(x,              \
+    return dispatch_gen_gs<T>(x,              \
                                y,              \
                                z,              \
                                ider,           \
@@ -30,13 +30,13 @@ namespace aided {
                                centers,        \
                                expons,         \
                                atpos,          \
-                               chi,            \
-                               chi1,           \
-                               chi2);
+                               gs,            \
+                               gs1,           \
+                               gs2);
 
 template<typename T>
 std::tuple<bool, pybind11::object, pybind11::object>
-dispatch_gen_chi(pybind11::object x,
+dispatch_gen_gs(pybind11::object x,
                 pybind11::object y,
                 pybind11::object z,
                 pybind11::object ider,
@@ -46,16 +46,16 @@ dispatch_gen_chi(pybind11::object x,
                 const pybind11::array& centers,
                 const pybind11::array& expons,
                 const pybind11::array& atpos,
-                pybind11::array& chi,
-                pybind11::array& chi1,
-                pybind11::array& chi2
+                pybind11::array& gs,
+                pybind11::array& gs1,
+                pybind11::array& gs2
 )
 {
     // Convert pass by reference arguments to lvalue types.
     auto _last_dir = pybind11::cast<int32_t>(last_der);
-    auto _chi = chi.mutable_unchecked<T, 1>();
-    auto _chi1 = chi1.mutable_unchecked<T, 2>();
-    auto _chi2 = chi2.mutable_unchecked<T, 2>();
+    auto _gs = gs.mutable_unchecked<T, 1>();
+    auto _gs1 = gs1.mutable_unchecked<T, 2>();
+    auto _gs2 = gs2.mutable_unchecked<T, 2>();
     const auto _atpos = pybind11::cast<std::vector<T>>(atpos.attr("flatten")());
 
     std::vector<T> _last_point;
@@ -72,7 +72,7 @@ dispatch_gen_chi(pybind11::object x,
         _last_point = pybind11::cast<std::vector<T>>(last_point);
     }
 
-    auto computed_chi = gen_chi<T>(
+    auto computed_gs = gen_gs<T>(
         x.cast<T>(),
         y.cast<T>(),
         z.cast<T>(),
@@ -83,23 +83,23 @@ dispatch_gen_chi(pybind11::object x,
         pybind11::cast<std::vector<int32_t>>(centers),
         pybind11::cast<std::vector<T>>(expons),
         _atpos,
-        static_cast<T*>(chi.mutable_data()), chi.size(),
-        static_cast<T*>(chi1.mutable_data()), chi1.shape(0), chi1.shape(1),
-        static_cast<T*>(chi2.mutable_data()), chi2.shape(0), chi2.shape(1)
+        static_cast<T*>(gs.mutable_data()), gs.size(),
+        static_cast<T*>(gs1.mutable_data()), gs1.shape(0), gs1.shape(1),
+        static_cast<T*>(gs2.mutable_data()), gs2.shape(0), gs2.shape(1)
     );
 
     // Copy contents back to the pybind11 objects
     last_point = pybind11::cast(_last_point);
     last_der = pybind11::cast(_last_dir);
 
-    auto output = std::make_tuple(computed_chi, last_point, last_der);
+    auto output = std::make_tuple(computed_gs, last_point, last_der);
 
     return output;
 }
 
-// Function to handle the gpow operation. Relies on type aware dispatching.
+// Function to handle the gpow operation. Relies on type aware dispatgsng.
 std::tuple<bool, pybind11::object, pybind11::object>
-gen_chi_py(pybind11::object x,
+gen_gs_py(pybind11::object x,
                 pybind11::object y,
                 pybind11::object z,
                 pybind11::object ider,
@@ -109,9 +109,9 @@ gen_chi_py(pybind11::object x,
                 const pybind11::array& centers,
                 const pybind11::array& expons,
                 const pybind11::array& atpos,
-                pybind11::array& chi,
-                pybind11::array& chi1,
-                pybind11::array& chi2
+                pybind11::array& gs,
+                pybind11::array& gs1,
+                pybind11::array& gs2
 )
 {
 
@@ -127,6 +127,6 @@ gen_chi_py(pybind11::object x,
 }
 
 PYBIND11_MODULE(_edwfn, m) {
-    m.def("gen_chi", &gen_chi_py, "Generation of chi.");
+    m.def("gen_gs", &gen_gs_py, "Generation of gs.");
 }
 } // namespace aided

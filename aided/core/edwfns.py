@@ -19,14 +19,14 @@ from ..math.primitives import gpow
 
 
 def compute_hessian_batch(
-    chi: npt.NDArray, chi1: npt.NDArray, chi2: npt.NDArray, denmat: npt.NDArray
+    gs: npt.NDArray, gs1: npt.NDArray, gs2: npt.NDArray, denmat: npt.NDArray
 ) -> np.ndarray:
     """Compute the Hessian for a batch of wavefunctions.
 
     Args:
-        chi: Chi matrix.
-        chi1: First derivative of chi matrix.
-        chi2: Second derivative of chi matrix.
+        gs: Chi matrix.
+        gs1: First derivative of gs matrix.
+        gs2: Second derivative of gs matrix.
         denmat: Density matrix.
 
     Returns:
@@ -38,49 +38,49 @@ def compute_hessian_batch(
     hessv[0] = np.einsum(
         "ijk,ijk->",
         denmat,
-        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
-        + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-        + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :],
+        gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 0]
+        + 2.0 * gs1[:, :, 0][:, :, np.newaxis] * gs1[:, :, 0][:, np.newaxis, :]
+        + gs2[:, :, 0][:, :, np.newaxis] * gs[:, np.newaxis, :],
     )
     hessv[1] = np.einsum(
         "ijk,ijk->",
         denmat,
-        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
-        + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-        + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :],
+        gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 3]
+        + 2.0 * gs1[:, :, 1][:, :, np.newaxis] * gs1[:, :, 1][:, np.newaxis, :]
+        + gs2[:, :, 3][:, :, np.newaxis] * gs[:, np.newaxis, :],
     )
     hessv[2] = np.einsum(
         "ijk,ijk->",
         denmat,
-        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
-        + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-        + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :],
+        gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 5]
+        + 2.0 * gs1[:, :, 2][:, :, np.newaxis] * gs1[:, :, 2][:, np.newaxis, :]
+        + gs2[:, :, 5][:, :, np.newaxis] * gs[:, np.newaxis, :],
     )
 
     # Compute off-diagonal terms
     hessv[3] = np.einsum(
         "ijk,ijk->",
         denmat,
-        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
-        + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-        + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-        + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :],
+        gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 1]
+        + gs1[:, :, 0][:, :, np.newaxis] * gs1[:, :, 1][:, np.newaxis, :]
+        + gs1[:, :, 1][:, :, np.newaxis] * gs1[:, :, 0][:, np.newaxis, :]
+        + gs2[:, :, 1][:, :, np.newaxis] * gs[:, np.newaxis, :],
     )
     hessv[4] = np.einsum(
         "ijk,ijk->",
         denmat,
-        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
-        + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-        + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-        + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :],
+        gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 2]
+        + gs1[:, :, 0][:, :, np.newaxis] * gs1[:, :, 2][:, np.newaxis, :]
+        + gs1[:, :, 2][:, :, np.newaxis] * gs1[:, :, 0][:, np.newaxis, :]
+        + gs2[:, :, 2][:, :, np.newaxis] * gs[:, np.newaxis, :],
     )
     hessv[5] = np.einsum(
         "ijk,ijk->",
         denmat,
-        chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
-        + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-        + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-        + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :],
+        gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 4]
+        + gs1[:, :, 1][:, :, np.newaxis] * gs1[:, :, 2][:, np.newaxis, :]
+        + gs1[:, :, 2][:, :, np.newaxis] * gs1[:, :, 1][:, np.newaxis, :]
+        + gs2[:, :, 4][:, :, np.newaxis] * gs[:, np.newaxis, :],
     )
 
     return hessv
@@ -101,9 +101,9 @@ class EDWfns(EDRep):
         super().__init__(input_file=wfn_file_list)
 
         self._denmat: NDArray[np.float64]
-        self._chi: NDArray[np.float64]
-        self._chi1: NDArray[np.float64]
-        self._chi2: NDArray[np.float64]
+        self._gs: NDArray[np.float64]
+        self._gs1: NDArray[np.float64]
+        self._gs2: NDArray[np.float64]
         self._occ: NDArray[np.float64]
 
         with open(wfn_file_list, "r") as finp:
@@ -118,10 +118,10 @@ class EDWfns(EDRep):
         # Assumes that all .wfns represent the same molecule and we want the averaged position.
         self._atpos = np.mean(self._wfns_rep.atpos, axis=0)
 
-        # Initialize the chi matrices.
-        self._chi = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims), dtype=float)
-        self._chi1 = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, 3), dtype=float)
-        self._chi2 = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, 6), dtype=float)
+        # Initialize the gs matrices.
+        self._gs = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims), dtype=float)
+        self._gs1 = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, 3), dtype=float)
+        self._gs2 = np.zeros((self._wfns_rep.nwfns, self._wfns_rep.nprims, 6), dtype=float)
         self._denmat = np.zeros(
             (self._wfns_rep.nwfns, self._wfns_rep.nprims, self._wfns_rep.nprims), dtype=float
         )
@@ -153,11 +153,11 @@ class EDWfns(EDRep):
         # This assumes that all atnames are equal.
         return self._atnames
 
-    def _gen_chi_worker(self, wfn_group: List[int], x: float, y: float, z: float, ider: int):
-        """Worker function for generating chi matrix for the given point in parallel."""
+    def _gen_gs_worker(self, wfn_group: List[int], x: float, y: float, z: float, ider: int):
+        """Worker function for generating gs matrix for the given point in parallel."""
 
-    def _gen_chi(self, x: float, y: float, z: float, ider: int):
-        """Generate the chi matrix for the given point.
+    def _gen_gs(self, x: float, y: float, z: float, ider: int):
+        """Generate the gs matrix for the given point.
 
         Skip this if the point is the same as the last point.
 
@@ -205,8 +205,8 @@ class EDWfns(EDRep):
             ym = gpow(py, m)  # Shape: (nprims,)
             zn = gpow(pz, n)  # Shape: (nprims,)
 
-            # Compute `chi`
-            self._chi[iwfn, :nprims] = xl * ym * zn * expon  # Shape: (nprims,)
+            # Compute `gs`
+            self._gs[iwfn, :nprims] = xl * ym * zn * expon  # Shape: (nprims,)
 
             # First derivatives (if ider >= 1)
             if ider >= 1:
@@ -220,53 +220,53 @@ class EDWfns(EDRep):
                 xzexp = xl * zn * expon  # Shape: (nprims,)
                 yzexp = ym * zn * expon  # Shape: (nprims,)
 
-                self._chi1[iwfn, :nprims, 0] = yzexp * (term11 - twoa * xl * px)
-                self._chi1[iwfn, :nprims, 1] = xzexp * (term12 - twoa * ym * py)
-                self._chi1[iwfn, :nprims, 2] = xyexp * (term13 - twoa * zn * pz)
+                self._gs1[iwfn, :nprims, 0] = yzexp * (term11 - twoa * xl * px)
+                self._gs1[iwfn, :nprims, 1] = xzexp * (term12 - twoa * ym * py)
+                self._gs1[iwfn, :nprims, 2] = xyexp * (term13 - twoa * zn * pz)
 
                 # Second derivatives (if ider >= 2)
                 if ider >= 2:
-                    twoa_chi = twoa * self._chi[iwfn, :nprims]  # Shape: (nprims,)
+                    twoa_gs = twoa * self._gs[iwfn, :nprims]  # Shape: (nprims,)
 
                     # xx, yy, zz
-                    self._chi2[iwfn, :nprims, 0] = gpow(px, l - 2) * yzexp * l * (
+                    self._gs2[iwfn, :nprims, 0] = gpow(px, l - 2) * yzexp * l * (
                         l - 1
-                    ) - twoa_chi * (2.0 * l + 1.0 - twoa * px**2)
-                    self._chi2[iwfn, :nprims, 3] = gpow(py, m - 2) * xzexp * m * (
+                    ) - twoa_gs * (2.0 * l + 1.0 - twoa * px**2)
+                    self._gs2[iwfn, :nprims, 3] = gpow(py, m - 2) * xzexp * m * (
                         m - 1
-                    ) - twoa_chi * (2.0 * m + 1.0 - twoa * py**2)
-                    self._chi2[iwfn, :nprims, 5] = gpow(pz, n - 2) * xyexp * n * (
+                    ) - twoa_gs * (2.0 * m + 1.0 - twoa * py**2)
+                    self._gs2[iwfn, :nprims, 5] = gpow(pz, n - 2) * xyexp * n * (
                         n - 1
-                    ) - twoa_chi * (2.0 * n + 1.0 - twoa * pz**2)
+                    ) - twoa_gs * (2.0 * n + 1.0 - twoa * pz**2)
 
                     expee = twoa * expon  # Shape: (nprims,)
-                    foura_two_chi = 4.0 * alpha**2 * self._chi[iwfn, :nprims]  # Shape: (nprims,)
+                    foura_two_gs = 4.0 * alpha**2 * self._gs[iwfn, :nprims]  # Shape: (nprims,)
 
                     # xy
-                    self._chi2[iwfn, :nprims, 1] = (
+                    self._gs2[iwfn, :nprims, 1] = (
                         term11 * term12 * zn * expon
                         - term12 * xl * px * zn * expee
                         - term11 * ym * py * zn * expee
-                        + px * py * foura_two_chi
+                        + px * py * foura_two_gs
                     )
 
                     # xz
-                    self._chi2[iwfn, :nprims, 2] = (
+                    self._gs2[iwfn, :nprims, 2] = (
                         term11 * term13 * ym * expon
                         - term13 * xl * px * ym * expee
                         - term11 * zn * pz * ym * expee
-                        + px * pz * foura_two_chi
+                        + px * pz * foura_two_gs
                     )
 
                     # yz
-                    self._chi2[iwfn, :nprims, 4] = (
+                    self._gs2[iwfn, :nprims, 4] = (
                         term12 * term13 * xl * expon
                         - term13 * ym * py * xl * expee
                         - term12 * zn * pz * xl * expee
-                        + py * pz * foura_two_chi
+                        + py * pz * foura_two_gs
                     )
 
-        return self._chi, self._chi1, self._chi2
+        return self._gs, self._gs1, self._gs2
 
     def _gen_denmat(self):
         """Generate the density matrix for the given point.
@@ -289,26 +289,26 @@ class EDWfns(EDRep):
         Returns: Value of ED in chosen units.
         """
 
-        self._gen_chi(x, y, z, ider=0)
+        self._gen_gs(x, y, z, ider=0)
 
         rhov = 0.0
         for iwfn in range(self._wfns_rep.nwfns):
             rhov += float(
                 np.sum(
                     self._denmat[iwfn, ...]
-                    * self._chi[iwfn, :, np.newaxis]
-                    * self._chi[iwfn, np.newaxis, :]
+                    * self._gs[iwfn, :, np.newaxis]
+                    * self._gs[iwfn, np.newaxis, :]
                 )
             )
 
         rhov /= self._wfns_rep.nwfns
 
         """
-        # Pre-compute chi products once for all iwfn
-        chi_product = self._chi[:, :, np.newaxis] * self._chi[:, np.newaxis, :]
+        # Pre-compute gs products once for all iwfn
+        gs_product = self._gs[:, :, np.newaxis] * self._gs[:, np.newaxis, :]
 
         # Perform the matrix product for all iwfn at once
-        rhov = np.einsum("ijk,ijk->i", self._denmat, chi_product)
+        rhov = np.einsum("ijk,ijk->i", self._denmat, gs_product)
 
         # Average across all iwfn
         rhov = np.sum(rhov) / self._wfns_rep.nwfns
@@ -325,19 +325,19 @@ class EDWfns(EDRep):
         Returns: Array of 3 elements: dx, dy, dz
         """
 
-        self._gen_chi(x, y, z, ider=1)
+        self._gen_gs(x, y, z, ider=1)
 
         gradv = np.zeros(3, dtype=float)
         for iwfn in range(self._wfns_rep.nwfns):
 
-            # Compute pairwise products of _chi and _chi1
-            chi_i_chi1_j = np.einsum("i,jk->ijk", self._chi[iwfn, ...], self._chi1[iwfn, ...])
-            chi_j_chi1_i = np.einsum("j,ik->ijk", self._chi[iwfn, ...], self._chi1[iwfn, ...])
+            # Compute pairwise products of _gs and _gs1
+            gs_i_gs1_j = np.einsum("i,jk->ijk", self._gs[iwfn, ...], self._gs1[iwfn, ...])
+            gs_j_gs1_i = np.einsum("j,ik->ijk", self._gs[iwfn, ...], self._gs1[iwfn, ...])
 
             # Combine the contributions to the gradient
             for dim in range(3):  # Iterate over x, y, z dimensions
                 gradv[dim] += np.sum(
-                    self._denmat[iwfn] * (chi_i_chi1_j[:, :, dim] + chi_j_chi1_i[:, :, dim])
+                    self._denmat[iwfn] * (gs_i_gs1_j[:, :, dim] + gs_j_gs1_i[:, :, dim])
                 )
 
         gradv /= self._wfns_rep.nwfns
@@ -356,14 +356,14 @@ class EDWfns(EDRep):
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
 
-        self._gen_chi(x, y, z, ider=2)
+        self._gen_gs(x, y, z, ider=2)
 
         hessv = np.zeros(6, dtype=float)
 
         # Extract the components for clarity
-        chi = self._chi
-        chi1 = self._chi1
-        chi2 = self._chi2
+        gs = self._gs
+        gs1 = self._gs1
+        gs2 = self._gs2
         denmat = self._denmat
         nwfns = self._wfns_rep.nwfns
 
@@ -373,49 +373,49 @@ class EDWfns(EDRep):
             hessv[0] = np.einsum(
                 "ijk,ijk->",
                 denmat,
-                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 0]
-                + 2.0 * chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-                + chi2[:, :, 0][:, :, np.newaxis] * chi[:, np.newaxis, :],
+                gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 0]
+                + 2.0 * gs1[:, :, 0][:, :, np.newaxis] * gs1[:, :, 0][:, np.newaxis, :]
+                + gs2[:, :, 0][:, :, np.newaxis] * gs[:, np.newaxis, :],
             )
             hessv[1] = np.einsum(
                 "ijk,ijk->",
                 denmat,
-                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 3]
-                + 2.0 * chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-                + chi2[:, :, 3][:, :, np.newaxis] * chi[:, np.newaxis, :],
+                gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 3]
+                + 2.0 * gs1[:, :, 1][:, :, np.newaxis] * gs1[:, :, 1][:, np.newaxis, :]
+                + gs2[:, :, 3][:, :, np.newaxis] * gs[:, np.newaxis, :],
             )
             hessv[2] = np.einsum(
                 "ijk,ijk->",
                 denmat,
-                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 5]
-                + 2.0 * chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-                + chi2[:, :, 5][:, :, np.newaxis] * chi[:, np.newaxis, :],
+                gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 5]
+                + 2.0 * gs1[:, :, 2][:, :, np.newaxis] * gs1[:, :, 2][:, np.newaxis, :]
+                + gs2[:, :, 5][:, :, np.newaxis] * gs[:, np.newaxis, :],
             )
 
             # Compute off-diagonal terms
             hessv[3] = np.einsum(
                 "ijk,ijk->",
                 denmat,
-                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 1]
-                + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-                + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-                + chi2[:, :, 1][:, :, np.newaxis] * chi[:, np.newaxis, :],
+                gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 1]
+                + gs1[:, :, 0][:, :, np.newaxis] * gs1[:, :, 1][:, np.newaxis, :]
+                + gs1[:, :, 1][:, :, np.newaxis] * gs1[:, :, 0][:, np.newaxis, :]
+                + gs2[:, :, 1][:, :, np.newaxis] * gs[:, np.newaxis, :],
             )
             hessv[4] = np.einsum(
                 "ijk,ijk->",
                 denmat,
-                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 2]
-                + chi1[:, :, 0][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-                + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 0][:, np.newaxis, :]
-                + chi2[:, :, 2][:, :, np.newaxis] * chi[:, np.newaxis, :],
+                gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 2]
+                + gs1[:, :, 0][:, :, np.newaxis] * gs1[:, :, 2][:, np.newaxis, :]
+                + gs1[:, :, 2][:, :, np.newaxis] * gs1[:, :, 0][:, np.newaxis, :]
+                + gs2[:, :, 2][:, :, np.newaxis] * gs[:, np.newaxis, :],
             )
             hessv[5] = np.einsum(
                 "ijk,ijk->",
                 denmat,
-                chi[:, :, np.newaxis] * chi2[:, np.newaxis, :, 4]
-                + chi1[:, :, 1][:, :, np.newaxis] * chi1[:, :, 2][:, np.newaxis, :]
-                + chi1[:, :, 2][:, :, np.newaxis] * chi1[:, :, 1][:, np.newaxis, :]
-                + chi2[:, :, 4][:, :, np.newaxis] * chi[:, np.newaxis, :],
+                gs[:, :, np.newaxis] * gs2[:, np.newaxis, :, 4]
+                + gs1[:, :, 1][:, :, np.newaxis] * gs1[:, :, 2][:, np.newaxis, :]
+                + gs1[:, :, 2][:, :, np.newaxis] * gs1[:, :, 1][:, np.newaxis, :]
+                + gs2[:, :, 4][:, :, np.newaxis] * gs[:, np.newaxis, :],
             )
 
         else:
@@ -424,13 +424,13 @@ class EDWfns(EDRep):
                 end = min(start + batch_size, nwfns)
 
                 # Slice the batch
-                chi_batch = chi[start:end]
-                chi1_batch = chi1[start:end]
-                chi2_batch = chi2[start:end]
+                gs_batch = gs[start:end]
+                gs1_batch = gs1[start:end]
+                gs2_batch = gs2[start:end]
                 denmat_batch = denmat[start:end]
 
                 # Compute and accumulate the Hessian for this batch
-                hessv += compute_hessian_batch(chi_batch, chi1_batch, chi2_batch, denmat_batch)
+                hessv += compute_hessian_batch(gs_batch, gs1_batch, gs2_batch, denmat_batch)
 
         # Normalize by the number of wavefunctions
         hessv /= self._wfns_rep.nwfns

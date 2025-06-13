@@ -12,95 +12,95 @@ from numpy.typing import NDArray
 from .edrep import EDRep
 from .. import np
 from ..io.read_wfn import read_wfn_file
-from aided.core._edwfn import gen_chi
+from aided.core._edwfn import gen_gs
 
 
 @njit(fastmath=True, cache=True)
-def numba_rho(denmat: NDArray, chi: NDArray) -> float:  # pragma: no cover
+def numba_rho(denmat: NDArray, gs: NDArray) -> float:  # pragma: no cover
     """Compute the density using numba
 
     Args:
         denmat: Density matrix.
-        chi: Chi matrix.
+        gs: GTO basis functions.
 
     Returns:
         Density value.
     """
     rho = 0.0
-    n = chi.shape[0]
+    n = gs.shape[0]
     for i in range(n):
         for j in range(n):
-            rho += denmat[i, j] * chi[i] * chi[j]
+            rho += denmat[i, j] * gs[i] * gs[j]
     return rho
 
 
 @njit(fastmath=True, cache=True)
-def numba_grad(denmat: NDArray, chi: NDArray, chi1: NDArray) -> NDArray:  # pragma: no cover
+def numba_grad(denmat: NDArray, gs: NDArray, gs1: NDArray) -> NDArray:  # pragma: no cover
     """Compute the gradient using numba
 
     Args:
         denmat: Density matrix.
-        chi: Chi matrix.
-        chi1: First derivative of chi.
+        gs: GTO basis functions.
+        gs1: First derivative of gs.
 
     Returns:
         Gradient vector.
     """
     grad = np.zeros(3)
-    n = chi.shape[0]
+    n = gs.shape[0]
     for i in range(n):
         for j in range(n):
             for dim in range(3):
-                grad[dim] += denmat[i, j] * (chi[i] * chi1[j, dim] + chi[j] * chi1[i, dim])
+                grad[dim] += denmat[i, j] * (gs[i] * gs1[j, dim] + gs[j] * gs1[i, dim])
     return grad
 
 
 @njit(fastmath=True, cache=True)
 def numba_hess(
-    denmat: NDArray, chi: NDArray, chi1: NDArray, chi2: NDArray
+    denmat: NDArray, gs: NDArray, gs1: NDArray, gs2: NDArray
 ) -> NDArray:  # pragma: no cover
     """Compute the hessian using numba
 
     Args:
         denmat: Density matrix.
-        chi: Chi matrix.
-        chi1: First derivative of chi.
-        chi2: Second derivative of chi.
+        gs: GTO basis functions.
+        gs1: First derivative of gs.
+        gs2: Second derivative of gs.
 
     Returns:
         Hessian matrix.
     """
     hess = np.zeros(6)
-    n = chi.shape[0]
+    n = gs.shape[0]
 
     for i in range(n):
         for j in range(n):
             hess[0] += denmat[i, j] * (
-                chi[i] * chi2[j, 0] + 2 * chi1[i, 0] * chi1[j, 0] + chi2[i, 0] * chi[j]
+                gs[i] * gs2[j, 0] + 2 * gs1[i, 0] * gs1[j, 0] + gs2[i, 0] * gs[j]
             )
             hess[1] += denmat[i, j] * (
-                chi[i] * chi2[j, 3] + 2 * chi1[i, 1] * chi1[j, 1] + chi2[i, 3] * chi[j]
+                gs[i] * gs2[j, 3] + 2 * gs1[i, 1] * gs1[j, 1] + gs2[i, 3] * gs[j]
             )
             hess[2] += denmat[i, j] * (
-                chi[i] * chi2[j, 5] + 2 * chi1[i, 2] * chi1[j, 2] + chi2[i, 5] * chi[j]
+                gs[i] * gs2[j, 5] + 2 * gs1[i, 2] * gs1[j, 2] + gs2[i, 5] * gs[j]
             )
             hess[3] += denmat[i, j] * (
-                chi[i] * chi2[j, 1]
-                + chi1[i, 0] * chi1[j, 1]
-                + chi1[i, 1] * chi1[j, 0]
-                + chi2[i, 1] * chi[j]
+                gs[i] * gs2[j, 1]
+                + gs1[i, 0] * gs1[j, 1]
+                + gs1[i, 1] * gs1[j, 0]
+                + gs2[i, 1] * gs[j]
             )
             hess[4] += denmat[i, j] * (
-                chi[i] * chi2[j, 2]
-                + chi1[i, 0] * chi1[j, 2]
-                + chi1[i, 2] * chi1[j, 0]
-                + chi2[i, 2] * chi[j]
+                gs[i] * gs2[j, 2]
+                + gs1[i, 0] * gs1[j, 2]
+                + gs1[i, 2] * gs1[j, 0]
+                + gs2[i, 2] * gs[j]
             )
             hess[5] += denmat[i, j] * (
-                chi[i] * chi2[j, 4]
-                + chi1[i, 1] * chi1[j, 2]
-                + chi1[i, 2] * chi1[j, 1]
-                + chi2[i, 4] * chi[j]
+                gs[i] * gs2[j, 4]
+                + gs1[i, 1] * gs1[j, 2]
+                + gs1[i, 2] * gs1[j, 1]
+                + gs2[i, 4] * gs[j]
             )
 
     return hess
@@ -115,17 +115,17 @@ class EDWfn(EDRep):
         super().__init__(input_file=wfn_file)
 
         self._denmat: NDArray[np.float64]
-        self._chi: NDArray[np.float64]
-        self._chi1: NDArray[np.float64]
-        self._chi2: NDArray[np.float64]
+        self._gs: NDArray[np.float64]
+        self._gs1: NDArray[np.float64]
+        self._gs2: NDArray[np.float64]
         self._occ: NDArray[np.float64]
 
         # Read the wfn file.
         self._wfn_rep = read_wfn_file(wfn_file)
 
-        self._chi = np.zeros(self._wfn_rep.nprims, dtype=np.float64)
-        self._chi1 = np.zeros((self._wfn_rep.nprims, 3), dtype=np.float64)
-        self._chi2 = np.zeros((self._wfn_rep.nprims, 6), dtype=np.float64)
+        self._gs = np.zeros(self._wfn_rep.nprims, dtype=np.float64)
+        self._gs1 = np.zeros((self._wfn_rep.nprims, 3), dtype=np.float64)
+        self._gs2 = np.zeros((self._wfn_rep.nprims, 6), dtype=np.float64)
         self._denmat = np.zeros((self._wfn_rep.nprims, self._wfn_rep.nprims), dtype=float)
 
         # Keep track of the last point to avoid unnecessary calculations.
@@ -148,8 +148,8 @@ class EDWfn(EDRep):
     def atnames(self):
         return self._wfn_rep.atnames
 
-    def _gen_chi(self, x: float, y: float, z: float, ider: int) -> bool:
-        """Generate the chi matrix for the given point.
+    def _gen_gs(self, x: float, y: float, z: float, ider: int) -> bool:
+        """Generate the gs matrix for the given point.
 
         Skip this if the point is the same as the last point.
 
@@ -157,10 +157,10 @@ class EDWfn(EDRep):
             x, y, z: Cartesian points in global space.
             ider: Derivative order.
 
-        Return: True if the chi matrix was generated, False otherwise.
+        Return: True if the gs matrix was generated, False otherwise.
         """
 
-        did_compute, self._last_point, self._last_der = gen_chi(
+        did_compute, self._last_point, self._last_der = gen_gs(
             x,
             y,
             z,
@@ -171,9 +171,9 @@ class EDWfn(EDRep):
             self._wfn_rep.centers,
             self._wfn_rep.expons,
             self._wfn_rep.atpos,
-            self._chi,
-            self._chi1,
-            self._chi2,
+            self._gs,
+            self._gs1,
+            self._gs2,
         )
         return did_compute
 
@@ -194,9 +194,9 @@ class EDWfn(EDRep):
         Returns: Value of ED in chosen units.
         """
 
-        self._gen_chi(x, y, z, ider=0)
+        self._gen_gs(x, y, z, ider=0)
 
-        rhov = numba_rho(self._denmat, self._chi)
+        rhov = numba_rho(self._denmat, self._gs)
 
         return rhov
 
@@ -208,9 +208,9 @@ class EDWfn(EDRep):
         Returns: Array of 3 elements: dx, dy, dz
         """
 
-        self._gen_chi(x, y, z, ider=1)
+        self._gen_gs(x, y, z, ider=1)
 
-        gradv = numba_grad(self._denmat, self._chi, self._chi1)
+        gradv = numba_grad(self._denmat, self._gs, self._gs1)
 
         return gradv
 
@@ -222,9 +222,9 @@ class EDWfn(EDRep):
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
 
-        self._gen_chi(x, y, z, ider=2)
+        self._gen_gs(x, y, z, ider=2)
 
-        hessv = numba_hess(self._denmat, self._chi, self._chi1, self._chi2)
+        hessv = numba_hess(self._denmat, self._gs, self._gs1, self._gs2)
         return hessv
 
 

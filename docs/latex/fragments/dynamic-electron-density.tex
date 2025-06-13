@@ -1,0 +1,116 @@
+\documentclass{standalone}
+\usepackage{aided_preamble}
+\begin{document}
+
+Given \eqref{eq:Pu} we can define the dynamic electron density as
+
+\begin{equation}
+\label{eq:dynTrho}
+\langle \rho(\mathbf{r}) \rangle_T = \sum_a \int_{-\infty}^{\infty} \rho_a(\mathbf{r}_a - \mathbf{u}_a) P_a(\mathbf{u}) d\mathbf{u}
+\end{equation}
+
+where
+
+\begin{equation}
+\label{eq:Pa}
+    P_j(\mathbf{u}) = (2\pi)^{-3/2} |\mathbf{U}_j|^{-1/2} \exp\left(-\frac{1}{2} \mathbf{u} \mathbf{U}_j^{-1} \mathbf{u}^T\right)
+\end{equation}
+
+where $\mathbf{u}_j$ is the displacement of the $j^{th}$ nucleus from its equilibrium position, and $\mathbf{U}_j$ is the
+symmetric 3x3 tensor which represents the variance-covariance of the nuclear PDF. The Anisotropic Displacement Parameters (ADP)
+which make up the tensor $\mathbf{U}_j$ represent the likelihood for the $j^{th}$ nucleus to be displaced in given directions.
+These symmetric 3X3 matrics are the variance-covariance in $\mathbf{u}_j = (x_j, y_j, z_j)$ for nucleus $j$.
+
+The block diagonal elements of the Carteisna MSDA represent the ADPs for each nucleus and can be used to define probability
+ellipsoids.
+
+\subsection{equations}
+
+% ---------- convenience macros (no amssymb) ----------
+\newcommand{\RR}{\mathbf R}          % boldface R instead of \mathbb{R}
+\newcommand{\rvec}{\mathbf r}
+\newcommand{\svec}{\mathbf s}
+\newcommand{\A}{\mathbf A}
+\newcommand{\B}{\mathbf B}
+\newcommand{\Cvec}{\mathbf C}
+\newcommand{\Uii}{\mathbf U_{ii}}
+\newcommand{\Uij}{\mathbf U_{ij}}
+\newcommand{\Sig}{\boldsymbol\Sigma_{ij}}
+\newcommand{\Lam}{\boldsymbol\Lambda_{ij}}
+\newcommand{\alphaa}{\alpha}         % = 2·ex(i)
+\newcommand{\betab}{\beta}           % = 2·ex(j)
+\newcommand{\gammaab}{\gamma}        % = α+β
+\newcommand{\poly}{\mathcal P_{\mu\nu}}
+
+\section*{Atom–resolved dynamic electron density}
+
+\paragraph{Definition.}
+\[
+\rho_{\mathrm{dyn},i}(\rvec)=
+\int_{\RR^{3}}
+\rho_{\mathrm{stat},i}(\rvec-\svec)\;
+p_i(\svec)\,d^{3}\!s,
+\qquad
+p_i(\svec)=
+\frac{\exp\!\bigl[-\tfrac12\,\svec^{\mathsf T}\Uii^{-1}\svec\bigr]}
+     {(2\pi)^{3/2}\sqrt{\det\Uii}} .
+\tag{1}
+\]
+
+\paragraph{Static atomic density in a contracted Gaussian basis.}
+\[
+\rho_{\mathrm{stat},i}(\rvec)=
+\sum_{\substack{\mu\in i \\ \nu}}
+P_{\mu\nu}\;
+g_\mu(\rvec)\,g_\nu(\rvec),
+\quad
+g_\mu(\rvec)=
+N_\mu\,
+(\rvec-\A)^{\mathbf n_\mu}\,
+e^{-\alpha_\mu\lVert\rvec-\A\rVert^{2}} .
+\tag{2}
+\]
+
+\paragraph{Effective covariance for one primitive pair.}
+With doubled exponents
+\(
+\alphaa = 2\alpha_\mu,\;
+\betab  = 2\alpha_\nu,\;
+\gammaab=\alphaa+\betab
+\)
+and centres \(\A,\B\), the harmonic convolution yields
+\[
+\boxed{
+\Sig=
+\frac{\mathbf I}{2\gammaab}
++\frac{\alphaa^{2}\mathbf U_{ii}
+       +\betab^{2}\mathbf U_{jj}
+       +\alphaa\betab(\Uij+\Uij^{\mathsf T})}
+      {\gammaab^{2}},
+\quad
+\Lam=\Sig^{-1}}
+\tag{3}
+\]
+
+\paragraph{Thermally smeared primitive product.}
+Let
+\(
+\displaystyle
+\Cvec=\frac{\alphaa\A+\betab\B}{\gammaab}
+\)
+
+Then for $s$-type primitives
+\[
+[g_\mu g_\nu]_{\text{dyn}}(\rvec)=
+N_{\mu\nu}\,
+\exp\!\Bigl[-\tfrac{\alphaa\betab}{\gammaab}\lVert\A-\B\rVert^{2}\Bigr]
+\exp\!\Bigl[-\tfrac12(\rvec-\Cvec)^{\!\mathsf T}\Lam(\rvec-\Cvec)\Bigr],
+\tag{4}
+\]
+where \(N_{\mu\nu}=N_\mu N_\nu\,(\det\Sig)^{-1/2}\).
+
+\paragraph{Including Cartesian angular momenta.}
+
+TODO: Show how to include angular momenta in the dynamic density.
+
+\end{document}
