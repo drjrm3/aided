@@ -119,9 +119,9 @@ class EDRep(metaclass=ABCMeta):
             cores: Number of cores to use for parallel processing.
 
         Returns:
-            thetas: Array of theta values.
-            phis: Array of phi values.
-            bader_surface: Numpy array of points on the surface.
+            thetas (np.ndarray): Array of theta values.
+            phis (np.ndarray): Array of phi values.
+            bader_surface (np.ndaray): Numpy array of points on the surface.
         """
 
         # Find the atom position (atpos) of the atom.
