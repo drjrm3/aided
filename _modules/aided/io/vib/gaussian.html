@@ -274,13 +274,13 @@
 <span class="sd">            msda (np.ndarray): Mean square displacement amplitudes in Å², shape (n_mode,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">mode_prefactor</span> <span class="o">=</span> <span class="n">ZPE_PREF_ANG2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_masses</span>  <span class="c1"># Å²</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">ZPE_PREF_ANG2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_masses</span>  <span class="c1"># Å²</span>
         <span class="k">if</span> <span class="n">temperature</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">:</span>
-            <span class="n">mode_prefactor</span> <span class="o">*=</span> <span class="n">coth</span><span class="p">(</span><span class="n">THERM_FACTOR_CM_K</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span>
+            <span class="n">delta</span> <span class="o">*=</span> <span class="n">coth</span><span class="p">(</span><span class="n">THERM_FACTOR_CM_K</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span>
 
         <span class="c1"># modes : (3N, n_mode)        columns = √amu-weighted eigen-vectors</span>
-        <span class="c1"># mode_prefactor : (n_mode,)  scalar prefactor for each mode</span>
-        <span class="n">msda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;is,s,js-&gt;ij&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="n">mode_prefactor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">)</span>
+        <span class="c1"># delta : (n_mode,)           scalar prefactor for each mode</span>
+        <span class="n">msda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;is,s,js-&gt;ij&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">msda</span></div>
 </div>
