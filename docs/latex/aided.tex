@@ -1,27 +1,295 @@
-% Documentation for AIDED: Assisted Analysis of the Dynamic Electron Density
-% Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
+% AIDED: Assisted Analysis of the Dynamic Electron Density
+% Copyright (C) 2025 J. Robert Michael, PhD. All Rights Reserved.
 \documentclass{article}
-\usepackage{amsmath}
-\usepackage{standalone}
-\usepackage{aided_preamble}
-\title{%
-    AIDED \\
-    \large Assisted Analysis of the Dynamic Electron Density}
+
+% ---------- generic packages ----------
+\usepackage[utf8]{inputenc}   % << handles any UTF-8 that sneaks in
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{hyperref}
+\usepackage{listings}         % nicer verbatim for the Python code
+\usepackage{aided_preamble}   % your own colours/macros, if any
+\usepackage[numbers,sort&compress]{natbib}
+
+% ---------- canonical notation ----------
+% (defined once – used everywhere)
+\newcommand*\expa{\alpha}
+\newcommand*\expb{\beta}
+\newcommand*\expab{\gamma}           % γ = α + β
+\newcommand*\prefac{N_{\expa\expb}}  % √[γ⁻³ det W]
+
+\newcommand*\veca{\bm a}
+\newcommand*\vecb{\bm b}
+\newcommand*\vecc{\bm c}
+
+\newcommand*\matG{\bm G}             % γ I₃
+\newcommand*\matU{\bm U}             % vibration tensor
+\newcommand*\matW{\bm W}             % (G⁻¹ + U)⁻¹
+
+\newcommand*\RR{\mathbb R}
+\newcommand*\dx[1]{\partial_{#1}}
+
+% --------------------------------------------------------------------------
+% listings setup
+\lstset{
+  basicstyle=\ttfamily\small,
+  numbers=left, numberstyle=\tiny, numbersep=4pt,
+  frame=single, framerule=0.4pt,
+  breaklines=true, breakindent=1em
+}
+
+\title{\textbf{AIDED}\\\large Assisted Analysis of the Dynamic Electron Density}
 \author{J. Robert Michael, PhD}
 \date{\today}
 
-\begin{document}
-\maketitle
+\begin{document}\maketitle
+\tableofcontents
 
+%---------------------------------------------------------------------------
 \section{Introduction}
 
-This is a test introduction section.
+\emph{AIDED} evaluates both the static and the vibration-averaged
+(“dynamic”) electron density of molecular systems, together with derived
+topological properties such as critical points and zero-flux surfaces.  A
+key design goal is to \emph{reuse the primitive-Gaussian basis} exported by
+standard quantum-chemistry programs so that no extra integrals are needed.
 
-\section{Calculation of the static Electron Density}
-\input{fragments/static-electron-density.tex}
-\section{MSDA: Mean Square Displacement Amplitudes}
-\input{fragments/msda.tex}
-\section{The dynamic Electron Density}
-\input{fragments/dynamic-electron-density.tex}
+\bigskip
+
+%---------------------------------------------------------------------------
+\section{Static electron density}
+\label{sec:static}
+
+The (static) electron density $\rho(\bm r)$ of a system with $N$
+electrons is\footnote{Spin is omitted for clarity.}
+\[
+  \rho(\bm r)=
+  N\int
+    \Psi(\bm r,\bm r_2,\dots,\bm r_N;\bm R)\,
+    \Psi^{*}(\bm r,\bm r_2,\dots,\bm r_N;\bm R)\,
+    d\bm r_2\cdots d\bm r_N ,
+\]
+where $\Psi$ is the ground-state wave-function at the fixed nuclear
+geometry $\bm R$.
+
+%...........................................................................
+\subsection{Basis expansion}
+
+Each \emph{atomic} orbital (AO) is a contraction of primitive Gaussians
+$g_k$:
+\begin{equation}\label{eq:phi_j}
+  \phi_j(\bm r)=\sum_{k} g_{jk}\,g_k(\bm r).
+\end{equation}
+A molecular orbital (MO) is an AO-linear combination,
+\begin{equation}\label{eq:Psi_i}
+  \Psi_i(\bm r)=\sum_{\mu} c_{i\mu}\,\phi_\mu(\bm r)
+              =\sum_{k} C_{ik}\,g_k(\bm r),
+  \qquad C_{ik}=\sum_{\mu}c_{i\mu}\,g_{\mu k}.
+\end{equation}
+
+The AO-resolved one-particle density matrix is
+\[
+  P_{\mu\nu}=2\sum_i n_i\,c_{i\mu}c_{i\nu},
+\]
+with $n_i\in\{0,1,2\}$ the MO occupations.  
+Inserting \eqref{eq:phi_j} gives the primitive-basis density matrix
+\begin{equation}\label{eq:Dkl}
+  D_{kl}=\sum_{\mu,\nu} g_{\mu k}\,P_{\mu\nu}\,g_{\nu l}
+        =\sum_{i} n_i\,C_{ik}C_{il},
+\end{equation}
+so that the density at any grid point is the simple quadratic form
+\[
+  \rho(\bm r)=\sum_{k,l} D_{kl}\,g_k(\bm r)\,g_l(\bm r)
+            =\bm g^{\!\mathsf T}(\bm r)\,D\,\bm g(\bm r).
+\]
+
+The \textsc{AIDED} code builds~$D$ once from the $\mathtt{*.wfn}$ MO
+coefficients, then evaluates $\rho(\bm r)$ on the desired grid.
+
+%---------------------------------------------------------------------------
+\section{Mean-square displacement amplitudes (MSDA)}
+\label{sec:msda}
+
+Normal-mode analysis of a molecule with $M$ nuclei gives a $(3M)$-variate
+Gaussian probability distribution for nuclear displacements
+$\bm u=\bm R-\bm R^{0}$:
+\begin{equation}\label{eq:Pu}
+  P(\bm u)=\frac{\exp\!\bigl(-\tfrac12\bm u^{\mathsf T}\matU^{-1}\bm u\bigr)}
+                {(2\pi)^{3M/2}\sqrt{\det\matU}},
+\end{equation}
+where $\matU=\langle\bm u\bm u^{\mathsf T}\rangle_T$ is the Cartesian MSDA
+matrix.  Diagonalising the mass-weighted Hessian yields
+\[
+  \matU=\bm L\,\bm\Delta\,\bm L^{\mathsf T},
+  \quad
+  \Delta_{jj}=\frac{h}{8\pi^{2}\nu_j}
+              \coth\!\bigl(\tfrac{h\nu_j}{2k_{\mathrm B}T}\bigr),
+\]
+implemented verbatim in
+\href{https://github.com/drjrm3/aided/blob/main/aided/io/vib/gaussian.py}
+{\texttt{gaussian.py::gen\_msda}}.
+
+%---------------------------------------------------------------------------
+\section{Dynamic electron density}\label{sec:dynamic}
+
+\subsection{Primitive $s$–$s$ unit}
+
+\[
+  \expab=\expa+\expb,\qquad
+  \vecc=\frac{\expa\veca+\expb\vecb}{\expab},\qquad
+  \matG=\expab I_{3},\qquad
+  \matW=(\matG^{-1}+\matU)^{-1}.
+\]
+
+\begin{equation}
+  \boxed{%
+    g_{ss}^{\text{dyn}}(\bm x)=
+      \prefac
+      \exp\!\Bigl[
+        -\tfrac12(\bm x-\vecc)^{\!\mathsf T}\matW^{-1}(\bm x-\vecc)
+        -\tfrac12\frac{\expa\expb}{\expab}\lvert\veca-\vecb\rvert^{2}
+      \Bigr]},
+  \quad
+  \prefac=\bigl[\expab^{-3}\det\matW\bigr]^{1/2}.
+  \label{eq:g_dyn_ss}
+\end{equation}
+
+%----------------------------------------------------------------
+\subsection{Primitive $s$--$p$ unit}\label{sec:sp_unit}
+
+The Cartesian $p$ factor is generated by differentiating
+$g_{ss}^{\text{dyn}}$ with respect to one nuclear centre
+(choose $\vecb$ without loss of generality).  Because
+\[
+  \dx{b_\nu}\,\vecc =\frac{\expb}{\expab}\,\bm e_\nu,
+  \qquad
+  \dx{b_\nu}\,|\veca-\vecb|^{2} =-2(\veca_\nu-\vecb_\nu),
+\]
+one obtains
+\begin{align}
+  g_{sp_\nu}^{\text{dyn}}(\bm x)
+  &\equiv -\frac{1}{2\expb}\,\dx{b_\nu}g_{ss}^{\text{dyn}}(\bm x) \\[4pt]
+  &=\underbrace{\bigl[
+      \tfrac{\expb}{\expab}( \matW^{-1}(\bm x-\vecc) )_\nu
+      \;+\;\tfrac{\expa\expb}{\expab}\,(\veca_\nu-\vecb_\nu)
+    \bigr]}_{\displaystyle L_\nu(\bm x)}
+    \;g_{ss}^{\text{dyn}}(\bm x).
+  \label{eq:g_dyn_sp}
+\end{align}
+
+\paragraph{Linear prefactor.}
+The bracketed quantity
+\[
+  L_\nu(\bm x)=
+    \frac{\expb}{\expab}\bigl(\matW^{-1}(\bm x-\vecc)\bigr)_\nu
+    +\frac{\expa\expb}{\expab}\,(\veca_\nu-\vecb_\nu)
+\]
+is exactly the “$C_{4},C_{5},C_{6}$” coefficient that the
+\textsc{Fortran} and NumPy kernels store for $p_x,p_y,p_z$ on centre $j$.
+
+(Interchanging $\expa\leftrightarrow\expb$ and
+$\veca\leftrightarrow\vecb$ gives the $p$ factor on centre $i$).
+
+%----------------------------------------------------------------
+\subsection{General Cartesian exponents}\label{sec:general_cartesian}
+
+For arbitrary Cartesian angular momenta
+$\bm L_i\!=\!(\ell_i,m_i,n_i)$ and $\bm L_j\!=\!(\ell_j,m_j,n_j)$,
+repeat the differentiation:
+
+\[
+  g_{\bm L_i;\bm L_j}^{\text{dyn}}(\bm x)=
+    \prod_{\mu=1}^{3}\bigl(\dx{a_\mu}\bigr)^{\ell_i^{(\mu)}}
+    \prod_{\nu=1}^{3}\bigl(\dx{b_\nu}\bigr)^{\ell_j^{(\nu)}}
+    \,g_{ss}^{\text{dyn}}(\bm x).
+\]
+
+All such derivatives factorise into
+\[
+  g_{\bm L_i;\bm L_j}^{\text{dyn}}(\bm x)=
+     g_{ss}^{\text{dyn}}(\bm x)\,
+     \prod_{\mu=1}^{3}\bigl[C_{\mu}(\bm x)\bigr]^{\ell_i^{(\mu)}}
+     \prod_{\nu=1}^{3}\bigl[C_{3+\nu}(\bm x)\bigr]^{\ell_j^{(\nu)}},
+\]
+where the six \emph{linear} terms are
+\[
+  C_{1,2,3}(\bm x)=
+    \frac{\expa}{\expab}\,\matW^{-1}(\bm x-\vecc)
+    -\frac{\expa\expb}{\expab}\,(\veca-\vecb),
+\qquad
+  C_{4,5,6}(\bm x)=
+    \frac{\expb}{\expab}\,\matW^{-1}(\bm x-\vecc)
+    +\frac{\expa\expb}{\expab}\,(\veca-\vecb),
+\]
+\emph{i.e.}\ the $p$-type prefactors on centres $i$ and $j$.
+Higher-$l$ Gaussians follow by simply raising these linear factors to the
+required powers—the same rule implemented in
+`gen\_gcon` and in the NumPy kernel of
+Listing \ref{lst:python}.
+
+
+%----------------------------------------------------------------
+\subsection{Reference NumPy implementation}
+
+\begin{lstlisting}[caption={Vectorised NumPy kernel matching Eq. (10)},
+                   label={lst:python}]
+import numpy as np
+
+def dynamic_gaussian(x, A, B, alpha, beta, U,
+                     lmn_i=(0,0,0), lmn_j=(0,0,0)):
+    gamma = alpha + beta
+    C     = (alpha*A + beta*B) / gamma
+    W     = np.linalg.inv(np.eye(3)/gamma + U)
+
+    prefactor = (gamma**-3 * np.linalg.det(W))**0.5
+    Eg  = np.exp(-0.5*alpha*beta/gamma * np.dot(A-B, A-B))
+    expo = np.exp(-0.5 * (x-C) @ np.linalg.inv(W) @ (x-C))
+    g_ss = prefactor * Eg * expo
+
+    # Ci factors omitted for brevity ...
+    return g_ss
+\end{lstlisting}
+
+
+
+%================================================================
+\section*{NOTES}
+This document is based off of my PhD thesis \cite{MichaelPhD2013} and is
+based off of Scheringer \cite{Scheringer1976} which is referenced in
+\cite{Michael2015JMC}.
+and is originally implementedin the DENPROP package \cite{DENPROP}.
+
+This document was generated with the help of AI LLM models with guidance
+from my previous work.
+
+%================================================================
+\begin{thebibliography}{99}
+\bibitem{Scheringer1976}
+J.\ Scheringer and H.\ Reitz,
+\emph{Direct Calculation of Dynamic Densities},
+\textit{Acta Crystallographica A}, \textbf{32} (1976) 271–276.
+
+\bibitem{Michael2015JMC}
+J.~R. Michael and T.~Koritsanszky,
+\newblock Validation of convolution approximation to the thermal-average
+  electron density,
+\newblock {\em Journal of Mathematical Chemistry} \textbf{53} (2015) 250--259.
+
+\bibitem{MichaelPhD2013}
+J.~R. Michael,
+\newblock \emph{Direct Calculation of Dynamic Electron Density:  
+         Theoretical Development and Experimental Validation},
+\newblock Ph.D.\ thesis, Middle Tennessee State University (2013).
+
+\bibitem{DENPROP}
+A.~Volkov,T.~Koritsanszky,M.~Chodkiewicz, and H.~F.~King
+\newblock On the basis-set dependence of local and integrated electron-density
+  properties: Application of a new computer program for quantum-chemical
+  density analysis,
+\newblock \emph{Journal of Computational Chemistry} \textbf{25} (2004) 166–183.
+  \href{https://doi.org/10.1002/jcc.10434}{doi:10.1002/jcc.10434}.
+
+
+\end{thebibliography}
 
 \end{document}
