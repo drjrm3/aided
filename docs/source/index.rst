@@ -18,6 +18,13 @@ Welcome to aided's documentation!
 
    modules
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Derivations
+
+   tex_docs/msda
+
+
 Indices and tables
 ==================
 

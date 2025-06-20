@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - staging
-      - 48/gh-sphinx # For testing
+      - 49/latex_and_sphinx # Testing
 
 permissions:
   contents: write

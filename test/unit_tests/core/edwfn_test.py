@@ -82,12 +82,12 @@ class TestValidationSet(CxTestCase):
                 self.grad.append([gx, gy, gz])
                 self.hess.append([hxx, hyy, hzz, hxy, hxz, hyz])
 
-    def test_skip_double_gen_chi(self):
+    def test_skip_double_gen_gs(self):
         """Tests that if we generate chi on the same point, it skips."""
         self.edwfn = EDWfn(self.wfn_file)
 
-        self.assertTrue(self.edwfn._gen_chi(0.0, 0.0, 0.0, 1))
-        self.assertFalse(self.edwfn._gen_chi(0.0, 0.0, 0.0, 1))
+        self.assertTrue(self.edwfn._gen_gs(0.0, 0.0, 0.0, 1))
+        self.assertFalse(self.edwfn._gen_gs(0.0, 0.0, 0.0, 1))
 
     def test_0rho_validation(self):
         """Randomly tests rho values for the validation set."""

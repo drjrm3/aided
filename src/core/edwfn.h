@@ -22,7 +22,7 @@ constexpr std::array<std::array<int32_t,3>, nLMNS> LMNS = {{
 
 // scalar-scalar
 template <typename T>
-bool gen_chi(
+bool gen_gs(
     T x,
     T y,
     T z,
@@ -33,7 +33,7 @@ bool gen_chi(
     const std::vector<int32_t>& centers, // Gaussian centers   (nprims,
     const std::vector<T>& expons,        // Gaussian exponents (nprims,)
     const std::vector<T>& atpos,         // Atomic positions   (natoms, 3)
-    T* chi, size_t nprims,               // Output: chi        (nprims,)
-    T* chi1, size_t __r1, size_t __c1,   // Output: chi        (nprims, 3)
-    T* chi2, size_t __r2, size_t __c2    // Output: chi        (nprims, 6)
+    T* gs, size_t nprims,               // Output: gs        (nprims,)
+    T* gs1, size_t __r1, size_t __c1,   // Output: gs        (nprims, 3)
+    T* gs2, size_t __r2, size_t __c2    // Output: gs        (nprims, 6)
 );

@@ -14,6 +14,26 @@ APPS_ROOT = REPO_ROOT / "aided" / "apps"
 APPS_DOCS = DOCS_SRC / "apps"
 APPS_DOCS.mkdir(parents=True, exist_ok=True)
 
+# LaTex
+FRAG_SRC_DIR  = REPO_ROOT / "docs" / "latex" / "fragments"
+PDF_SRC = REPO_ROOT / "docs" / "latex" / "aided.pdf"
+FRAG_DEST_DIR = DOCS_SRC / "latex"
+
+def _copy_latex_fragments(app):
+    FRAG_DEST_DIR.mkdir(exist_ok=True)
+    for src in FRAG_SRC_DIR.glob("*.tex"):
+        dest = FRAG_DEST_DIR / src.name
+        if (not dest.exists()
+            or src.stat().st_mtime > dest.stat().st_mtime):
+            shutil.copy2(src, dest)
+
+def _copy_latex_pdf(app):
+    FRAG_DEST_DIR.mkdir(exist_ok=True)
+    dest = FRAG_DEST_DIR / PDF_SRC.name
+    if (not dest.exists()
+        or PDF_SRC.stat().st_mtime > dest.stat().st_mtime):
+        shutil.copy2(PDF_SRC, dest)
+
 
 def _copy_app_readmes(app):
     """
@@ -95,13 +115,9 @@ def _fix_google_multireturns(app, what, name, obj, options, lines: List[str]):
 
 def setup(app):
     app.connect("builder-inited", _copy_app_readmes)  # your existing hook
-
-    # Run this *before* napolean (default = 500)
-    app.connect(
-        "autodoc-process-docstring",
-        _fix_google_multireturns,
-        priority=100,
-    )
+    app.connect("builder-inited", _copy_latex_fragments)
+    app.connect("builder-inited", _copy_latex_pdf)
+    app.connect("autodoc-process-docstring", _fix_google_multireturns, priority=100)
 
 
 # -- Project information -----------------------------------------------------
@@ -116,13 +132,14 @@ author = "J. Robert Michael, PhD"
 
 extensions = [
     "myst_parser",  # Enables Markdown (.md) parsing
+    "sphinx.ext.mathjax",  # For rendering math equations
     "sphinx.ext.autodoc",  # For auto-generating API docs
     "sphinx.ext.napoleon",  # For Google-style/NumPy-style docstrings
     "sphinx.ext.viewcode",  # Add [source] links
     "sphinx.ext.todo",  # Support for todo directives
     "sphinx.ext.githubpages",  # For linking to GitHub pages
 ]
-myst_enable_extensions = ["colon_fence", "deflist", "linkify"]
+myst_enable_extensions = ["colon_fence", "deflist", "linkify", "dollarmath", "amsmath"]
 
 templates_path = ["_templates"]
 exclude_patterns = []
