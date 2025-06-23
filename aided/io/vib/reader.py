@@ -5,6 +5,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from pathlib import Path
+
 from aided import np, npt
 
 from aided.io import get_logger
@@ -46,7 +47,10 @@ def read_msda(msda_file: str) -> npt.NDArray:
 
 
 def gen_msda(
-    T: float, log_file: str | None = None, msda_file: str | None = None, msda: str | None = None
+    T: float,
+    log_file: str | None = None,
+    msda_file: str | None = None,
+    msda: npt.NDArray[np.float64] | None = None,
 ) -> npt.NDArray[np.float64]:
     """Generate the MSDA array from the log file, MSDA file, or precomputed MSDA.
 
