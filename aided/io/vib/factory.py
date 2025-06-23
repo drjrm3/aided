@@ -8,7 +8,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 from pathlib import Path
 
-from aided import get_logger
+from aided.io._logger import get_logger
 from .log_reader import LogReader
 
 logger = get_logger()

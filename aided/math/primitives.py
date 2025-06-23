@@ -1,9 +1,11 @@
 """
 Simple mathematical primitives.
+
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from typing import Union
-from .. import np, npt
+from aided import np, npt
 
 
 def coth(x: Union[float, npt.NDArray]) -> Union[float, npt.NDArray]:

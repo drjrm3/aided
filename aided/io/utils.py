@@ -10,7 +10,7 @@ from typing import List
 
 import re
 
-from ..core.edrep import EDRepType
+from aided.core.edrep import EDRepType
 
 
 def convert_scientific_notation(data_lines: List[str]) -> List[str]:

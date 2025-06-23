@@ -12,7 +12,7 @@ from pathlib import Path
 
 from aided import np, npt
 from aided.core.units import THERM_FACTOR_CM_K, ZPE_PREF_ANG2
-from aided import get_logger
+from aided.io import get_logger
 from aided.math.primitives import coth
 
 from .log_reader import LogReader
