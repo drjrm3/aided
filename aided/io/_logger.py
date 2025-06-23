@@ -9,7 +9,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 import logging
 
 
-def _get_logger(
+def get_logger(
     log_level: str = "DEBUG", log_file: str = "aided.log", initialize: bool = False
 ) -> logging.Logger:
     """Get a logger instance that can be used throughout the application.

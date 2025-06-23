@@ -7,7 +7,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 from aided.core.edrep import EDRepType
 from ..helper import CxTestCase
 
-from aided import get_logger
+from aided.io import get_logger
 
 import logging
 

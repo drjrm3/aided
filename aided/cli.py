@@ -21,8 +21,7 @@ import pkgutil
 from typing import List
 from pathlib import Path
 
-from aided import get_logger
-
+from .io import get_logger
 from .version import __version__
 
 _APPS_DIR = str(Path(__file__).parent / "apps")

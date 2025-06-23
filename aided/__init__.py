@@ -11,6 +11,3 @@ import numpy as np
 
 # import cupynumeric as np
 import numpy.typing as npt
-
-from .core import EDWfn, EDWfns
-from .io._logger import _get_logger as get_logger

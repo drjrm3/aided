@@ -5,7 +5,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 from argparse import Namespace
 
-from aided import get_logger
+from aided.io import get_logger
 from aided.io.vib.factory import log_reader_factory
 from aided.io.vib.writer import msda_to_file
 from .cli import add_arguments  # pylint: disable=unused-import

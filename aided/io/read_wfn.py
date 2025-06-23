@@ -13,9 +13,9 @@ import numpy
 
 from concurrent.futures import ProcessPoolExecutor
 
-from .. import np, npt
+from aided import np, npt
+from aided.core.wfn import WFNRep, WFNsRep
 from .utils import is_number, convert_scientific_notation
-from ..core.wfn import WFNRep, WFNsRep
 
 
 def _read_wfn_worker(iwfn: int, wfn: str) -> Tuple:  # pragma: no cover
