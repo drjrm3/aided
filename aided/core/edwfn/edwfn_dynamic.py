@@ -9,6 +9,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 from numpy.typing import NDArray
 from aided import np
 from aided.constants import LMNS
+from aided.core.units import AU_TO_ANG
 from aided.io.vib.reader import gen_msda
 from .edwfn import EDWfn
 
@@ -118,7 +119,7 @@ class EDWfnDynamic(EDWfn):
         super().__init__(wfn_file)
         
         self.T = T
-        self.msda = gen_msda(self.T, log_file, msda_file, msda)
+        self.msda = gen_msda(self.T, log_file, msda_file, msda) * AU_TO_ANG ** 2
 
     def adps_of_gaussian_pairs(self, iprim: int, jprim: int) -> np.ndarray:
         """Return the ADPs (Anisotropic Displacement Parameters) of a Gaussian product.
@@ -134,8 +135,8 @@ class EDWfnDynamic(EDWfn):
         iat = self._wfn_rep.centers[iprim]
         jat = self._wfn_rep.centers[jprim]
 
-        alpha = 2.0 * self._wfn_rep.expons[self._wfn_rep.centers[iat]]
-        beta = 2.0 * self._wfn_rep.expons[self._wfn_rep.centers[jat]]
+        alpha = 2.0 * self._wfn_rep.expons[iprim]
+        beta = 2.0 * self._wfn_rep.expons[jprim]
 
         start_i = 3 * iat
         start_j = 3 * jat

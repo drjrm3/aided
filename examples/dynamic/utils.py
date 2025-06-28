@@ -30,10 +30,21 @@ def main() -> Tuple[EDWfn, EDWfn]:
 
     static, dynamic = get_wfn_objects(T=T)
 
+    mid = 0.5 * (static.atpos[1] + static.atpos[5])  # Midpoint between C2 and O6
+    rho_stat = static.rho(*mid)
+    rho_dyn = dynamic.rho(*mid)
+    print(f"Static rho at midpoint .... {rho_stat}")
+    print(f"Dynamic rho at midpoint ... {rho_dyn}")
+    print(f"Ratio ..................... {rho_dyn / rho_stat}")
+
+    return static, dynamic
+
+
+
     # Create an empty `Axes` object for plotting.
     fig, ax = plt.subplots(figsize=(8, 8))
 
-    xs, ys = generate_line(static, "C2", "O6", npts=20, buffer=0.5)
+    xs, ys = generate_line(static, "C2", "O6", npts=20, buffer=0.4)
 
     static_rho = [static.rho(x, y, z) for x, y, z in zip(xs, ys, [0] * len(xs))]
     dynamic_rho = [dynamic.rho(x, y, z) for x, y, z in zip(xs, ys, [0] * len(xs))]
