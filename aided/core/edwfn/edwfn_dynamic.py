@@ -116,7 +116,7 @@ class EDWfnDynamic(EDWfn):
             msda: Precomputed MSDA array.
         """
         super().__init__(wfn_file)
-
+        
         self.T = T
         self.msda = gen_msda(self.T, log_file, msda_file, msda)
 
@@ -134,13 +134,16 @@ class EDWfnDynamic(EDWfn):
         iat = self._wfn_rep.centers[iprim]
         jat = self._wfn_rep.centers[jprim]
 
-        alpha = 2.0 * self._wfn_rep.centers[iat]
-        beta = 2.0 * self._wfn_rep.centers[jat]
+        alpha = 2.0 * self._wfn_rep.expons[self._wfn_rep.centers[iat]]
+        beta = 2.0 * self._wfn_rep.expons[self._wfn_rep.centers[jat]]
 
-        Uaa = self.msda[3 * iat - 2 : 3 * iat, 3 * iat - 2 : 3 * iat]
-        Uab = self.msda[3 * iat - 2 : 3 * iat, 3 * jat - 2 : 3 * jat]
-        Uba = self.msda[3 * jat - 2 : 3 * jat, 3 * iat - 2 : 3 * iat]
-        Ubb = self.msda[3 * jat - 2 : 3 * jat, 3 * jat - 2 : 3 * jat]
+        start_i = 3 * iat
+        start_j = 3 * jat
+
+        Uaa = self.msda[start_i : start_i + 3, start_i : start_i + 3]
+        Uab = self.msda[start_i : start_i + 3, start_j : start_j + 3]
+        Uba = self.msda[start_j : start_j + 3, start_i : start_i + 3]
+        Ubb = self.msda[start_j : start_j + 3, start_j : start_j + 3]
 
         U = (alpha * alpha * Uaa + alpha * beta * (Uab + Uba) + beta * beta * Ubb)
         U /= ( (alpha + beta) ** 2)
