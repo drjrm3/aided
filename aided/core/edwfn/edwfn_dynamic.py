@@ -6,9 +6,41 @@ Dynamic Electron Density manifestation.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
+from numpy.typing import NDArray
 from aided import np
-from .edwfn import EDWfn
+from aided.constants import LMNS
 from aided.io.vib.reader import gen_msda
+from .edwfn import EDWfn
+
+def gaussian_product_center(A: np.ndarray, alpha: float, B: np.ndarray, beta: float) -> np.ndarray:
+    """Calculate the center of a Gaussian product.
+
+    Args:
+        A: Center of the first Gaussian.
+        alpha: Exponent of the first Gaussian.
+        B: Center of the second Gaussian.
+        beta: Exponent of the second Gaussian.
+
+    Returns:
+        C: Center of the Gaussian product.
+    """
+    return (alpha * A + beta * B) / (alpha + beta)
+
+def dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j) -> float:
+    """Return the dynamic s-s orbital of a Gaussian product."""
+
+    gamma = alpha + beta
+    C = (alpha * A + beta * B) / gamma
+    W = np.linalg.inv(np.eye(3)/gamma + U)
+
+    prefactor = (gamma**-3 * np.linalg.det(W))**0.5
+    Eg = np.exp(-0.5*alpha*beta/gamma * np.dot(A-B, A-B))
+    expon = np.exp(-0.5 * (X-C) @ np.linalg.inv(W) @ (X-C))
+    gss = prefactor * Eg * expon
+
+    # TODO: use lmn_i, lmn_j for angular momentum considerations.
+
+    return gss
 
 
 class EDWfnDynamic(EDWfn):
@@ -22,7 +54,7 @@ class EDWfnDynamic(EDWfn):
         T: float,
         log_file: str | None = None,
         msda_file: str | None = None,
-        msda: str | None = None,
+        msda: NDArray[np.float64] | None = None,
     ):
         """Initialize the EDWfnDynamic object.
 
@@ -38,6 +70,32 @@ class EDWfnDynamic(EDWfn):
         self.T = T
         self.msda = gen_msda(self.T, log_file, msda_file, msda)
 
+    def adps_of_gaussian_pairs(self, iprim: int, jprim: int) -> np.ndarray:
+        """Return the ADPs (Anisotropic Displacement Parameters) of a Gaussian product.
+
+        Args:
+            iat (int): The index of the first atom.
+            jat (int): The index of the second atom.
+
+        Returns:
+            U (np.ndarray): The ADPs matrix of shape (3, 3) for the atom pair.
+        """
+
+        iat = self._wfn_rep.centers[iprim]
+        jat = self._wfn_rep.centers[jprim]
+
+        alpha = 2.0 * self._wfn_rep.centers[iat]
+        beta = 2.0 * self._wfn_rep.centers[jat]
+
+        Uaa = self.msda[3 * iat - 2 : 3 * iat, 3 * iat - 2 : 3 * iat]
+        Uab = self.msda[3 * iat - 2 : 3 * iat, 3 * jat - 2 : 3 * jat]
+        Uba = self.msda[3 * jat - 2 : 3 * jat, 3 * iat - 2 : 3 * iat]
+        Ubb = self.msda[3 * jat - 2 : 3 * jat, 3 * jat - 2 : 3 * jat]
+
+        U = (alpha * alpha * Uaa + alpha * beta * (Uab + Uba) + beta * beta * Ubb)
+        U /= ( (alpha + beta) ** 2)
+
+        return U
 
     def rho(self, x: float, y: float, z: float) -> float:
         """Generate the ED at a point.
@@ -47,9 +105,23 @@ class EDWfnDynamic(EDWfn):
         Returns: Value of ED in chosen units.
         """
 
-        self._gen_gs(x, y, z, ider=0)
+        X = np.array([x, y, z], dtype=np.float64)
+        rhov = 0.0
+        
+        for iprim in range(self._nprims):
+            alpha = self._wfn_rep.expons[iprim]
+            lmn_i = LMNS[self._wfn_rep.types[iprim]]
+            # Location of the i-th primitive Gaussian
+            A = self._wfn_rep.centers[iprim]
+            for jprim in range(self._nprims):
+                beta = self._wfn_rep.expons[jprim]
+                lmn_j = LMNS[self._wfn_rep.types[jprim]]
+                B = self._wfn_rep.centers[iprim]
 
-        rhov = 0
+                U = self.adps_of_gaussian_pairs(iprim, jprim)
+                gdyn = dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j)
+
+                rhov += self._denmat[iprim, jprim] * gdyn
 
         return rhov
 
@@ -63,9 +135,10 @@ class EDWfnDynamic(EDWfn):
 
         self._gen_gs(x, y, z, ider=1)
 
-        gradv = np.zeros(3, dtype=np.float64)
+        # TODO: On the first implementation of generating rho, simply calculate grad as a numeric
+        # Gradient calculation.
 
-        return gradv
+        raise NotImplementedError("Gradient calculation not implemented in EDWfnDynamic.")
 
     def hess(self, x: float, y: float, z: float) -> np.ndarray:
         """Generate the Hessian of the ED at a point.
@@ -77,39 +150,7 @@ class EDWfnDynamic(EDWfn):
 
         self._gen_gs(x, y, z, ider=2)
 
-        hessv = np.zeros(6, dtype=np.float64)
+        # TODO: On the first implementation of generating rho, simply calculate hess as a numeric
+        # Hessian calculation.
 
-        return hessv
-
-
-def _tst():  # pragma: no cover
-    # pylint: disable=all
-    # This is a test area for validating work above.
-    import argparse
-    import sys
-
-    # Get one or more input files.
-    parser = argparse.ArgumentParser(description="Test wfn reading.")
-    parser.add_argument("-i", "--input", type=str, nargs="+", help="Input wfn file(s)")
-    args = parser.parse_args()
-
-    if not args.input:
-        parser.print_help()
-        sys.exit(1)
-
-    edwfn = EDWfn(args.input[0])
-    print(f"{edwfn.rho(0.0, 0.0, 0.0)=}")
-    print(f"{edwfn.grad(0.0, 0.0, 0.0)=}")
-    print(f"{edwfn.hess(0.0, 0.0, 0.0)=}")
-    bcp = edwfn.bcp(0, 0, 0)
-    print(f"{bcp=}")
-
-    surfaces = []
-    for atname in edwfn.atnames:
-        print(atname)
-        thetas, phis, surface = edwfn.bader_surface_of_atom(atom_name=atname, ntheta=3, nphi=20)
-        surfaces.append(surface)
-
-
-if __name__ == "__main__":  # pragma: no cover
-    _tst()
+        raise NotImplementedError("Hessian calculation not implemented in EDWfnDynamic.")
