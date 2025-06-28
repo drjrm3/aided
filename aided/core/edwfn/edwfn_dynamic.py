@@ -9,7 +9,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 from numpy.typing import NDArray
 from aided import np
 from aided.constants import LMNS
-from aided.core.units import AU_TO_ANG
+from aided.core.units import AU_TO_ANG, ANG_TO_AU
 from aided.io.vib.reader import gen_msda
 from .edwfn import EDWfn
 
@@ -59,7 +59,7 @@ def dynamic_cartesian_prefactor(
     Returns:
         dyn_prefactor: Full Cartesian prefactor Product(C_k(x)^{n_k}) evaluated at **X**.
     """
-    W_inv: NDArray = np.eye(3) / gamma + U              # G⁻¹ + U
+    W_inv: NDArray = np.linalg.inv(np.eye(3) + gamma * U)
     W_inv_xc: NDArray = W_inv @ (X - C)                 # W⁻¹ (x – c)
     AB: NDArray = A - B                                 # inter-nuclear vector
 
@@ -82,11 +82,15 @@ def dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j) -> float:
 
     gamma = alpha + beta
     C = (alpha * A + beta * B) / gamma
-    W = np.linalg.inv(np.eye(3)/gamma + U)
 
-    prefactor = (gamma**-3 * np.linalg.det(W))**0.5
-    Eg = np.exp(-0.5*alpha*beta/gamma * np.dot(A-B, A-B))
-    expon = np.exp(-0.5 * (X-C) @ np.linalg.inv(W) @ (X-C))
+    # Debye–Waller matrix  K = I + γ U  (see Gatti 2003, eq. 8)
+    K      = np.eye(3) + gamma * U
+    K_inv  = np.linalg.inv(K)
+
+    prefactor = (np.pi / gamma) ** 1.5 / np.sqrt(np.linalg.det(K))
+    Eg        = np.exp(-alpha * beta / gamma * np.dot(A - B, A - B))
+    expon     = np.exp(-gamma * (X - C) @ K_inv @ (X - C))
+
     gss = prefactor * Eg * expon
 
     dynamic_prefactor = dynamic_cartesian_prefactor(X, A, B, C, alpha, beta, gamma, U, lmn_i, lmn_j)
@@ -119,7 +123,7 @@ class EDWfnDynamic(EDWfn):
         super().__init__(wfn_file)
         
         self.T = T
-        self.msda = gen_msda(self.T, log_file, msda_file, msda) * AU_TO_ANG ** 2
+        self.msda = gen_msda(self.T, log_file, msda_file, msda) / AU_TO_ANG**2
 
     def adps_of_gaussian_pairs(self, iprim: int, jprim: int) -> np.ndarray:
         """Return the ADPs (Anisotropic Displacement Parameters) of a Gaussian product.
@@ -135,8 +139,8 @@ class EDWfnDynamic(EDWfn):
         iat = self._wfn_rep.centers[iprim]
         jat = self._wfn_rep.centers[jprim]
 
-        alpha = 2.0 * self._wfn_rep.expons[iprim]
-        beta = 2.0 * self._wfn_rep.expons[jprim]
+        alpha = self._wfn_rep.expons[iprim]
+        beta = self._wfn_rep.expons[jprim]
 
         start_i = 3 * iat
         start_j = 3 * jat
@@ -166,11 +170,13 @@ class EDWfnDynamic(EDWfn):
             alpha = self._wfn_rep.expons[iprim]
             lmn_i = LMNS[self._wfn_rep.types[iprim]]
             # Location of the i-th primitive Gaussian
-            A = self._wfn_rep.centers[iprim]
+            iat = self._wfn_rep.centers[iprim]
+            A = self._wfn_rep.atpos[iat, :]
             for jprim in range(self._nprims):
                 beta = self._wfn_rep.expons[jprim]
                 lmn_j = LMNS[self._wfn_rep.types[jprim]]
-                B = self._wfn_rep.centers[jprim]
+                jat = self._wfn_rep.centers[jprim]
+                B = self._wfn_rep.atpos[jat, :]
 
                 U = self.adps_of_gaussian_pairs(iprim, jprim)
                 gdyn = dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j)
