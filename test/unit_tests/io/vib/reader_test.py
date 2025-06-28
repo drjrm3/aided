@@ -91,8 +91,7 @@ class TestGenMSDA(MSDATestCase):
 
     def test_msda_from_log(self):
         """Tests generating MSDA from a log file."""
-        # TODO: Put log file in test data directory.
-        log_file = f"{self.test_data_dir}/log/g09/formamide.b3lyp.6311gss.log"
+        log_file = f"{self.test_data_dir}/msda/g09/formamide.b3lyp.6311gss.log"
         msda = gen_msda(1, log_file=log_file)
         self.assertIsInstance(msda, np.ndarray)
         self.validate_msda(msda)
