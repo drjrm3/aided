@@ -6,7 +6,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import numpy
 
-from ...helper import CxTestCase, get_wfn_file
+from ....helper import CxTestCase, get_wfn_file
 
 from aided.core.edwfn import EDWfnStatic
 
