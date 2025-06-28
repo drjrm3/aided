@@ -26,6 +26,56 @@ def gaussian_product_center(A: np.ndarray, alpha: float, B: np.ndarray, beta: fl
     """
     return (alpha * A + beta * B) / (alpha + beta)
 
+def dynamic_cartesian_prefactor(
+    X: NDArray[np.float64],           # observation point  (3,)
+    A: NDArray[np.float64],           # centre of primitive i (3,)
+    B: NDArray[np.float64],           # centre of primitive j (3,)
+    C: NDArray[np.float64],           # centre of Gaussian product (3,)
+    alpha: float,                     # exponent of primitive i
+    beta:  float,                     # exponent of primitive j
+    gamma: float,                     # gamma = alpha + beta
+    U: NDArray[np.float_],            # (3,3) ADP / MSDA tensor
+    lmn_i: NDArray[np.int_],          # (l_i, m_i, n_i)
+    lmn_j: NDArray[np.int_],          # (l_j, m_j, n_j)
+) -> float:
+    """Cartesian *polynomial* factor multiplying the dynamic s–s kernel.
+
+    Implements
+        g_{L_i;L_j}^{dyn}(x) = g_ss^{dyn}(x) * Product(C_k(x)^{n_k})
+    where the six linear factors C_1, ..., C_6 are defined in Eq. (9) of the LaTeX
+    document.
+
+    Args:
+        X: Cartesian coordinates of the evaluation point.
+        A: Location of primitive i.
+        B: Location of primitive j.
+        alpha: Gaussian exponent of primitive i.
+        beta: Gaussian exponent of primitive j.
+        U: Temperature-dependent anisotropic‐displacement tensor **U**.
+        lmn_i: Cartesian exponents (l, m, n) on centre i.
+        lmn_j: Cartesian exponents (l, m, n) on centre i.
+
+    Returns:
+        dyn_prefactor: Full Cartesian prefactor Product(C_k(x)^{n_k}) evaluated at **X**.
+    """
+    W_inv: NDArray = np.eye(3) / gamma + U              # G⁻¹ + U
+    W_inv_xc: NDArray = W_inv @ (X - C)                 # W⁻¹ (x – c)
+    AB: NDArray = A - B                                 # inter-nuclear vector
+
+    C_i = (alpha / gamma) * W_inv_xc - (alpha * beta / gamma) * AB   # C₁..C₃
+    C_j = (beta  / gamma) * W_inv_xc + (alpha * beta / gamma) * AB   # C₄..C₆
+
+    # Raise each component to its required power -----------------------
+    (l_i, m_i, n_i) = lmn_i
+    (l_j, m_j, n_j) = lmn_j
+
+    prefactor = (
+        C_i[0] ** l_i * C_j[0] ** l_j *      # x-components
+        C_i[1] ** m_i * C_j[1] ** m_j *      # y-components
+        C_i[2] ** n_i * C_j[2] ** n_j        # z-components
+    )
+    return prefactor
+
 def dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j) -> float:
     """Return the dynamic s-s orbital of a Gaussian product."""
 
@@ -38,9 +88,9 @@ def dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j) -> float:
     expon = np.exp(-0.5 * (X-C) @ np.linalg.inv(W) @ (X-C))
     gss = prefactor * Eg * expon
 
-    # TODO: use lmn_i, lmn_j for angular momentum considerations.
+    dynamic_prefactor = dynamic_cartesian_prefactor(X, A, B, C, alpha, beta, gamma, U, lmn_i, lmn_j)
 
-    return gss
+    return dynamic_prefactor * gss
 
 
 class EDWfnDynamic(EDWfn):
@@ -116,7 +166,7 @@ class EDWfnDynamic(EDWfn):
             for jprim in range(self._nprims):
                 beta = self._wfn_rep.expons[jprim]
                 lmn_j = LMNS[self._wfn_rep.types[jprim]]
-                B = self._wfn_rep.centers[iprim]
+                B = self._wfn_rep.centers[jprim]
 
                 U = self.adps_of_gaussian_pairs(iprim, jprim)
                 gdyn = dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j)
