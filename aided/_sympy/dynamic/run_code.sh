@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-python3 dynamic.py
+export PYTHONPATH=../../..:$PYTHONPATH
+
+python3 -m aided._sympy.dynamic
