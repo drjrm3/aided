@@ -5,6 +5,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from pathlib import Path
+import sys
 from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 from typing import Tuple
@@ -30,6 +31,14 @@ def main() -> Tuple[EDWfn, EDWfn]:
 
     static, dynamic = get_wfn_objects(T=T)
 
+    print(f"{dynamic.rho(0., 0., 0.)=}")
+    print(f"{dynamic.rho(1., 0., 0.)=}")
+    print(f"{dynamic.rho(0., 1., 0.)=}")
+    print(f"{dynamic.rho(0., 0., 1.)=}")
+    sys.exit(1)
+
+
+
     mid = 0.5 * (static.atpos[1] + static.atpos[5])  # Midpoint between C2 and O6
     rho_stat = static.rho(*mid)
     rho_dyn = dynamic.rho(*mid)
@@ -37,17 +46,15 @@ def main() -> Tuple[EDWfn, EDWfn]:
     print(f"Dynamic rho at midpoint ... {rho_dyn}")
     print(f"Ratio ..................... {rho_dyn / rho_stat}")
 
-    return static, dynamic
-
-
-
     # Create an empty `Axes` object for plotting.
     fig, ax = plt.subplots(figsize=(8, 8))
 
-    xs, ys = generate_line(static, "C2", "O6", npts=20, buffer=0.4)
+    xs, ys = generate_line(static, "C2", "O6", npts=100, buffer=0.4)
 
-    static_rho = [static.rho(x, y, z) for x, y, z in zip(xs, ys, [0] * len(xs))]
-    dynamic_rho = [dynamic.rho(x, y, z) for x, y, z in zip(xs, ys, [0] * len(xs))]
+    static_rho = np.array([static.rho(x, y, z) for x, y, z in zip(xs, ys, [0] * len(xs))])
+    dynamic_rho = np.array([dynamic.rho(x, y, z) for x, y, z in zip(xs, ys, [0] * len(xs))])
+
+    static_rho[static_rho > 10] = 10
 
     ax.plot(static_rho, "-r.")
     ax.plot(dynamic_rho, "-b.")
@@ -108,3 +115,7 @@ def plot_bonds(wfn: EDWfn, ax: Axes) -> Axes:
         ax.text(atpos[0], atpos[1], atname)
 
     return ax
+
+if __name__ == "__main__":
+    # Run the main function to visualize the results.
+    main()
