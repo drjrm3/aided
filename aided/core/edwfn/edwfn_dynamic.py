@@ -83,13 +83,13 @@ def dynamic_gaussian(X, A, B, alpha, beta, U, lmn_i, lmn_j) -> float:
     gamma = alpha + beta
     C = (alpha * A + beta * B) / gamma
 
-    # Debye–Waller matrix  K = I + γ U  (see Gatti 2003, eq. 8)
-    K      = np.eye(3) + gamma * U
-    K_inv  = np.linalg.inv(K)
+    W      = np.eye(3) + gamma * U
+    W_inv  = np.linalg.inv(W)
+    detW   = np.linalg.det(W)
 
-    prefactor = (np.pi / gamma) ** 1.5 / np.sqrt(np.linalg.det(K))
-    Eg        = np.exp(-alpha * beta / gamma * np.dot(A - B, A - B))
-    expon     = np.exp(-gamma * (X - C) @ K_inv @ (X - C))
+    prefactor = detW ** -0.5
+    Eg        = np.exp(-0.5 * alpha * beta / gamma * np.dot(A - B, A - B))
+    expon     = np.exp(-0.5 * gamma * (X - C) @ W_inv @ (X - C))
 
     gss = prefactor * Eg * expon
 
