@@ -3,13 +3,18 @@
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from typing import cast
+from typing import List, cast
 
 import sympy as sp
 from sympy import Matrix, Expr, Rational, simplify
 
-from .functions import gss, Eg, gss_stat_scheringer
+from .functions import dyn_prefactor, gss, Eg, gss_dyn, gss_stat_scheringer
 from ..sympy_utils import eval_in_mma
+
+assumptions="al > 0 && be > 0 && ga > 0"
+assumptions += " && u11 > 0 && u12 > 0 && u13 > 0 && u22 > 0 && u23 > 0 && u33 > 0"
+assumptions += " && ax in Reals && ay in Reals && az in Reals"
+assumptions += " && bx in Reals && by in Reals && bz in Reals"
 
 
 # fmt: off
@@ -37,6 +42,78 @@ def __verify_product_of_gtos(
     # print a checkmark
     print("[✓]")
     return True
+
+def _make_multi_derivative(expr, a, b, La, Lb):
+    """
+    Derivative of *expr* of total order ΣLa+ΣLb with respect to
+        (ax, ay, az)^La   and   (bx, by, bz)^Lb
+    where  a = (ax, ay, az)  and  b = (bx, by, bz).
+
+    If all angular momenta are zero  →  returns *expr* itself.
+    """
+    ax, ay, az = a
+    bx, by, bz = b
+
+    deriv_vars = (
+          [ax] * La[0] + [ay] * La[1] + [az] * La[2]
+        + [bx] * Lb[0] + [by] * Lb[1] + [bz] * Lb[2]
+    )
+    return sp.diff(expr, *deriv_vars) if deriv_vars else expr
+
+def __verify_gdyn(
+    r: Matrix,  # Position vector (x, y, z)
+    a: Matrix,  # Center of the first GTO (ax, ay, az)
+    b: Matrix,  # Center of the second GTO (bx, by, bz)
+    c: Matrix,  # Center of the product GTO (cx, cy, cz)
+    al: Expr,   # Exponent of the first GTO
+    be: Expr,   # Exponent of the second GTO
+    ga: Expr,   # Exponent of the product GTO
+    W: Matrix,  # G.inv() + U
+    La: List[int], # Angular momentum of the first GTO
+    Lb: List[int], # Angular momentum of the second GTO
+) -> bool:
+    """Verify the dynamic GTO for arbitrary angular momenta by comparing to the derivative."""
+
+    F = cast(Matrix, W.inv())  # Scheringer's F matrix
+
+    # s-s orbital
+    print("Calculating gss_dyn ... ", end="", flush=True)
+    g0 = gss_dyn(r, a, b, c, al, be, ga, W)
+    print("done.")
+
+    # Calculate derivatives for La, Lb
+    print("Calculating derivatives ... ", end="", flush=True)
+    gdyn_from_derivs = _make_multi_derivative(g0, a, b, La, Lb)
+    print("done.")
+
+    print("Canceling common factors ... ", end="", flush=True)
+    lhs = sp.cancel(gdyn_from_derivs / g0)
+    print("done.")
+
+    # Calculate from prefactor. 
+    print("Calculating prefactor ... ", end="", flush=True)
+    C_pref = dyn_prefactor(r, a, b, c, al, be, ga, F, La, Lb)
+    rhs = C_pref
+    print("done.")
+    print("Expanding prefactor ... ", end="", flush=True)
+    #gdyn_from_prefactors = sp.expand_mul(C_pref * g0)
+    #rhs = gdyn_from_prefactors
+    print("done.")
+
+    print("Comparing ... ", end="", flush=True)
+    out = eval_in_mma(lhs / rhs, simplify="Simplify", assumptions=assumptions)
+    print("done.")
+    print(out)
+
+    return True
+
+
+    ### Compare
+
+
+
+
+
 
 
 def __verify_product_of_gtos_scheringer(
@@ -95,10 +172,6 @@ def __verify_gss_dyn_term_by_term(
     W: Matrix  # G.inv() + U
 ) -> bool:
     # fmt: on
-    assumptions="al > 0 && be > 0 && ga > 0"
-    assumptions += " && u11 > 0 && u12 > 0 && u13 > 0 && u22 > 0 && u23 > 0 && u33 > 0"
-    assumptions += " && ax in Reals && ay in Reals && az in Reals"
-    assumptions += " && bx in Reals && by in Reals && bz in Reals"
 
     #####################################
     ### Verify first timer in gss_dyn ###

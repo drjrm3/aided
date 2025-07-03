@@ -37,6 +37,7 @@ from .verifications import (
     __verify_detG_inv,
     __verify_gss_dyn_term_by_term,
     __verify_Wdet,
+    __verify_gdyn,
 )
 
 
@@ -92,6 +93,9 @@ def main():
 
     Winv = cast(Matrix, W.inv())
 
+    __verify_gdyn(r, a, b, c, al, be, ga, W, La=[1, 0, 0], Lb=[0, 0, 0])
+    sys.exit(0)
+
     ##########################
     ## Exploratory analysis ##
     ##########################
@@ -126,8 +130,6 @@ def main():
         eval_in_mma(Cax1 / _Cax1, simplify="Simplify", assumptions=assumptions),
         flush=True,
     )
-
-    sys.exit(0)
 
     g_ay1 = Derivative(g0, ay, 1).doit()
     print(
