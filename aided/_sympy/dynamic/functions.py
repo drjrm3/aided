@@ -59,9 +59,10 @@ def hermite_vector(q: Matrix, L: List[int]) -> Expr:
 
     return Hx * Hy * Hz
 
+
 def _scale(F, L):
     """∏_i F_ii^{L_i/2}"""
-    return sp.prod(F[i, i]**(L[i]/2) for i in range(3))
+    return sp.prod(F[i, i] ** (L[i] / 2) for i in range(3))
 
 
 def dyn_prefactor(

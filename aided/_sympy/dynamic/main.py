@@ -18,6 +18,7 @@ Scheringer defines:
 
 """
 
+from itertools import product
 
 from datetime import datetime, time
 import sys
@@ -91,59 +92,32 @@ def main():
     ])
     # fmt: on
 
-    Winv = cast(Matrix, W.inv())
+    """
+    # Loop over La = [ax, ay, az], Lb = [bx, by, bz] where any of the values ranges from 0 to 2.
+    for la, ma, na, lb, mb, nb in product(range(2), repeat=6):
+        print(f"[*] La = [{la}, {ma}, {na}] Lb = [{lb}, {mb}, {nb}] ... ", end="", flush=True)
+        ok = __verify_gdyn(r, a, b, c, al, be, ga, W, La=[la, ma, na], Lb=[lb, mb, nb], verbose=False)
+        if not ok:
+            print("FAILED", flush=True,)
+        else:
+            print(f"OK", flush=True)
+    """
 
-    __verify_gdyn(r, a, b, c, al, be, ga, W, La=[1, 0, 0], Lb=[0, 0, 0])
-    sys.exit(0)
+    for i in range(6):
+        La = [0, 0, 0]
+        Lb = [0, 0, 0]
+        if i < 3:
+            La[i] = 1
+        else:
+            Lb[i - 3] = 1
+        print(f"[*] La = {La} Lb = {Lb} ... ", end="", flush=True)
+        ok = __verify_gdyn(r, a, b, c, al, be, ga, W, La=La, Lb=Lb, verbose=False)
+        if not ok:
+            print("FAILED", flush=True,)
+        else:
+            print(f"OK", flush=True)
 
-    ##########################
-    ## Exploratory analysis ##
-    ##########################
-    assumptions = "al > 0 && be > 0 && ga > 0"
-    assumptions += " && u11 > 0 && u12 > 0 && u13 > 0 && u22 > 0 && u23 > 0 && u33 > 0"
-    assumptions += " && ax in Reals && ay in Reals && az in Reals"
-    assumptions += " && bx in Reals && by in Reals && bz in Reals"
 
-    print(f"Calculating _Cax1 ... ", end="", flush=True)
-    _Cax1 = dyn_prefactor(r, a, b, c, al, be, ga, F=Winv, La=[1, 0, 0], Lb=[0, 0, 0])
-    print("done.", flush=True)
-
-    print(f"Calculating gss_dyn ... ", end="", flush=True)
-    g0 = gss_dyn(r, a, b, c, al, be, ga, W)
-    print("done.", flush=True)
-
-    print(f"Calculating g_ax1 ... ", end="", flush=True)
-    g_ax1 = Derivative(g0, ax, 1).doit()
-    print("done.", flush=True)
-
-    print(f"Calculating Cax1 ... ", end="", flush=True)
-    Cax1 = g_ax1 / g0
-    print("done.", flush=True)
-
-    _Cax1_str = eval_in_mma(_Cax1, simplify="Simplify", assumptions=assumptions)
-    Cax1_str = eval_in_mma(Cax1, simplify="Simplify", assumptions=assumptions)
-    print("Cax1_str = ", Cax1_str, flush=True)
-    print("_Cax1_str = ", _Cax1_str, flush=True)
-
-    print(
-        "ratio = ",
-        eval_in_mma(Cax1 / _Cax1, simplify="Simplify", assumptions=assumptions),
-        flush=True,
-    )
-
-    g_ay1 = Derivative(g0, ay, 1).doit()
-    print(
-        "\ng_ay1 = ", eval_in_mma(g_ay1, simplify="Simplify", assumptions=assumptions), flush=True
-    )
-    Cay1 = eval_in_mma(g_ay1 / g0, simplify="Simplify")
-    print("\nCay1 = ", Cay1, flush=True)
-
-    g_az1 = Derivative(g0, az, 1).doit()
-    print(
-        "\ng_az1 = ", eval_in_mma(g_az1, simplify="Simplify", assumptions=assumptions), flush=True
-    )
-    Caz1 = eval_in_mma(g_az1 / g0, simplify="Simplify")
-    print("\nCaz1 = ", Caz1, flush=True)
 
     sys.exit(0)
     ############################################################

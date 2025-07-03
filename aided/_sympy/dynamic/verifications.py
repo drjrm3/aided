@@ -11,7 +11,7 @@ from sympy import Matrix, Expr, Rational, simplify
 from .functions import dyn_prefactor, gss, Eg, gss_dyn, gss_stat_scheringer
 from ..sympy_utils import eval_in_mma
 
-assumptions="al > 0 && be > 0 && ga > 0"
+assumptions = "al > 0 && be > 0 && ga > 0"
 assumptions += " && u11 > 0 && u12 > 0 && u13 > 0 && u22 > 0 && u23 > 0 && u33 > 0"
 assumptions += " && ax in Reals && ay in Reals && az in Reals"
 assumptions += " && bx in Reals && by in Reals && bz in Reals"
@@ -71,44 +71,38 @@ def __verify_gdyn(
     W: Matrix,  # G.inv() + U
     La: List[int], # Angular momentum of the first GTO
     Lb: List[int], # Angular momentum of the second GTO
+    verbose: bool = True
 ) -> bool:
     """Verify the dynamic GTO for arbitrary angular momenta by comparing to the derivative."""
 
     F = cast(Matrix, W.inv())  # Scheringer's F matrix
 
     # s-s orbital
-    print("Calculating gss_dyn ... ", end="", flush=True)
     g0 = gss_dyn(r, a, b, c, al, be, ga, W)
-    print("done.")
 
     # Calculate derivatives for La, Lb
-    print("Calculating derivatives ... ", end="", flush=True)
-    gdyn_from_derivs = _make_multi_derivative(g0, a, b, La, Lb)
-    print("done.")
-
-    print("Canceling common factors ... ", end="", flush=True)
-    lhs = sp.cancel(gdyn_from_derivs / g0)
-    print("done.")
+    pref_deriv = _make_multi_derivative(g0, a, b, La, Lb) / g0
+    pref_deriv = sp.powsimp(pref_deriv, force=True)
+    pref_deriv = sp.factor_terms(pref_deriv, radical=True)
+    lhs = pref_deriv
 
     # Calculate from prefactor. 
-    print("Calculating prefactor ... ", end="", flush=True)
-    C_pref = dyn_prefactor(r, a, b, c, al, be, ga, F, La, Lb)
-    rhs = C_pref
-    print("done.")
-    print("Expanding prefactor ... ", end="", flush=True)
-    #gdyn_from_prefactors = sp.expand_mul(C_pref * g0)
-    #rhs = gdyn_from_prefactors
-    print("done.")
+    pref_herm = dyn_prefactor(r, a, b, c, al, be, ga, F, La, Lb)
+    rhs = pref_herm
 
-    print("Comparing ... ", end="", flush=True)
     out = eval_in_mma(lhs / rhs, simplify="Simplify", assumptions=assumptions)
-    print("done.")
-    print(out)
 
+
+    if out.replace(".", "") != "1":
+        if verbose:
+            lhs_mma = eval_in_mma(lhs, simplify="Simplify", assumptions=assumptions)
+            rhs_mma = eval_in_mma(rhs, simplify="Simplify", assumptions=assumptions)
+            print("[!] Verification failed:\n")
+            print(f"[***] lhs = {lhs_mma}\n")
+            print(f"[***] rhs = {rhs_mma}\n")
+        return False
+    
     return True
-
-
-    ### Compare
 
 
 
