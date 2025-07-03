@@ -8,7 +8,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 from dataclasses import dataclass
 
-from ... import np, npt
+from aided import np, npt
 
 
 # pylint: disable=too-many-instance-attributes, R0801

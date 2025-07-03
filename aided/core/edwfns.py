@@ -10,12 +10,12 @@ from datetime import datetime
 from typing import List
 from numpy.typing import NDArray
 
-from .edrep import EDRep
 
-from .. import np, npt
-from ..constants import LMNS
-from ..io.read_wfn import read_wfn_files
-from ..math.primitives import gpow
+from aided import np, npt
+from aided.constants import LMNS
+from aided.io.read_wfn import read_wfn_files
+from aided.math.primitives import gpow
+from .edrep import EDRep
 
 
 def compute_hessian_batch(

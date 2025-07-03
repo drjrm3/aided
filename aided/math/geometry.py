@@ -4,7 +4,7 @@ Non-trivial geometric functions and operations.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from .. import np, npt
+from aided import np, npt
 
 
 def distance_from_point_to_line(x: npt.NDArray, a: npt.NDArray, b: npt.NDArray) -> float:

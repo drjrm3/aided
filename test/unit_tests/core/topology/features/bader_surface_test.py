@@ -1,5 +1,5 @@
 """
-Test functionality for Bader surface construction.
+Test functionality for static Bader surface construction.
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
@@ -7,9 +7,9 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 import numpy
 import unittest
 
-from ...helper import CxTestCase, get_wfn_file
+from ....helper import CxTestCase, get_wfn_file
 
-from aided.core.edwfn import EDWfn
+from aided.core.edwfn import EDWfnStatic
 from aided.math.geometry import spherical_angles_from_vector
 
 
@@ -17,16 +17,16 @@ class TestTraceGradientToPoint(CxTestCase):
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
-        self.wfn = EDWfn(self.wfn_file)
+        self.wfn = EDWfnStatic(self.wfn_file)
         numpy.random.seed(0)
 
-    def test_trace_gradient_to_point_bad_method(self):
+    def test_trace_bad_method(self):
         """Test attempt to trace gradient to a point with an invalid method."""
 
         with self.assertRaises(ValueError):
             self.wfn.trace_gradient_to_atom(0.0, 0.0, 0.0, method="bad_method")
 
-    def test_trace_gradient_to_point(self):
+    def test_trace_point(self):
         """Test tracing gradient to a point."""
 
         for i in range(10):
@@ -55,9 +55,9 @@ class TestBaderSurfacePoint(CxTestCase):
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
-        self.wfn = EDWfn(self.wfn_file)
+        self.wfn = EDWfnStatic(self.wfn_file)
 
-    def test_bader_surface_point_interior(self):
+    def test_interior(self):
         """Test Bader surface of a point on the interior of the molecule."""
         # Coordinates
         C2 = self.wfn.atpos[self.wfn.atnames == "C2"][0]

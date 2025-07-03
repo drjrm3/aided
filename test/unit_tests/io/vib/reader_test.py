@@ -6,28 +6,16 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import numpy as np
 
-from aided.io.vib.reader import read_msda
+from aided.io.vib.reader import gen_msda, read_msda
 
 from ...helper import CxTestCase
 
+natoms = 6
 
-class TestMSDAWriter(CxTestCase):
+class MSDATestCase(CxTestCase):
 
-    natoms = 6
-
-    def test_no_file(self):
-        """Tests failure if there is no file given."""
-        with self.assertRaises(FileNotFoundError):
-            read_msda("no_file.msda")
-
-    def test_read_phd_msda(self):
-        """Tests reading a MSDA file from PhD ground truth data."""
-        msda_file = f"{self.test_data_dir}/msda/g09/formamide.b3lyp.6311gss.msda"
-
-        msda = read_msda(msda_file)
-
-        natoms = 6
-
+    def validate_msda(self, msda: np.ndarray):
+        """Validate MSDA."""
         # Ensure that each 3x3 block is of the form:
         # [ X, X, 0]
         # [ X, X, 0]
@@ -46,13 +34,29 @@ class TestMSDAWriter(CxTestCase):
                 self.assertNotEqual(block[1, 0], 0)
                 self.assertNotEqual(block[1, 1], 0)
                 self.assertNotEqual(block[2, 2], 0)
-
         # Ensure that the matrix is symmetric.
         self.assertTrue(np.allclose(msda, msda.T, rtol=1e-12, atol=0))
 
         # Ensure the rank of the matrix is 3N-6.
         rank = np.linalg.matrix_rank(msda)
         self.assertEqual(rank, 3 * natoms - 6)
+
+
+
+class TestMSDAWriter(MSDATestCase):
+
+    def test_no_file(self):
+        """Tests failure if there is no file given."""
+        with self.assertRaises(FileNotFoundError):
+            read_msda("no_file.msda")
+
+    def test_read_phd_msda(self):
+        """Tests reading a MSDA file from PhD ground truth data."""
+        msda_file = f"{self.test_data_dir}/msda/g09/formamide.b3lyp.6311gss.msda"
+
+        msda = read_msda(msda_file)
+
+        self.validate_msda(msda)
 
     def test_read_msda_bad_shapes(self):
         """Test reading a MSDA file with bad shapes."""
@@ -63,3 +67,31 @@ class TestMSDAWriter(CxTestCase):
 
         with self.assertRaises(ValueError):
             read_msda(f"{self.tmp_dir}/bad_shape.msda")
+
+class TestGenMSDA(MSDATestCase):
+
+    def test_no_inputs(self):
+        """Tests failure if no inputs are given."""
+        with self.assertRaises(ValueError):
+            gen_msda(1.0)
+
+    def test_msda(self):
+        msda = np.random.rand(3, 3)
+        _msda = gen_msda(1, msda=msda)
+        self.assertIsInstance(_msda, np.ndarray)
+        # Validate that every entry of msda and _msda are equal.
+        self.assertTrue(np.allclose(msda, _msda, rtol=1e-12, atol=0))
+
+    def test_read_msda_file(self):
+        """Tests reading a MSDA file."""
+        msda_file = f"{self.test_data_dir}/msda/g09/formamide.b3lyp.6311gss.msda"
+        msda = gen_msda(1, msda_file=msda_file)
+        self.assertIsInstance(msda, np.ndarray)
+        self.validate_msda(msda)
+
+    def test_msda_from_log(self):
+        """Tests generating MSDA from a log file."""
+        log_file = f"{self.test_data_dir}/msda/g09/formamide.b3lyp.6311gss.log"
+        msda = gen_msda(1, log_file=log_file)
+        self.assertIsInstance(msda, np.ndarray)
+        self.validate_msda(msda)

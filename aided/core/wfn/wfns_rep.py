@@ -8,8 +8,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 from dataclasses import dataclass
 
-from ... import np
-
+from aided import np
 from .wfn_rep import WFNRep
 
 

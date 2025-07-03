@@ -12,9 +12,9 @@ from typing import List, Set, Tuple
 
 from scipy.optimize import minimize
 
-from .. import np
+from aided import np
+from aided.math.geometry import distance_from_point_to_line
 from .units import Units
-from ..math.geometry import distance_from_point_to_line
 
 
 class EDRepType(Enum):
