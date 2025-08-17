@@ -6,6 +6,15 @@ Analysis and Investigation of the Dynamic Electron Density
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
+# pylint: disable=wrong-import-position
+# Suppress denormal warnings that occur on systems with FTZ enabled
+import warnings
+warnings.filterwarnings("ignore", message="The value of the smallest subnormal")
+
+#import warnings
+# Suppress denormal warnings that occur on systems with FTZ enabled
+#warnings.filterwarnings("ignore", message="The value of the smallest subnormal")
+
 # Intentionally importing this here so that we can swap it out with cupy, cupynumeric, etc.
 import numpy as np
 

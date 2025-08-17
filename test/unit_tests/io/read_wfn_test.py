@@ -1,10 +1,8 @@
 """read_wfn test module"""
 
-import os
-
-from ..helper import CxTestCase, get_wfn_file
-
 from aided.io.read_wfn import read_wfn_files, read_wfn_file
+
+from ut_helper import CxTestCase, get_wfn_file
 
 NUM_ITERS = 100
 NUM_FILES = 10

@@ -2,7 +2,7 @@
 aided.io.read_wfn
 
 Read AIMfile WFN representation files. This reads it in both single file mode and also a batch of
-files which it then returns as WFNRep or WFNsRep, respectively.
+files which it then returns as WfnRecord or WfnRecords, respectively.
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
@@ -13,31 +13,31 @@ import numpy
 
 from concurrent.futures import ProcessPoolExecutor
 
-from .. import np, npt
+from aided import np, npt
+from aided.core.wfn import WfnRecord, WfnRecords
 from .utils import is_number, convert_scientific_notation
-from ..core.wfn import WFNRep, WFNsRep
 
 
 def _read_wfn_worker(iwfn: int, wfn: str) -> Tuple:  # pragma: no cover
     """Read a single wfn file and return its data."""
-    wfn_rep = read_wfn_file(wfn)
+    wfn_record = read_wfn_file(wfn)
     return (
         iwfn,
-        wfn_rep.atnames,
-        wfn_rep.atpos,
-        wfn_rep.atcharge,
-        wfn_rep.centers,
-        wfn_rep.expons,
-        wfn_rep.types,
-        wfn_rep.energies,
-        wfn_rep.occs,
-        wfn_rep.coeffs,
-        wfn_rep.total_energy,
-        wfn_rep.virial_energy,
+        wfn_record.atnames,
+        wfn_record.atpos,
+        wfn_record.atcharge,
+        wfn_record.centers,
+        wfn_record.expons,
+        wfn_record.types,
+        wfn_record.energies,
+        wfn_record.occs,
+        wfn_record.coeffs,
+        wfn_record.total_energy,
+        wfn_record.virial_energy,
     )
 
 
-def read_wfn_file(wfn_file: str) -> WFNRep:
+def read_wfn_file(wfn_file: str) -> WfnRecord:
     """
     Read all of the parameters needed for a WFNRep from a .wfn file.
 
@@ -45,7 +45,7 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
         wfn_file: .wfn file representing an AIM file.
 
     Returns:
-        wfn_rep: A wfn representation as a dataclass representation
+        wfn_record: A wfn representation as a dataclass representation
     """
 
     def _extract_values(lines, key, dtype: npt.DTypeLike = np.int32):
@@ -108,7 +108,7 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
     total_energy, virial_energy = float(tokens[3]), float(tokens[6])
 
     # Now save data into WFNRep
-    wfn_rep = WFNRep(
+    wfn_record = WfnRecord(
         nmos=nmos,
         nprims=nprims,
         nats=nats,
@@ -125,10 +125,10 @@ def read_wfn_file(wfn_file: str) -> WFNRep:
         virial_energy=virial_energy,
     )
 
-    return wfn_rep
+    return wfn_record
 
 
-def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WFNsRep:
+def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WfnRecords:
     """
     Read all of the parameters needed for a WFNRep from a .wfn file.
 
@@ -137,15 +137,15 @@ def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WFNsRep:
         nprocs: Number of processors to read with.
 
     Returns:
-        wfns_rep: A representation of multiple wfns as a dataclass
+        wfn_records: A multi-wfn record as a dataclass
     """
 
     # Get the number of wfns for spacing.
     nwfns = len(wfns)
 
     # Read the first wfn to get an idea of sizing.
-    _wfn_rep = read_wfn_file(wfns[0])
-    nmos, nprims, nats = _wfn_rep.nmos, _wfn_rep.nprims, _wfn_rep.nats
+    _wfn_record = read_wfn_file(wfns[0])
+    nmos, nprims, nats = _wfn_record.nmos, _wfn_record.nprims, _wfn_record.nats
 
     # Space for atnames, atpos, atcharge.
     atnames = numpy.empty((nwfns, nats), dtype=object)
@@ -203,23 +203,23 @@ def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WFNsRep:
 
         # Read all of the wfn files.
         for iwfn, wfn in enumerate(wfns):
-            wfn_rep = read_wfn_file(wfn)
+            wfn_record = read_wfn_file(wfn)
 
             # Save the data into the arrays.
-            atnames[iwfn, :] = wfn_rep.atnames
-            atpos[iwfn, :, :] = wfn_rep.atpos
-            atcharge[iwfn, :] = wfn_rep.atcharge
-            centers[iwfn, :] = wfn_rep.centers
-            exponents[iwfn, :] = wfn_rep.expons
-            types[iwfn, :] = wfn_rep.types
-            energies[iwfn, :] = wfn_rep.energies
-            occs[iwfn, :] = wfn_rep.occs
-            coeffs[iwfn, :, :] = wfn_rep.coeffs
-            total_energies[iwfn] = wfn_rep.total_energy
-            virial_energies[iwfn] = wfn_rep.virial_energy
+            atnames[iwfn, :] = wfn_record.atnames
+            atpos[iwfn, :, :] = wfn_record.atpos
+            atcharge[iwfn, :] = wfn_record.atcharge
+            centers[iwfn, :] = wfn_record.centers
+            exponents[iwfn, :] = wfn_record.expons
+            types[iwfn, :] = wfn_record.types
+            energies[iwfn, :] = wfn_record.energies
+            occs[iwfn, :] = wfn_record.occs
+            coeffs[iwfn, :, :] = wfn_record.coeffs
+            total_energies[iwfn] = wfn_record.total_energy
+            virial_energies[iwfn] = wfn_record.virial_energy
 
-    # Save as WFNsRep.
-    wfns_rep = WFNsRep(
+    # Save as WfnRecords.
+    wfns_rep = WfnRecords(
         nwfns=nwfns,
         nmos=nmos,
         nprims=nprims,
@@ -257,9 +257,9 @@ def _tst():  # pragma: no cover
         sys.exit(1)
 
     if len(args.input) > 1:
-        _wfn_rep = read_wfn_files(args.input)
+        _wfn_records = read_wfn_files(args.input)
     else:
-        _wfns_rep = read_wfn_file(args.input[0])
+        _wfns_record = read_wfn_file(args.input[0])
 
 
 if __name__ == "__main__":  # pragma: no cover

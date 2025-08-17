@@ -5,10 +5,11 @@ aided.apps.create_msda test module
 import argparse
 import os
 from pathlib import Path
-from ...helper import CxTestCase
 
 from aided.apps.create_msda.main import main
 from aided.apps.create_msda.cli import add_arguments
+
+from ut_helper import CxTestCase
 
 
 class TestCreateMSDAMain(CxTestCase):

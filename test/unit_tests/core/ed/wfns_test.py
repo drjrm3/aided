@@ -5,9 +5,10 @@ import os
 from numpy.random import randint
 from datetime import datetime
 
-from ..helper import CxTestCase, equal
+from conftest import VALIDATION_FILE, WFN_FILES_DIR
+from ut_helper import CxTestCase, equal
 
-from aided.core.edwfns import EDWfns
+from aided.core.ed.wfns import EDWfns
 
 NUM_ITERS = 100
 NUM_FILES = 10
@@ -19,7 +20,7 @@ class TestWfns(CxTestCase):
         """Set up the test case."""
         _this_dir = os.path.dirname(os.path.abspath(__file__))
         self.wfn_file = os.path.join(
-            _this_dir, "..", "..", "data", "wfns", "formamide", "formamide.6311gss.b3lyp.wfn"
+            WFN_FILES_DIR, "formamide", "formamide.6311gss.b3lyp.wfn"
         )
 
         # Create a list of wfn files to process in a file.
@@ -29,7 +30,7 @@ class TestWfns(CxTestCase):
                 print(self.wfn_file, file=fout)
 
         # Read validation set.
-        self.validation_file = os.path.join(_this_dir, "..", "..", "validation", "validation.txt")
+        self.validation_file = VALIDATION_FILE
 
         self.xyz = []
         # Ground Truth values.
@@ -112,7 +113,7 @@ class TestWfns(CxTestCase):
             x, y, z = self.xyz[i]
             rho = self.rho_gt[i]
 
-            self.assertTrue(equal(rho, self.edwfns.rho(x, y, z), 1e-12))
+            self.assertTrue(equal(rho, self.edwfns.rho(x, y, z), tol=1e-12))
 
     def test_1grad_validation(self):
         """Randomly tests grad values for the validation set."""
@@ -126,9 +127,9 @@ class TestWfns(CxTestCase):
 
             gx, gy, gz = self.edwfns.grad(x, y, z)
 
-            self.assertTrue(equal(gx, _gx), 1e-12)
-            self.assertTrue(equal(gy, _gy), 1e-12)
-            self.assertTrue(equal(gz, _gz), 1e-12)
+            self.assertTrue(equal(gx, _gx, tol=1e-12))
+            self.assertTrue(equal(gy, _gy, tol=1e-12))
+            self.assertTrue(equal(gz, _gz, tol=1e-12))
 
     def test_2hess_validation(self):
         """Randomly tests hess values for the validation set."""
@@ -146,9 +147,9 @@ class TestWfns(CxTestCase):
 
             # Assert the values are equal.
             for h, h_ in zip([hxx, hyy, hzz, hxy, hxz, hyz], [hxx_, hyy_, hzz_, hxy_, hxz_, hyz_]):
-                self.assertTrue(equal(h, h_), 1e-12)
+                self.assertTrue(equal(h, h_, tol=1e-12), f"Point was {x} {y} {z}")
 
             for h, h_gt in zip(
                 [hxx, hyy, hzz, hxy, hxz, hyz], [hxx_gt, hyy_gt, hzz_gt, hxy_gt, hxz_gt, hyz_gt]
             ):
-                self.assertTrue(equal(h, h_gt), 1e-12)
+                self.assertTrue(equal(h, h_gt, tol=1e-12), f"Point was {x} {y} {z}")

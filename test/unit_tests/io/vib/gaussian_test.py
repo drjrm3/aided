@@ -8,8 +8,8 @@ import numpy as np
 
 from aided.io.vib.gaussian import GaussianLogReader
 
-from ...helper import CxTestCase
-from ...reference import GaussianLogReaderValues as GLRV
+from ut_helper import CxTestCase
+from ut_reference import GaussianLogReaderValues as GLRV
 
 
 class TestGaussianLogReader(CxTestCase):

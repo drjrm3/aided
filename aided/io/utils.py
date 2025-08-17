@@ -10,7 +10,7 @@ from typing import List
 
 import re
 
-from ..core.edrep import EDRepType
+from aided.core.ed.base import EDType
 
 
 def convert_scientific_notation(data_lines: List[str]) -> List[str]:
@@ -46,16 +46,16 @@ def is_number(s) -> bool:
         return False
 
 
-def get_edrep_type_by_file_extention(file_name: str) -> EDRepType:
+def get_ed_type_by_file_extention(file_name: str) -> EDType:
     """Get the EDRep type based on file extention alone.
 
     Args:
         file_name (str): The name of the file.
 
     Returns:
-        EDRepType: The electron density represenation type.
+        EDType: The electron density represenation type.
     """
     ext = file_name.split(".")[-1]
     if ext == "wfn":
-        return EDRepType.WFN
+        return EDType.WFN
     raise ValueError(f"File extension {ext} is not supported.")

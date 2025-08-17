@@ -10,12 +10,12 @@ from dataclasses import dataclass
 
 from ... import np
 
-from .wfn_rep import WFNRep
+from .wfn_record import WfnRecord
 
 
 # pylint: disable=too-many-instance-attributes, R0801
 @dataclass
-class WFNsRep(WFNRep):
+class WfnRecords(WfnRecord):
     """
     Structure of Arrays of AIM file / representation using numpy arrays.
 
@@ -82,6 +82,6 @@ class WFNsRep(WFNRep):
                 raise ValueError(f"`{param}` must have size {expected_size}, but got {value.size}.")
 
     def __eq__(self, other):
-        if not isinstance(other, WFNsRep):
+        if not isinstance(other, WfnRecords):
             return False
         return super().__eq__(other)

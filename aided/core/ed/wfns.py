@@ -1,5 +1,5 @@
 """
-aided.core.edwfns
+aided.core.ed.wfns
 
 Electron Density Representations from .wfn files.
 
@@ -7,15 +7,15 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from datetime import datetime
-from typing import List
+from typing import List, Tuple
 from numpy.typing import NDArray
 
-from .edrep import EDRep
+from .base import ElectronDensityBase
 
-from .. import np, npt
-from ..constants import LMNS
-from ..io.read_wfn import read_wfn_files
-from ..math.primitives import gpow
+from aided import np, npt
+from aided.constants import LMNS
+from aided.io.read_wfn import read_wfn_files
+from aided.math.primitives import gpow
 
 
 def compute_hessian_batch(
@@ -86,7 +86,7 @@ def compute_hessian_batch(
     return hessv
 
 
-class EDWfns(EDRep):
+class EDWfns(ElectronDensityBase):
     """
     Electron Density Representation from multiple .wfn file.
     """
@@ -127,7 +127,7 @@ class EDWfns(EDRep):
         )
 
         # Keep track of the last point to avoid unnecessary calculations.
-        self._last_point = None
+        self._last_point: Tuple[float, float, float] | None = None
         self._last_der = -1
 
         # Create simple abbreviations for wfn_rep. Remove this if it becomes performance bottleneck.
@@ -444,7 +444,7 @@ def _tst():  # pragma: no cover
     import argparse
     import sys
 
-    from .edwfn import EDWfn
+    from .wfn import EDWfn
 
     # Get one or more input files.
     parser = argparse.ArgumentParser(description="Test wfn reading.")

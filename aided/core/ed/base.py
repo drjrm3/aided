@@ -6,26 +6,27 @@ Electron Density Representation abstract class.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from enum import Enum
 from typing import List, Set, Tuple
 
+import scipy
 from scipy.optimize import minimize
 
-from .. import np
-from .units import Units
-from ..math.geometry import distance_from_point_to_line
+from aided import np, npt
+from aided.math.geometry import distance_from_point_to_line, generate_spherical_grid
+from aided.core.units import Units
 
 
-class EDRepType(Enum):
+class EDType(Enum):
     WFN = 0
     RDF = 1
     NRDF = 2
 
 
-class EDRep(metaclass=ABCMeta):
+class ElectronDensityBase(ABC):
     """
-    Electron Density Representation.
+    Electron Density Representation Base Class.
 
     High level class which represents the information needed to express the ED but is abstracted
     away from the type of file.
@@ -125,7 +126,7 @@ class EDRep(metaclass=ABCMeta):
         """
 
         # Find the atom position (atpos) of the atom.
-        atom_position = np.zeros(3)
+        atom_position: npt.NDArray[np.float_] = np.zeros(3)
         for iat, atpos in enumerate(self.atpos):
             if self.atnames[iat] == atom_name:
                 atom_position = atpos
@@ -143,27 +144,12 @@ class EDRep(metaclass=ABCMeta):
                     return True
             return False
 
-        # TODO: Put this in a math.* module.
-        pts = []
-        thetas = []
-        phis = []
-        for theta in np.linspace(0, np.pi, ntheta):
-            for phi in np.linspace(0, 2 * np.pi, nphi):
-                x = atom_position[0] + radius * np.sin(theta) * np.cos(phi)
-                y = atom_position[1] + radius * np.sin(theta) * np.sin(phi)
-                z = atom_position[2] + radius * np.cos(theta)
-                if (x, y, z) in pts:
-                    continue
-                pts.append((x, y, z))
-                thetas.append(theta)
-                phis.append(phi)
-        pts = np.array(pts)
-        surface = np.zeros((len(pts), 3))
-        thetas = np.array(thetas)
-        phis = np.array(phis)
+        pts, thetas, phis = generate_spherical_grid(atom_position, radius, ntheta, nphi)
+
+        surface = np.zeros(pts.shape)
 
         # Keep track of the xyz start points and if one is already in the list, skip it.
-        xyz_starts = set()
+        xyz_starts: Set[Tuple] = set()
 
         # TODO: If ncores > 1, use multiprocessing to speed this up.
         idx = 0
@@ -329,6 +315,10 @@ class EDRep(metaclass=ABCMeta):
         if method != "L-BFGS-B":
             raise ValueError(f"Unknown method: {method}")
 
+        # FIXME: Adding this in to keep linting happy. Is this needed?
+        result: scipy.optimize.OptimizeResult | None = None
+        found_position: scipy.optimize.OptimizeResult | None = None
+
         current_point = np.array([x, y, z])
         for i in range(max_iter):
             # Build a trust region box around the point
@@ -352,10 +342,16 @@ class EDRep(metaclass=ABCMeta):
 
             current_point = new_point
 
+        found_position = result
+
+        # FIXME: Adding this in to keep linting happy. Is this needed?
+        if result is None or found_position is None:
+            raise RuntimeError("Optimization failed to find a point.")
+
         # Find the atom position (atpos) which is closest to the atom found.
         atom_name = ""
         atom_position = np.zeros(3)
-        atom_distance = 1e6
+        atom_distance = np.float_(1e6)
         for iat, atpos in enumerate(self.atpos):
             distance = np.linalg.norm(atpos - found_position.x)
             if distance < atom_distance:
@@ -450,7 +446,7 @@ def _tst():  # pragma: no cover
     import argparse
     import sys
 
-    from .edwfn import EDWfn
+    from .wfn import EDWfn
 
     # Get one or more input files.
     parser = argparse.ArgumentParser(description="Test wfn reading.")

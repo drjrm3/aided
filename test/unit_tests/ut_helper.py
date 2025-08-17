@@ -9,6 +9,11 @@ import shutil
 import tempfile
 import unittest as ut
 
+from conftest import VALIDATION_FILE
+
+import numpy as np
+import numpy.typing as npt
+
 
 class CxTestCase(ut.TestCase):
     """High level Connex TestCase class which others can inherit from."""
@@ -42,17 +47,47 @@ class CxTestCase(ut.TestCase):
         """Local overrideable tear_down method to each TestCase"""
         pass
 
+def spherical_angles_from_vector(v: npt.NDArray) -> tuple[float, float]:
+    """Convert a 3D vector to spherical angles.
 
-def equal(a, b, tol=1e-12):
+    Args:
+        v: A 3D vector of x, y, z coordinates.
+
+    Returns:
+        theta: The polar angle (angle from the z-axis).
+        phi: The azimuthal angle (angle in the x-y plane from the x-axis).
+    """
+    x, y, z = v
+    r = np.linalg.norm(v)
+    # 0 <= theta <= pi
+    theta = np.arccos(z / r)
+    # 0 <= phi < 2pi
+    phi = np.arctan2(y, x)
+    if phi < 0:
+        phi += 2 * np.pi
+    return theta, phi
+
+
+def equal(a, b, *, tol=1e-12) -> bool:
     """Tests if two numbers are equal within a tolerance."""
     if a == b:
         return True
-    is_equal = abs(a - b) / a < tol
+    
+    if abs(a) < tol or abs(b) < tol:
+        # Use absolute tolerance when comparing to zero or very small numbers.
+        is_equal = abs(a - b) < tol
+    else:
+        # Use relative tolerance for larger numbers
+        is_equal = abs(a - b) / max(abs(a), abs(b)) < tol
 
     if not is_equal:
         print(f"[*] {a} != {b}")
-        print(f"[*] {abs(a - b) / a} > {tol}")
-    return abs(a - b) / b < tol
+        if abs(a) < tol or abs(b) < tol:
+            print(f"[*] {abs(a - b)} > {tol} (absolute)")
+        else:
+            print(f"[*] {abs(a - b) / max(abs(a), abs(b))} > {tol} (relative)")
+    
+    return is_equal
 
 
 def get_wfn_file(ifile: int = 0) -> str:
@@ -67,3 +102,7 @@ def get_wfn_file(ifile: int = 0) -> str:
     if os.path.exists(form_file):
         return form_file
     raise FileNotFoundError(f"File {form_file} does not exist.")
+
+def get_validation_file():
+    return VALIDATION_FILE
+

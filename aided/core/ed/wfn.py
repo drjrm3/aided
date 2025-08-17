@@ -1,5 +1,5 @@
 """
-aided.core.edwfn
+aided.core.ed.wfn
 
 Electron Density Manfestation abstract class.
 
@@ -9,10 +9,10 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 from numba import njit
 from numpy.typing import NDArray
 
-from .edrep import EDRep
-from .. import np
-from ..io.read_wfn import read_wfn_file
-from aided.core._edwfn import gen_gs
+from aided import np
+from aided.core.ed._wfn import gen_gs
+from aided.io.read_wfn import read_wfn_file
+from .base import ElectronDensityBase
 
 
 @njit(fastmath=True, cache=True)
@@ -106,9 +106,9 @@ def numba_hess(
     return hess
 
 
-class EDWfn(EDRep):
+class EDWfn(ElectronDensityBase):
     """
-    Electron Density Representation from a single .wfn file.
+    Electron Density WFN from a single .wfn file.
     """
 
     def __init__(self, wfn_file: str):

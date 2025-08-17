@@ -5,11 +5,13 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 import logging
-from aided import cli
-from .helper import CxTestCase
 
 from unittest.mock import patch
 from io import StringIO
+
+from aided import cli
+
+from ut_helper import CxTestCase
 
 
 class TestCli(CxTestCase):

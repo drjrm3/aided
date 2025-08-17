@@ -7,7 +7,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 from pathlib import Path
 from aided.io.vib.factory import detect_log_type, log_reader_factory
 
-from ...helper import CxTestCase
+from ut_helper import CxTestCase
 
 
 class TestDetectLogType(CxTestCase):

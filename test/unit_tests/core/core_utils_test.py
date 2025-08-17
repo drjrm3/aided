@@ -1,6 +1,6 @@
 """core.utils test module"""
 
-from ..helper import CxTestCase
+from ut_helper import CxTestCase
 
 from aided.core import utils
 
