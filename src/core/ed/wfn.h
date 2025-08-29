@@ -9,6 +9,7 @@
 // number of primitives
 constexpr size_t nLMNS = 35;
 
+// clang-format off
 // LMNS[i] is the triple (l,m,n) for primitive i
 constexpr std::array<std::array<int32_t,3>, nLMNS> LMNS = {{
     {{0,0,0}}, {{1,0,0}}, {{0,1,0}}, {{0,0,1}}, {{2,0,0}},
@@ -37,3 +38,4 @@ bool gen_gs(
     T* gs1, size_t __r1, size_t __c1,    // Output: gs         (nprims, 3)
     T* gs2, size_t __r2, size_t __c2     // Output: gs         (nprims, 6)
 );
+// clang-format on

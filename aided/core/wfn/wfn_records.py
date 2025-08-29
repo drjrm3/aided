@@ -25,7 +25,7 @@ class WfnRecords(WfnRecord):
     nwfns: Number of WFNs represented
     nmos: Number of Molecular Orbitals
     nprims: Number of Gaussian Primitives
-    nats: Number of Nuclei (Atoms)
+    natoms: Number of Nuclei (Atoms)
     atnames: Atom names
     atpos: Atomic positions
     atcharge: Atomic charges
@@ -50,7 +50,7 @@ class WfnRecords(WfnRecord):
         # Validate sizes
         # fmt: off
         nat_params = [
-            "atnames", "atcharge", "atpos", # Size based on nats.
+            "atnames", "atcharge", "atpos", # Size based on natoms.
             "centers", "expons", "types",   # Size based off of nprims,
             "occs", "energies",      # Size is nmos
             "coeffs",                       # Size based on both nmos and nprims
@@ -60,9 +60,9 @@ class WfnRecords(WfnRecord):
             value = getattr(self, param)
             # fmt: off
             expected_size = {
-                "atcharge": self.nwfns * self.nats,
-                "atnames":  self.nwfns * self.nats,
-                "atpos":    self.nwfns * self.nats * 3,
+                "atcharge": self.nwfns * self.natoms,
+                "atnames":  self.nwfns * self.natoms,
+                "atpos":    self.nwfns * self.natoms * 3,
 
                 "centers": self.nwfns * self.nprims,
                 "expons":  self.nwfns * self.nprims,

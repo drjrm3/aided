@@ -11,6 +11,7 @@ import numpy as np
 
 @dataclass
 class GaussianLogReaderValues:
+    """Ground truth values for TestGaussianLogReader."""
 
     def __init__(self):
         self.freqs = np.array(

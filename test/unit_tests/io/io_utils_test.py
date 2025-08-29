@@ -10,7 +10,8 @@ from aided.io import utils
 from ut_helper import CxTestCase
 
 
-class TestIOUtils(CxTestCase):
+class IOUtils(CxTestCase):
+    """Test IO utilities."""
 
     def test_convert_scientific_notation(self):
         """Tests conversion of scientific notation from 1.0D+01 to 1.0E+01"""

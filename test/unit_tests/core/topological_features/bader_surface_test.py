@@ -6,7 +6,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import numpy
 
-from aided.core.ed.wfn import EDWfn
+from aided.core.ed.wfn_static import EDWfnStatic
 
 from ut_helper import CxTestCase, get_wfn_file, spherical_angles_from_vector
 
@@ -17,7 +17,7 @@ class TraceGradientToPoint(CxTestCase):
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
-        self.wfn = EDWfn(self.wfn_file)
+        self.wfn = EDWfnStatic(self.wfn_file)
         numpy.random.seed(0)
 
     def test_bad_trace_method(self):
@@ -57,7 +57,7 @@ class BaderSurfacePoint(CxTestCase):
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
-        self.wfn = EDWfn(self.wfn_file)
+        self.wfn = EDWfnStatic(self.wfn_file)
 
     def test_nuclear_interior(self):
         """Test Bader surface of a point on the interior of the molecule.
@@ -68,6 +68,10 @@ class BaderSurfacePoint(CxTestCase):
 
         and ensures that they trace to the same point on the Bader surface.
         """
+
+        # pylint: disable=invalid-name, protected-access
+
+
         # Coordinates
         C2 = self.wfn.atpos[self.wfn.atnames == "C2"][0]
         N3 = self.wfn.atpos[self.wfn.atnames == "N3"][0]

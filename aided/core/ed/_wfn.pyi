@@ -16,7 +16,7 @@ import numpy.typing as npt
 # pylint: disable=trailing-whitespace
 def gen_gs(
     x: float,
-    y: float, 
+    y: float,
     z: float,
     ider: int,
     last_der: Any,
@@ -27,5 +27,5 @@ def gen_gs(
     atpos: npt.NDArray[np.float64],
     gs: npt.NDArray[np.float64],
     gs1: npt.NDArray[np.float64],
-    gs2: npt.NDArray[np.float64]
+    gs2: npt.NDArray[np.float64],
 ) -> Tuple[bool, Any, Any]: ...

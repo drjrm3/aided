@@ -1,7 +1,7 @@
 """
-aided.core.ed.wfns
+aided.core.ed.wfns_ensemble
 
-Electron Density Representations from .wfn files.
+A reprentation of the dynamic electron density from an ensemble of static wavefunctions.
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
@@ -86,9 +86,9 @@ def compute_hessian_batch(
     return hessv
 
 
-class EDWfns(ElectronDensityBase):
+class EDWfnsEnsemble(ElectronDensityBase):
     """
-    Electron Density Representation from multiple .wfn file.
+    Dynamic reprentation of the Electron Density from multiple .wfn files.
     """
 
     def __init__(self, wfn_file_list: str, io_procs: int = 1):
@@ -444,7 +444,7 @@ def _tst():  # pragma: no cover
     import argparse
     import sys
 
-    from .wfn import EDWfn
+    from .wfn_static import EDWfnStatic
 
     # Get one or more input files.
     parser = argparse.ArgumentParser(description="Test wfn reading.")
@@ -458,11 +458,11 @@ def _tst():  # pragma: no cover
     with open(args.input, "r") as finp:
         wfn_file = finp.readlines()[0].strip()
 
-    edwfn = EDWfn(wfn_file)
+    edwfn = EDWfnStatic(wfn_file)
     print(f"Reading wfn files ... ", end="")
     sys.stdout.flush()
     tic = datetime.now()
-    edwfns = EDWfns(args.input, io_procs=4)
+    edwfns = EDWfnsEnsemble(args.input, io_procs=4)
     toc = datetime.now()
     dif = (toc - tic).total_seconds()
     print(f"Done in {dif:16.12f} seconds")

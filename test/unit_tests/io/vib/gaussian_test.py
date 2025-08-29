@@ -12,7 +12,8 @@ from ut_helper import CxTestCase
 from ut_reference import GaussianLogReaderValues as GLRV
 
 
-class TestGaussianLogReader(CxTestCase):
+class GaussianLogReaderTest(CxTestCase):
+    """Gaussian log reader tests."""
 
     def test_no_file(self):
         """Tests failure if there is no file given."""
@@ -46,28 +47,4 @@ class TestGaussianLogReader(CxTestCase):
 
         msda = reader.gen_msda(27)
 
-        # Ensure that each 3x3 block is of the form:
-        # [ X, X, 0]
-        # [ X, X, 0]
-        # [ 0, 0, X]
-        # Where X is a non-zero value.
-        for i in range(reader.natoms):
-            for j in range(i, reader.natoms):
-                block = msda[i * 3 : (i + 1) * 3, j * 3 : (j + 1) * 3]
-                self.assertEqual(block[0, 2], 0)
-                self.assertEqual(block[1, 2], 0)
-                self.assertEqual(block[2, 0], 0)
-                self.assertEqual(block[2, 1], 0)
-
-                self.assertNotEqual(block[0, 0], 0)
-                self.assertNotEqual(block[0, 1], 0)
-                self.assertNotEqual(block[1, 0], 0)
-                self.assertNotEqual(block[1, 1], 0)
-                self.assertNotEqual(block[2, 2], 0)
-
-        # Ensure that the matrix is symmetric.
-        self.assertTrue(np.allclose(msda, msda.T, rtol=1e-12, atol=0))
-
-        # Ensure the rank of the matrix is 3N-6.
-        rank = np.linalg.matrix_rank(msda)
-        self.assertEqual(rank, 3 * reader.natoms - 6)
+        self.assert_block_diagonal_msda_entries(msda, reader.natoms)

@@ -1,5 +1,5 @@
 """
-aided.core.EDRep
+aided.core.base
 
 Electron Density Representation abstract class.
 
@@ -36,7 +36,7 @@ class ElectronDensityBase(ABC):
     """
 
     def __init__(self, input_file: str):
-        self._edrep_type = None
+        self._type = None
         self._units = Units.BOHR
 
     @property
@@ -83,18 +83,6 @@ class ElectronDensityBase(ABC):
 
         Returns: Array of 6 elements: dxdx, dydy, dzdz, dxdy, dxdz, dydz.
         """
-
-    def read_vib_file(self, input_file: str):
-        """Read the log file from the optimization procedure.
-
-        Expected to include sufficient information to generate the MSDA.
-        """
-        raise NotImplementedError
-
-    def read_msda_matrix(self, msda_file: str):
-        """Read the MSDA matrix from a file."""
-
-        raise NotImplementedError
 
     def bader_surface_of_atom(
         self,
@@ -446,7 +434,7 @@ def _tst():  # pragma: no cover
     import argparse
     import sys
 
-    from .wfn import EDWfn
+    from .wfn_static import EDWfnStatic
 
     # Get one or more input files.
     parser = argparse.ArgumentParser(description="Test wfn reading.")
@@ -459,7 +447,7 @@ def _tst():  # pragma: no cover
 
     wfn_file = args.input
 
-    edwfn = EDWfn(wfn_file)
+    edwfn = EDWfnStatic(wfn_file)
 
     surface = edwfn.bader_surface_of_atom(
         "C2",

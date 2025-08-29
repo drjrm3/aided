@@ -1,47 +1,30 @@
 """
-edwfn and edrep test module
+Static Electron Density test module
 
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from numpy.random import randint
 
-from aided.core.ed.wfn import EDWfn
+from aided.core.ed.wfn_static import EDWfnStatic
 from aided.core.units import Units
 
-from conftest import VALIDATION_FILE
-from ut_helper import CxTestCase, equal, get_wfn_file
+from ut_helper import CxTestCase, equal, get_wfn_file, read_validation_file
+
+from conftest import STATIC_VALIDATION_FILE
 
 NUM_ITERS = 100
 
-
-class EDRepNotImplemented(CxTestCase):
-    """Tests all not implemented methods."""
-
-    def set_up(self):
-        """Set up the test case."""
-        self.wfn_file = get_wfn_file()
-
-    def test_read_vib_file(self):
-        """Test read_vib_file method."""
-        self.edwfn = EDWfn(self.wfn_file)
-        with self.assertRaises(NotImplementedError):
-            self.edwfn.read_vib_file("vib.tst")
-
-    def test_read_msda_matrix(self):
-        """Test read_msda_file method."""
-        self.edwfn = EDWfn(self.wfn_file)
-        with self.assertRaises(NotImplementedError):
-            self.edwfn.read_msda_matrix("msda.tst")
+# pylint: disable=protected-access
 
 
-class TestEDWfn(CxTestCase):
+class StaticEDWfnBaseTests(CxTestCase):
     """Tests all implemented methods."""
 
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
-        self.edwfn = EDWfn(self.wfn_file)
+        self.edwfn = EDWfnStatic(self.wfn_file)
 
     def test_units(self):
         """Test that the units are in atomic units (bohr)."""
@@ -52,61 +35,46 @@ class TestEDWfn(CxTestCase):
         self.assertEqual(self.edwfn.in_au, True)
 
 
-class TestValidationSet(CxTestCase):
+class StaticValidationSet(CxTestCase):
+    """Tests that static electron density validation file."""
 
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
 
         # Read validation set.
-        self.validation_file = VALIDATION_FILE
-
-        self.xyz = []
-        self.rho = []
-        self.grad = []
-        self.hess = []
-
-        with open(self.validation_file, "r") as finp:
-            for line in finp:
-                if line.strip() == "" or "x y z" in line:
-                    continue
-                x, y, z, r, gx, gy, gz, hxx, hxy, hxz, hyy, hyz, hzz = [
-                    float(x) for x in line.split()
-                ]
-
-                self.xyz.append([x, y, z])
-                self.rho.append(r)
-                self.grad.append([gx, gy, gz])
-                self.hess.append([hxx, hyy, hzz, hxy, hxz, hyz])
+        self.xyz, self.rho_gt, self.grad_gt, self.hess_gt = read_validation_file(
+            STATIC_VALIDATION_FILE
+        )
 
     def test_skip_double_gen_gs(self):
         """Tests that if we generate chi on the same point, it skips."""
-        self.edwfn = EDWfn(self.wfn_file)
+        self.edwfn = EDWfnStatic(self.wfn_file)
 
         self.assertTrue(self.edwfn._gen_gs(0.0, 0.0, 0.0, 1))
         self.assertFalse(self.edwfn._gen_gs(0.0, 0.0, 0.0, 1))
 
     def test_0rho_validation(self):
         """Randomly tests rho values for the validation set."""
-        self.edwfn = EDWfn(self.wfn_file)
+        self.edwfn = EDWfnStatic(self.wfn_file)
 
         for _ in range(NUM_ITERS):
             # Get random integer between 0 and len(self.xyz) - 1
-            i = randint(0, len(self.xyz) - 1)
+            i = int(randint(0, len(self.xyz) - 1))
             x, y, z = self.xyz[i]
-            r = self.rho[i]
+            r = self.rho_gt[i]
 
             self.assertTrue(equal(r, self.edwfn.rho(x, y, z), tol=1e-12))
 
     def test_1grad_validation(self):
         """Randomly tests grad values for the validation set."""
-        self.edwfn = EDWfn(self.wfn_file)
+        self.edwfn = EDWfnStatic(self.wfn_file)
 
         for _ in range(NUM_ITERS):
             # Get random integer between 0 and len(self.xyz) - 1
-            i = randint(0, len(self.xyz) - 1)
+            i = int(randint(0, len(self.xyz) - 1))
             x, y, z = self.xyz[i]
-            _gx, _gy, _gz = self.grad[i]
+            _gx, _gy, _gz = self.grad_gt[i]
 
             gx, gy, gz = self.edwfn.grad(x, y, z)
 
@@ -116,13 +84,13 @@ class TestValidationSet(CxTestCase):
 
     def test_2hess_validation(self):
         """Randomly tests hess values for the validation set."""
-        self.edwfn = EDWfn(self.wfn_file)
+        self.edwfn = EDWfnStatic(self.wfn_file)
 
         for _ in range(NUM_ITERS):
             # Get random integer between 0 and len(self.xyz) - 1
-            i = randint(0, len(self.xyz) - 1)
+            i = int(randint(0, len(self.xyz) - 1))
             x, y, z = self.xyz[i]
-            _hxx, _hyy, _hzz, _hxy, _hxz, _hyz = self.hess[i]
+            _hxx, _hyy, _hzz, _hxy, _hxz, _hyz = self.hess_gt[i]
 
             hxx, hyy, hzz, hxy, hxz, hyz = self.edwfn.hess(x, y, z)
 

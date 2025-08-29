@@ -47,7 +47,7 @@ def is_number(s) -> bool:
 
 
 def get_ed_type_by_file_extention(file_name: str) -> EDType:
-    """Get the EDRep type based on file extention alone.
+    """Get the ED type based on file extention alone.
 
     Args:
         file_name (str): The name of the file.

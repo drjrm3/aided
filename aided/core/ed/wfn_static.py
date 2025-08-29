@@ -106,9 +106,9 @@ def numba_hess(
     return hess
 
 
-class EDWfn(ElectronDensityBase):
+class EDWfnStatic(ElectronDensityBase):
     """
-    Electron Density WFN from a single .wfn file.
+    Static Electron Density WFN from a single .wfn file.
     """
 
     def __init__(self, wfn_file: str):
@@ -147,6 +147,10 @@ class EDWfn(ElectronDensityBase):
     @property
     def atnames(self):
         return self._wfn_rep.atnames
+
+    @property
+    def natoms(self):
+        return self._wfn_rep.natoms
 
     def _gen_gs(self, x: float, y: float, z: float, ider: int) -> bool:
         """Generate the gs matrix for the given point.
@@ -243,7 +247,7 @@ def _tst():  # pragma: no cover
         parser.print_help()
         sys.exit(1)
 
-    edwfn = EDWfn(args.input[0])
+    edwfn = EDWfnStatic(args.input[0])
     print(f"{edwfn.rho(0.0, 0.0, 0.0)=}")
     print(f"{edwfn.grad(0.0, 0.0, 0.0)=}")
     print(f"{edwfn.hess(0.0, 0.0, 0.0)=}")

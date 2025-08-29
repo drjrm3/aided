@@ -4,9 +4,9 @@ Non-trivial geometric functions and operations.
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from aided import np, npt
-
 from typing import Tuple
+
+from aided import np, npt
 
 
 def distance_from_point_to_line(x: npt.NDArray, a: npt.NDArray, b: npt.NDArray) -> float:
@@ -41,6 +41,7 @@ def distance_from_point_to_line(x: npt.NDArray, a: npt.NDArray, b: npt.NDArray) 
     return float(d)
 
 
+# pylint: disable=too-many-locals
 def generate_spherical_grid(
     position: npt.NDArray, radius: float, ntheta: int, nphi: int
 ) -> Tuple[npt.NDArray, npt.NDArray, npt.NDArray]:
@@ -58,30 +59,30 @@ def generate_spherical_grid(
         phis: The azimuthal angles of the points on the sphere.
     """
     pos = position.flatten()
-    
+
     theta_values = np.linspace(0, np.pi, ntheta)
     phi_values = np.linspace(0, 2 * np.pi, nphi, endpoint=False)
-    
+
     # Create meshgrid
-    theta_grid, phi_grid = np.meshgrid(theta_values, phi_values, indexing='ij')
+    theta_grid, phi_grid = np.meshgrid(theta_values, phi_values, indexing="ij")
     theta_flat = theta_grid.flatten()
     phi_flat = phi_grid.flatten()
-    
+
     # At poles (theta ≈ 0 or π), set all phi values to 0 to avoid duplicates
     is_pole = np.isclose(theta_flat, 0) | np.isclose(theta_flat, np.pi)
     phi_flat = np.where(is_pole, 0, phi_flat)
-    
+
     # Convert to Cartesian coordinates
     x = pos[0] + radius * np.sin(theta_flat) * np.cos(phi_flat)
     y = pos[1] + radius * np.sin(theta_flat) * np.sin(phi_flat)
     z = pos[2] + radius * np.cos(theta_flat)
-    
+
     # Stack into points array
     pts = np.column_stack([x, y, z])
-    
+
     # Remove duplicates (mainly from poles)
     unique_pts, unique_indices = np.unique(pts, axis=0, return_index=True)
     unique_thetas = theta_flat[unique_indices]
     unique_phis = phi_flat[unique_indices]
-    
+
     return unique_pts, unique_thetas, unique_phis

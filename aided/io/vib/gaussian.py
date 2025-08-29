@@ -146,14 +146,8 @@ class GaussianLogReader(LogReader):
         return freq_blocks
 
     def __parse_values(self):
-        """Extract frequencies, normal modes, and other vibrational data from the frequency blocks.
-
-        Args:
-            T (float): Temperature in Kelvin for MSDA calculation. Default is 298.15 K.
-
-        Returns:
-            freqs (np.ndarray): Frequencies in cm‑1, shape (n_mode,).
-            modes (np.ndarray): Eigenvectors, shape (3N, n_mode).
+        """
+        Extract frequencies, normal modes, and other vibrational data from the frequency blocks.
         """
 
         def __read_values(line: str) -> npt.NDArray[np.float64]:

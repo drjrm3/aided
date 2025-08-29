@@ -18,37 +18,36 @@
 
 namespace aided {
 
-#define DISPATCH(T)                            \
-    return dispatch_gen_gs<T>(x,               \
-                               y,              \
-                               z,              \
-                               ider,           \
-                               last_der,       \
-                               last_point,     \
-                               types,          \
-                               centers,        \
-                               expons,         \
-                               atpos,          \
-                               gs,             \
-                               gs1,            \
-                               gs2);
+#define DISPATCH(T)                                                            \
+    return dispatch_gen_gs<T>(x,                                               \
+                              y,                                               \
+                              z,                                               \
+                              ider,                                            \
+                              last_der,                                        \
+                              last_point,                                      \
+                              types,                                           \
+                              centers,                                         \
+                              expons,                                          \
+                              atpos,                                           \
+                              gs,                                              \
+                              gs1,                                             \
+                              gs2);
 
 template<typename T>
-std::tuple<bool, pybind11::object, pybind11::object>
-dispatch_gen_gs(pybind11::object x,
-                pybind11::object y,
-                pybind11::object z,
-                pybind11::object ider,
-                pybind11::object& last_der,
-                pybind11::object& last_point,
-                const pybind11::array& types,
-                const pybind11::array& centers,
-                const pybind11::array& expons,
-                const pybind11::array& atpos,
-                pybind11::array& gs,
-                pybind11::array& gs1,
-                pybind11::array& gs2
-)
+std::tuple<bool, pybind11::object, pybind11::object> dispatch_gen_gs(
+    pybind11::object x,
+    pybind11::object y,
+    pybind11::object z,
+    pybind11::object ider,
+    pybind11::object& last_der,
+    pybind11::object& last_point,
+    const pybind11::array& types,
+    const pybind11::array& centers,
+    const pybind11::array& expons,
+    const pybind11::array& atpos,
+    pybind11::array& gs,
+    pybind11::array& gs1,
+    pybind11::array& gs2)
 {
     // Convert pass by reference arguments to lvalue types.
     auto _last_dir = pybind11::cast<int32_t>(last_der);
@@ -58,34 +57,38 @@ dispatch_gen_gs(pybind11::object x,
     const auto _atpos = pybind11::cast<std::vector<T>>(atpos.attr("flatten")());
 
     std::vector<T> _last_point;
-    if (last_point.is_none()) {
+    if (last_point.is_none())
+    {
         // If last_point is None, create a sentinel vector with NaN values.
-        _last_point = std::vector<T>{
-            std::numeric_limits<T>::quiet_NaN(),
-            std::numeric_limits<T>::quiet_NaN(),
-            std::numeric_limits<T>::quiet_NaN()
-        };
-    } else {
-        // Optionally, you could check if it's actually an iterable with three elements.
-        // For now, we assume it is.
+        _last_point = std::vector<T> { std::numeric_limits<T>::quiet_NaN(),
+                                       std::numeric_limits<T>::quiet_NaN(),
+                                       std::numeric_limits<T>::quiet_NaN() };
+    }
+    else
+    {
+        // Optionally, you could check if it's actually an iterable with three
+        // elements. For now, we assume it is.
         _last_point = pybind11::cast<std::vector<T>>(last_point);
     }
 
-    auto computed_gs = gen_gs<T>(
-        x.cast<T>(),
-        y.cast<T>(),
-        z.cast<T>(),
-        ider.cast<int32_t>(),
-        _last_point,
-        _last_dir,
-        pybind11::cast<std::vector<int32_t>>(types),
-        pybind11::cast<std::vector<int32_t>>(centers),
-        pybind11::cast<std::vector<T>>(expons),
-        _atpos,
-        static_cast<T*>(gs.mutable_data()), gs.size(),
-        static_cast<T*>(gs1.mutable_data()), gs1.shape(0), gs1.shape(1),
-        static_cast<T*>(gs2.mutable_data()), gs2.shape(0), gs2.shape(1)
-    );
+    auto computed_gs = gen_gs<T>(x.cast<T>(),
+                                 y.cast<T>(),
+                                 z.cast<T>(),
+                                 ider.cast<int32_t>(),
+                                 _last_point,
+                                 _last_dir,
+                                 pybind11::cast<std::vector<int32_t>>(types),
+                                 pybind11::cast<std::vector<int32_t>>(centers),
+                                 pybind11::cast<std::vector<T>>(expons),
+                                 _atpos,
+                                 static_cast<T*>(gs.mutable_data()),
+                                 gs.size(),
+                                 static_cast<T*>(gs1.mutable_data()),
+                                 gs1.shape(0),
+                                 gs1.shape(1),
+                                 static_cast<T*>(gs2.mutable_data()),
+                                 gs2.shape(0),
+                                 gs2.shape(1));
 
     // Copy contents back to the pybind11 objects
     last_point = pybind11::cast(_last_point);
@@ -97,21 +100,20 @@ dispatch_gen_gs(pybind11::object x,
 }
 
 // Function to handle the gpow operation. Relies on type aware dispatgsng.
-std::tuple<bool, pybind11::object, pybind11::object>
-gen_gs_py(pybind11::object x,
-                pybind11::object y,
-                pybind11::object z,
-                pybind11::object ider,
-                pybind11::object& last_der,
-                pybind11::object& last_point,
-                const pybind11::array& types,
-                const pybind11::array& centers,
-                const pybind11::array& expons,
-                const pybind11::array& atpos,
-                pybind11::array& gs,
-                pybind11::array& gs1,
-                pybind11::array& gs2
-)
+std::tuple<bool, pybind11::object, pybind11::object> gen_gs_py(
+    pybind11::object x,
+    pybind11::object y,
+    pybind11::object z,
+    pybind11::object ider,
+    pybind11::object& last_der,
+    pybind11::object& last_point,
+    const pybind11::array& types,
+    const pybind11::array& centers,
+    const pybind11::array& expons,
+    const pybind11::array& atpos,
+    pybind11::array& gs,
+    pybind11::array& gs1,
+    pybind11::array& gs2)
 {
 
     // Print out the Python type of x:
@@ -122,10 +124,7 @@ gen_gs_py(pybind11::object x,
     if (x_kind == PyKind::Float32) DISPATCH(float)
 
     throw std::runtime_error("Unsupported type for x");
-
 }
 
-PYBIND11_MODULE(_wfn, m) {
-    m.def("gen_gs", &gen_gs_py, "Generation of gs.");
-}
+PYBIND11_MODULE(_wfn, m) { m.def("gen_gs", &gen_gs_py, "Generation of gs."); }
 } // namespace aided

@@ -18,7 +18,7 @@ class WfnRecord:
 
     nmos: Number of Molecular Orbitals
     nprims: Number of Gaussian Primitives
-    nats: Number of Nuclei (Atoms)
+    natoms: Number of Nuclei (Atoms)
     atnames: Atom names
     atpos: Atomic positions
     atcharge: Atomic charges
@@ -36,12 +36,12 @@ class WfnRecord:
     # Header information to define sizes of the rest
     nmos: int    # Number of Molecular Orbitals
     nprims: int  # Number of Gaussian Primitives
-    nats: int    # Number of Nuclei (Atoms)
+    natoms: int    # Number of Nuclei (Atoms)
 
     # Specific to the Atoms. All have size as a function of the number of atoms.
-    atnames: npt.NDArray[np.object_]  # Nuclei names. Sized `nats`.
-    atpos: npt.NDArray[np.float64]     # Nuclei positions. Sized `3*nats`.
-    atcharge: npt.NDArray[np.int_]    # Nuclei charges. Sized `nats`.
+    atnames: npt.NDArray[np.object_]  # Nuclei names. Sized `natoms`.
+    atpos: npt.NDArray[np.float64]     # Nuclei positions. Sized `3*natoms`.
+    atcharge: npt.NDArray[np.int_]    # Nuclei charges. Sized `natoms`.
 
     # Specific to the Gaussian primitives. All have size `nprims`.
     centers: npt.NDArray[np.int_]    # Center of each primitive. Sized `nprims`.
@@ -62,7 +62,7 @@ class WfnRecord:
         # Validate sizes
         # fmt: off
         nat_params = [
-            "atnames", "atcharge", "atpos", # Size based on nats.
+            "atnames", "atcharge", "atpos", # Size based on natoms.
             "centers", "expons", "types",   # Size based off of nprims,
             "occs", "energies",             # Size is nmos
             "coeffs",                       # Size based on both nmos and nprims
@@ -72,9 +72,9 @@ class WfnRecord:
             value = getattr(self, param)
             # fmt: off
             expected_size = {
-                "atcharge": self.nats,
-                "atnames":  self.nats,
-                "atpos":    self.nats * 3,
+                "atcharge": self.natoms,
+                "atnames":  self.natoms,
+                "atpos":    self.natoms * 3,
 
                 "centers": self.nprims,
                 "expons":  self.nprims,
@@ -99,7 +99,7 @@ class WfnRecord:
         return (
             self.nmos == other.nmos and
             self.nprims == other.nprims and
-            self.nats == other.nats and
+            self.natoms == other.natoms and
             np.array_equal(self.atnames, other.atnames) and
             np.array_equal(self.atpos, other.atpos) and
             np.array_equal(self.atcharge, other.atcharge) and

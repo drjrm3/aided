@@ -65,17 +65,17 @@ def read_wfn_file(wfn_file: str) -> WfnRecord:
     # Take any strings that have `D` in them which represent scientific notation and change to `E`.
     lines = convert_scientific_notation(lines)
 
-    # Read nmos, nprims, nats:
-    nmos, nprims, nats = [int(x) for x in lines[0].split() if x.isdigit()]
+    # Read nmos, nprims, natoms:
+    nmos, nprims, natoms = [int(x) for x in lines[0].split() if x.isdigit()]
     del lines[0]
 
     # Read atnames, atpos, atcharge:
-    atnames = numpy.array(["".join(line.split()[0:2]) for line in lines[:nats]])
+    atnames = numpy.array(["".join(line.split()[0:2]) for line in lines[:natoms]])
     atpos = np.array(
-        [[float(w) for w in line.split()[4:7]] for line in lines[:nats]]
+        [[float(w) for w in line.split()[4:7]] for line in lines[:natoms]]
     )  # * ANG_TO_AU
-    atcharge = np.array([float(line.split()[-1]) for line in lines[:nats]])
-    del lines[:nats]
+    atcharge = np.array([float(line.split()[-1]) for line in lines[:natoms]])
+    del lines[:natoms]
 
     # Read center assignment integers, exponents, and types for each Gaussian primitive.
     centers = _extract_values(lines, "CENTRE") - 1
@@ -111,7 +111,7 @@ def read_wfn_file(wfn_file: str) -> WfnRecord:
     wfn_record = WfnRecord(
         nmos=nmos,
         nprims=nprims,
-        nats=nats,
+        natoms=natoms,
         atnames=atnames,
         atpos=atpos,
         atcharge=atcharge,
@@ -145,12 +145,12 @@ def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WfnRecords:
 
     # Read the first wfn to get an idea of sizing.
     _wfn_record = read_wfn_file(wfns[0])
-    nmos, nprims, nats = _wfn_record.nmos, _wfn_record.nprims, _wfn_record.nats
+    nmos, nprims, natoms = _wfn_record.nmos, _wfn_record.nprims, _wfn_record.natoms
 
     # Space for atnames, atpos, atcharge.
-    atnames = numpy.empty((nwfns, nats), dtype=object)
-    atpos = np.zeros((nwfns, nats, 3), dtype=float)
-    atcharge = np.zeros((nwfns, nats), dtype=np.int32)
+    atnames = numpy.empty((nwfns, natoms), dtype=object)
+    atpos = np.zeros((nwfns, natoms, 3), dtype=float)
+    atcharge = np.zeros((nwfns, natoms), dtype=np.int32)
 
     # Space for center assignment integers, exponents, and types for each Gaussian primitive.
     centers = np.zeros((nwfns, nprims), dtype=np.int32)
@@ -223,7 +223,7 @@ def read_wfn_files(wfns: List[str], nprocs: int = 1) -> WfnRecords:
         nwfns=nwfns,
         nmos=nmos,
         nprims=nprims,
-        nats=nats,
+        natoms=natoms,
         atnames=atnames,
         atpos=atpos,
         atcharge=atcharge,

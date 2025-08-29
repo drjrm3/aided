@@ -12,11 +12,11 @@ from aided import get_logger
 logger = get_logger()
 
 
-def read_msda(filename: str) -> npt.NDArray:
+def read_msda(filename: str|Path) -> npt.NDArray:
     """Reads in an MSDA from a file.
 
     Args:
-        filename (str): The name of the msda file.
+        filename (str|Path): The name of the msda file.
 
     Returns:
         msda (np.ndarray): The msda as a 2D numpy array.
@@ -26,7 +26,9 @@ def read_msda(filename: str) -> npt.NDArray:
     if not Path(filename).is_file():
         raise FileNotFoundError(f"File {filename} does not exist.")
 
-    with open(filename, "r") as f:
+    filename = Path(filename)
+
+    with open(filename.as_posix(), "r") as f:
         lines = f.readlines()
 
     n_atoms = (len(lines[0].strip().split()) - 1) // 3
