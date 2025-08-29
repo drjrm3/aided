@@ -1,23 +1,23 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>aided.core.edwfns &mdash; aided  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+  <title>aided.core.ed.wfns &mdash; aided  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +28,11 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
+          <a href="../../../../index.html" class="icon icon-home">
             aided
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -41,15 +41,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Apps</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apps/create_msda.html">Create msda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/create_msda.html">Create msda</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">aided</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">aided</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Derivations</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tex_docs/msda.html">MSDA Derivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tex_docs/msda.html">MSDA Derivation</a></li>
 </ul>
 
         </div>
@@ -58,16 +58,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">aided</a>
+          <a href="../../../../index.html">aided</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">aided.core.edwfns</li>
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">aided.core.ed.wfns</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -76,9 +76,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for aided.core.edwfns</h1><div class="highlight"><pre>
+  <h1>Source code for aided.core.ed.wfns</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">aided.core.edwfns</span>
+<span class="sd">aided.core.ed.wfns</span>
 
 <span class="sd">Electron Density Representations from .wfn files.</span>
 
@@ -86,19 +86,19 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.edrep</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDRep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElectronDensityBase</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">LMNS</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..io.read_wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_wfn_files</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..math.primitives</span><span class="w"> </span><span class="kn">import</span> <span class="n">gpow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">LMNS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.io.read_wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_wfn_files</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.math.primitives</span><span class="w"> </span><span class="kn">import</span> <span class="n">gpow</span>
 
 
 <div class="viewcode-block" id="compute_hessian_batch">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfns.html#aided.core.edwfns.compute_hessian_batch">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfns.html#aided.core.ed.wfns.compute_hessian_batch">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_hessian_batch</span><span class="p">(</span>
     <span class="n">gs</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">gs1</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">gs2</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">denmat</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -169,8 +169,8 @@
 
 
 <div class="viewcode-block" id="EDWfns">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfns.html#aided.core.edwfns.EDWfns">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EDWfns</span><span class="p">(</span><span class="n">EDRep</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfns.html#aided.core.ed.wfns.EDWfns">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EDWfns</span><span class="p">(</span><span class="n">ElectronDensityBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Electron Density Representation from multiple .wfn file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -211,7 +211,7 @@
         <span class="p">)</span>
 
         <span class="c1"># Keep track of the last point to avoid unnecessary calculations.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_point</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_point</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_last_der</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
         <span class="c1"># Create simple abbreviations for wfn_rep. Remove this if it becomes performance bottleneck.</span>
@@ -365,7 +365,7 @@
             <span class="p">)</span>
 
 <div class="viewcode-block" id="EDWfns.rho">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfns.html#aided.core.edwfns.EDWfns.rho">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfns.html#aided.core.ed.wfns.EDWfns.rho">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ED at a point.</span>
 
@@ -404,7 +404,7 @@
 
 
 <div class="viewcode-block" id="EDWfns.grad">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfns.html#aided.core.edwfns.EDWfns.grad">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfns.html#aided.core.ed.wfns.EDWfns.grad">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Gradient of the ED at a point.</span>
 
@@ -435,7 +435,7 @@
 
 
 <div class="viewcode-block" id="EDWfns.hess">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfns.html#aided.core.edwfns.EDWfns.hess">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfns.html#aided.core.ed.wfns.EDWfns.hess">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">hess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Hessian of the ED at a point.</span>
 
@@ -538,7 +538,7 @@
     <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.edwfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDWfn</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDWfn</span>
 
     <span class="c1"># Get one or more input files.</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Test wfn reading.&quot;</span><span class="p">)</span>

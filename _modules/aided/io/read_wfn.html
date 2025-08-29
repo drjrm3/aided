@@ -81,7 +81,7 @@
 <span class="sd">aided.io.read_wfn</span>
 
 <span class="sd">Read AIMfile WFN representation files. This reads it in both single file mode and also a batch of</span>
-<span class="sd">files which it then returns as WFNRep or WFNsRep, respectively.</span>
+<span class="sd">files which it then returns as WfnRecord or WfnRecords, respectively.</span>
 
 <span class="sd">Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -92,33 +92,33 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessPoolExecutor</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.core.wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">WfnRecord</span><span class="p">,</span> <span class="n">WfnRecords</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_number</span><span class="p">,</span> <span class="n">convert_scientific_notation</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..core.wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">WFNRep</span><span class="p">,</span> <span class="n">WFNsRep</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_wfn_worker</span><span class="p">(</span><span class="n">iwfn</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">wfn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a single wfn file and return its data.&quot;&quot;&quot;</span>
-    <span class="n">wfn_rep</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
+    <span class="n">wfn_record</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="n">iwfn</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">atnames</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">atpos</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">atcharge</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">expons</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">types</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">energies</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">occs</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">coeffs</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">total_energy</span><span class="p">,</span>
-        <span class="n">wfn_rep</span><span class="o">.</span><span class="n">virial_energy</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">atnames</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">atpos</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">atcharge</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">expons</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">types</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">energies</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">occs</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">coeffs</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">total_energy</span><span class="p">,</span>
+        <span class="n">wfn_record</span><span class="o">.</span><span class="n">virial_energy</span><span class="p">,</span>
     <span class="p">)</span>
 
 
 <div class="viewcode-block" id="read_wfn_file">
 <a class="viewcode-back" href="../../../apidocs/aided.io.read_wfn.html#aided.io.read_wfn.read_wfn_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_wfn_file</span><span class="p">(</span><span class="n">wfn_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WFNRep</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_wfn_file</span><span class="p">(</span><span class="n">wfn_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WfnRecord</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read all of the parameters needed for a WFNRep from a .wfn file.</span>
 
@@ -126,7 +126,7 @@
 <span class="sd">        wfn_file: .wfn file representing an AIM file.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        wfn_rep: A wfn representation as a dataclass representation</span>
+<span class="sd">        wfn_record: A wfn representation as a dataclass representation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_values</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">DTypeLike</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">):</span>
@@ -189,7 +189,7 @@
     <span class="n">total_energy</span><span class="p">,</span> <span class="n">virial_energy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
 
     <span class="c1"># Now save data into WFNRep</span>
-    <span class="n">wfn_rep</span> <span class="o">=</span> <span class="n">WFNRep</span><span class="p">(</span>
+    <span class="n">wfn_record</span> <span class="o">=</span> <span class="n">WfnRecord</span><span class="p">(</span>
         <span class="n">nmos</span><span class="o">=</span><span class="n">nmos</span><span class="p">,</span>
         <span class="n">nprims</span><span class="o">=</span><span class="n">nprims</span><span class="p">,</span>
         <span class="n">nats</span><span class="o">=</span><span class="n">nats</span><span class="p">,</span>
@@ -206,13 +206,13 @@
         <span class="n">virial_energy</span><span class="o">=</span><span class="n">virial_energy</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">wfn_rep</span></div>
+    <span class="k">return</span> <span class="n">wfn_record</span></div>
 
 
 
 <div class="viewcode-block" id="read_wfn_files">
 <a class="viewcode-back" href="../../../apidocs/aided.io.read_wfn.html#aided.io.read_wfn.read_wfn_files">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_wfn_files</span><span class="p">(</span><span class="n">wfns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">nprocs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WFNsRep</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_wfn_files</span><span class="p">(</span><span class="n">wfns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">nprocs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WfnRecords</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read all of the parameters needed for a WFNRep from a .wfn file.</span>
 
@@ -221,15 +221,15 @@
 <span class="sd">        nprocs: Number of processors to read with.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        wfns_rep: A representation of multiple wfns as a dataclass</span>
+<span class="sd">        wfn_records: A multi-wfn record as a dataclass</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Get the number of wfns for spacing.</span>
     <span class="n">nwfns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wfns</span><span class="p">)</span>
 
     <span class="c1"># Read the first wfn to get an idea of sizing.</span>
-    <span class="n">_wfn_rep</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">wfns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">nmos</span><span class="p">,</span> <span class="n">nprims</span><span class="p">,</span> <span class="n">nats</span> <span class="o">=</span> <span class="n">_wfn_rep</span><span class="o">.</span><span class="n">nmos</span><span class="p">,</span> <span class="n">_wfn_rep</span><span class="o">.</span><span class="n">nprims</span><span class="p">,</span> <span class="n">_wfn_rep</span><span class="o">.</span><span class="n">nats</span>
+    <span class="n">_wfn_record</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">wfns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">nmos</span><span class="p">,</span> <span class="n">nprims</span><span class="p">,</span> <span class="n">nats</span> <span class="o">=</span> <span class="n">_wfn_record</span><span class="o">.</span><span class="n">nmos</span><span class="p">,</span> <span class="n">_wfn_record</span><span class="o">.</span><span class="n">nprims</span><span class="p">,</span> <span class="n">_wfn_record</span><span class="o">.</span><span class="n">nats</span>
 
     <span class="c1"># Space for atnames, atpos, atcharge.</span>
     <span class="n">atnames</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">nwfns</span><span class="p">,</span> <span class="n">nats</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
@@ -287,23 +287,23 @@
 
         <span class="c1"># Read all of the wfn files.</span>
         <span class="k">for</span> <span class="n">iwfn</span><span class="p">,</span> <span class="n">wfn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wfns</span><span class="p">):</span>
-            <span class="n">wfn_rep</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
+            <span class="n">wfn_record</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
 
             <span class="c1"># Save the data into the arrays.</span>
-            <span class="n">atnames</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">atnames</span>
-            <span class="n">atpos</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">atpos</span>
-            <span class="n">atcharge</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">atcharge</span>
-            <span class="n">centers</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">centers</span>
-            <span class="n">exponents</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">expons</span>
-            <span class="n">types</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">types</span>
-            <span class="n">energies</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">energies</span>
-            <span class="n">occs</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">occs</span>
-            <span class="n">coeffs</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">coeffs</span>
-            <span class="n">total_energies</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">total_energy</span>
-            <span class="n">virial_energies</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfn_rep</span><span class="o">.</span><span class="n">virial_energy</span>
+            <span class="n">atnames</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">atnames</span>
+            <span class="n">atpos</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">atpos</span>
+            <span class="n">atcharge</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">atcharge</span>
+            <span class="n">centers</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">centers</span>
+            <span class="n">exponents</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">expons</span>
+            <span class="n">types</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">types</span>
+            <span class="n">energies</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">energies</span>
+            <span class="n">occs</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">occs</span>
+            <span class="n">coeffs</span><span class="p">[</span><span class="n">iwfn</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">coeffs</span>
+            <span class="n">total_energies</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">total_energy</span>
+            <span class="n">virial_energies</span><span class="p">[</span><span class="n">iwfn</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfn_record</span><span class="o">.</span><span class="n">virial_energy</span>
 
-    <span class="c1"># Save as WFNsRep.</span>
-    <span class="n">wfns_rep</span> <span class="o">=</span> <span class="n">WFNsRep</span><span class="p">(</span>
+    <span class="c1"># Save as WfnRecords.</span>
+    <span class="n">wfns_rep</span> <span class="o">=</span> <span class="n">WfnRecords</span><span class="p">(</span>
         <span class="n">nwfns</span><span class="o">=</span><span class="n">nwfns</span><span class="p">,</span>
         <span class="n">nmos</span><span class="o">=</span><span class="n">nmos</span><span class="p">,</span>
         <span class="n">nprims</span><span class="o">=</span><span class="n">nprims</span><span class="p">,</span>
@@ -342,9 +342,9 @@
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">_wfn_rep</span> <span class="o">=</span> <span class="n">read_wfn_files</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+        <span class="n">_wfn_records</span> <span class="o">=</span> <span class="n">read_wfn_files</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">_wfns_rep</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">_wfns_record</span> <span class="o">=</span> <span class="n">read_wfn_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>

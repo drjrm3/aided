@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   aided.core.ed
    aided.core.wfn
 
 Submodules
@@ -20,8 +21,5 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   aided.core.edrep
-   aided.core.edwfn
-   aided.core.edwfns
    aided.core.units
    aided.core.utils

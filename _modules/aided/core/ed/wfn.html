@@ -1,23 +1,23 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>aided.core.edwfn &mdash; aided  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+  <title>aided.core.ed.wfn &mdash; aided  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +28,11 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
+          <a href="../../../../index.html" class="icon icon-home">
             aided
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -41,15 +41,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Apps</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apps/create_msda.html">Create msda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/create_msda.html">Create msda</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">aided</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">aided</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Derivations</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tex_docs/msda.html">MSDA Derivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tex_docs/msda.html">MSDA Derivation</a></li>
 </ul>
 
         </div>
@@ -58,16 +58,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">aided</a>
+          <a href="../../../../index.html">aided</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">aided.core.edwfn</li>
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">aided.core.ed.wfn</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -76,9 +76,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for aided.core.edwfn</h1><div class="highlight"><pre>
+  <h1>Source code for aided.core.ed.wfn</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">aided.core.edwfn</span>
+<span class="sd">aided.core.ed.wfn</span>
 
 <span class="sd">Electron Density Manfestation abstract class.</span>
 
@@ -88,14 +88,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.edrep</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDRep</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..io.read_wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_wfn_file</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">aided.core._edwfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_gs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.core.ed._wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_gs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.io.read_wfn</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_wfn_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElectronDensityBase</span>
 
 
 <div class="viewcode-block" id="numba_rho">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_rho">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.numba_rho">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_rho</span><span class="p">(</span><span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">gs</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the density using numba</span>
@@ -117,7 +117,7 @@
 
 
 <div class="viewcode-block" id="numba_grad">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_grad">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.numba_grad">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_grad</span><span class="p">(</span><span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">gs</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">gs1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the gradient using numba</span>
@@ -141,7 +141,7 @@
 
 
 <div class="viewcode-block" id="numba_hess">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.numba_hess">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.numba_hess">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">numba_hess</span><span class="p">(</span>
     <span class="n">denmat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">gs</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">gs1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">gs2</span><span class="p">:</span> <span class="n">NDArray</span>
@@ -195,10 +195,10 @@
 
 
 <div class="viewcode-block" id="EDWfn">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EDWfn</span><span class="p">(</span><span class="n">EDRep</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.EDWfn">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EDWfn</span><span class="p">(</span><span class="n">ElectronDensityBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Electron Density Representation from a single .wfn file.</span>
+<span class="sd">    Electron Density WFN from a single .wfn file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wfn_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -277,7 +277,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_denmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,ip,iq-&gt;pq&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_occ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mocs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EDWfn.rho">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.rho">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.EDWfn.rho">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ED at a point.</span>
 
@@ -294,7 +294,7 @@
 
 
 <div class="viewcode-block" id="EDWfn.grad">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.grad">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.EDWfn.grad">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Gradient of the ED at a point.</span>
 
@@ -311,7 +311,7 @@
 
 
 <div class="viewcode-block" id="EDWfn.hess">
-<a class="viewcode-back" href="../../../apidocs/aided.core.edwfn.html#aided.core.edwfn.EDWfn.hess">[docs]</a>
+<a class="viewcode-back" href="../../../../apidocs/aided.core.ed.wfn.html#aided.core.ed.wfn.EDWfn.hess">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">hess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Hessian of the ED at a point.</span>
 

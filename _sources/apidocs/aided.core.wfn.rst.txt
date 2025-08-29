@@ -12,5 +12,5 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   aided.core.wfn.wfn_rep
-   aided.core.wfn.wfns_rep
+   aided.core.wfn.wfn_record
+   aided.core.wfn.wfn_records

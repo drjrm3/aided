@@ -1,7 +1,0 @@
-aided.core.edrep module
-=======================
-
-.. automodule:: aided.core.edrep
-   :members:
-   :show-inheritance:
-   :undoc-members:

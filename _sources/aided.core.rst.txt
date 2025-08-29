@@ -7,34 +7,11 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   aided.core.ed
    aided.core.wfn
 
 Submodules
 ----------
-
-aided.core.edrep module
------------------------
-
-.. automodule:: aided.core.edrep
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-aided.core.edwfn module
------------------------
-
-.. automodule:: aided.core.edwfn
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-aided.core.edwfns module
-------------------------
-
-.. automodule:: aided.core.edwfns
-   :members:
-   :show-inheritance:
-   :undoc-members:
 
 aided.core.units module
 -----------------------

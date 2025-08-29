@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>aided.core.wfn.wfn_rep &mdash; aided  documentation</title>
+  <title>aided.core.wfn.wfn_record &mdash; aided  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
@@ -67,7 +67,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">aided.core.wfn.wfn_rep</li>
+      <li class="breadcrumb-item active">aided.core.wfn.wfn_record</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -76,7 +76,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for aided.core.wfn.wfn_rep</h1><div class="highlight"><pre>
+  <h1>Source code for aided.core.wfn.wfn_record</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">aided.core.wfn.wfn_rep</span>
 
@@ -91,10 +91,10 @@
 
 
 <span class="c1"># pylint: disable=too-many-instance-attributes, R0801</span>
-<div class="viewcode-block" id="WFNRep">
-<a class="viewcode-back" href="../../../../apidocs/aided.core.wfn.wfn_rep.html#aided.core.wfn.wfn_rep.WFNRep">[docs]</a>
+<div class="viewcode-block" id="WfnRecord">
+<a class="viewcode-back" href="../../../../apidocs/aided.core.wfn.wfn_record.html#aided.core.wfn.wfn_record.WfnRecord">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">WFNRep</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WfnRecord</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Structure of Arrays of AIM file / representation using numpy arrays.</span>
 
 <span class="sd">    nmos: Number of Molecular Orbitals</span>
@@ -172,8 +172,8 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">` must have size </span><span class="si">{</span><span class="n">expected_size</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Equality comparison for WFNRep.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">WFNRep</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Equality comparison for WfnRecord.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">WfnRecord</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="c1"># fmt: off</span>

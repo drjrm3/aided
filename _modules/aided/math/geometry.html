@@ -83,7 +83,9 @@
 <span class="sd">Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided</span><span class="w"> </span><span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">npt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
 
 
 <div class="viewcode-block" id="distance_from_point_to_line">
@@ -100,10 +102,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Vector from a to b</span>
-    <span class="n">ab</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span>
+    <span class="n">ab</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="c1"># Vector from a to x</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">a</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="c1"># Cross product of ab and ax</span>
     <span class="n">cross_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">ab</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
@@ -121,27 +123,45 @@
 
 
 
-<div class="viewcode-block" id="spherical_angles_from_vector">
-<a class="viewcode-back" href="../../../apidocs/aided.math.geometry.html#aided.math.geometry.spherical_angles_from_vector">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">spherical_angles_from_vector</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a 3D vector to spherical angles.</span>
+<div class="viewcode-block" id="generate_spherical_grid">
+<a class="viewcode-back" href="../../../apidocs/aided.math.geometry.html#aided.math.geometry.generate_spherical_grid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_spherical_grid</span><span class="p">(</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ntheta</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nphi</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a spherical grid from a position, radius, and number of spherical angles.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        v: A 3D vector of x, y, z coordinates.</span>
+<span class="sd">        position: The center of the sphere.</span>
+<span class="sd">        radius: The radius of the sphere.</span>
+<span class="sd">        ntheta: The number of polar angles (0 &lt;= theta &lt;= pi).</span>
+<span class="sd">        nphi: The number of azimuthal angles (0 &lt;= phi &lt; 2pi).</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        theta: The polar angle (angle from the z-axis).</span>
-<span class="sd">        phi: The azimuthal angle (angle in the x-y plane from the x-axis).</span>
+<span class="sd">        pts: The Cartesian coordinates of the points on the sphere.</span>
+<span class="sd">        thetas: The polar angles of the points on the sphere.</span>
+<span class="sd">        phis: The azimuthal angles of the points on the sphere.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">v</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="c1"># 0 &lt;= theta &lt;= pi</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">z</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span>
-    <span class="c1"># 0 &lt;= phi &lt; 2pi</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">phi</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">phi</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span></div>
+    <span class="c1"># Flatten position to avoid shape issues</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">position</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    
+    <span class="n">pts_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">thetas_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">phis_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">theta</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">ntheta</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">phi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">nphi</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pts_list</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">pts_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+            <span class="n">thetas_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">phis_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pts_list</span><span class="p">)</span>
+    <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">thetas_list</span><span class="p">)</span>
+    <span class="n">phis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">phis_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pts</span><span class="p">,</span> <span class="n">thetas</span><span class="p">,</span> <span class="n">phis</span></div>
 
 </pre></div>
 

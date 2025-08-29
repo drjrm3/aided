@@ -50,7 +50,6 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">aided</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="aided.core.html">aided.core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aided.io.html">aided.io package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="aided.math.html">aided.math package</a><ul class="current">
@@ -125,17 +124,23 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="aided.math.geometry.spherical_angles_from_vector">
-<span class="sig-prename descclassname"><span class="pre">aided.math.geometry.</span></span><span class="sig-name descname"><span class="pre">spherical_angles_from_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/aided/math/geometry.html#spherical_angles_from_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.math.geometry.spherical_angles_from_vector" title="Link to this definition"></a></dt>
-<dd><p>Convert a 3D vector to spherical angles.</p>
+<dt class="sig sig-object py" id="aided.math.geometry.generate_spherical_grid">
+<span class="sig-prename descclassname"><span class="pre">aided.math.geometry.</span></span><span class="sig-name descname"><span class="pre">generate_spherical_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntheta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/aided/math/geometry.html#generate_spherical_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.math.geometry.generate_spherical_grid" title="Link to this definition"></a></dt>
+<dd><p>Generates a spherical grid from a position, radius, and number of spherical angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> – A 3D vector of x, y, z coordinates.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – The center of the sphere.</p></li>
+<li><p><strong>radius</strong> – The radius of the sphere.</p></li>
+<li><p><strong>ntheta</strong> – The number of polar angles (0 &lt;= theta &lt;= pi).</p></li>
+<li><p><strong>nphi</strong> – The number of azimuthal angles (0 &lt;= phi &lt; 2pi).</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p>theta: The polar angle (angle from the z-axis).</p></li>
-<li><p>phi: The azimuthal angle (angle in the x-y plane from the x-axis).</p></li>
+<li><p>pts: The Cartesian coordinates of the points on the sphere.</p></li>
+<li><p>thetas: The polar angles of the points on the sphere.</p></li>
+<li><p>phis: The azimuthal angles of the points on the sphere.</p></li>
 </ul>
 </p>
 </dd>

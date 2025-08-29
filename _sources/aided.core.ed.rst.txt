@@ -1,0 +1,37 @@
+aided.core.ed package
+=====================
+
+Submodules
+----------
+
+aided.core.ed.base module
+-------------------------
+
+.. automodule:: aided.core.ed.base
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.core.ed.wfn module
+------------------------
+
+.. automodule:: aided.core.ed.wfn
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+aided.core.ed.wfns module
+-------------------------
+
+.. automodule:: aided.core.ed.wfns
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: aided.core.ed
+   :members:
+   :show-inheritance:
+   :undoc-members:

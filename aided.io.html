@@ -128,11 +128,11 @@
 <span id="aided-io-read-wfn-module"></span><h2>aided.io.read_wfn module<a class="headerlink" href="#module-aided.io.read_wfn" title="Link to this heading"></a></h2>
 <p>aided.io.read_wfn</p>
 <p>Read AIMfile WFN representation files. This reads it in both single file mode and also a batch of
-files which it then returns as WFNRep or WFNsRep, respectively.</p>
+files which it then returns as WfnRecord or WfnRecords, respectively.</p>
 <p>Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.read_wfn.read_wfn_file">
-<span class="sig-prename descclassname"><span class="pre">aided.io.read_wfn.</span></span><span class="sig-name descname"><span class="pre">read_wfn_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.core.wfn.wfn_rep.html#aided.core.wfn.wfn_rep.WFNRep" title="aided.core.wfn.wfn_rep.WFNRep"><span class="pre">WFNRep</span></a></span></span><a class="reference internal" href="_modules/aided/io/read_wfn.html#read_wfn_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.read_wfn.read_wfn_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.read_wfn.</span></span><span class="sig-name descname"><span class="pre">read_wfn_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfn_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.core.wfn.wfn_record.html#aided.core.wfn.wfn_record.WfnRecord" title="aided.core.wfn.wfn_record.WfnRecord"><span class="pre">WfnRecord</span></a></span></span><a class="reference internal" href="_modules/aided/io/read_wfn.html#read_wfn_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.read_wfn.read_wfn_file" title="Link to this definition"></a></dt>
 <dd><p>Read all of the parameters needed for a WFNRep from a .wfn file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -140,7 +140,7 @@ files which it then returns as WFNRep or WFNsRep, respectively.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p>wfn_rep: A wfn representation as a dataclass representation</p></li>
+<li><p>wfn_record: A wfn representation as a dataclass representation</p></li>
 </ul>
 </p>
 </dd>
@@ -152,7 +152,7 @@ files which it then returns as WFNRep or WFNsRep, respectively.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="aided.io.read_wfn.read_wfn_files">
-<span class="sig-prename descclassname"><span class="pre">aided.io.read_wfn.</span></span><span class="sig-name descname"><span class="pre">read_wfn_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nprocs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.core.wfn.wfns_rep.html#aided.core.wfn.wfns_rep.WFNsRep" title="aided.core.wfn.wfns_rep.WFNsRep"><span class="pre">WFNsRep</span></a></span></span><a class="reference internal" href="_modules/aided/io/read_wfn.html#read_wfn_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.read_wfn.read_wfn_files" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">aided.io.read_wfn.</span></span><span class="sig-name descname"><span class="pre">read_wfn_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nprocs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.core.wfn.wfn_records.html#aided.core.wfn.wfn_records.WfnRecords" title="aided.core.wfn.wfn_records.WfnRecords"><span class="pre">WfnRecords</span></a></span></span><a class="reference internal" href="_modules/aided/io/read_wfn.html#read_wfn_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.read_wfn.read_wfn_files" title="Link to this definition"></a></dt>
 <dd><p>Read all of the parameters needed for a WFNRep from a .wfn file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -163,7 +163,7 @@ files which it then returns as WFNRep or WFNsRep, respectively.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p>wfns_rep: A representation of multiple wfns as a dataclass</p></li>
+<li><p>wfn_records: A multi-wfn record as a dataclass</p></li>
 </ul>
 </p>
 </dd>
@@ -200,8 +200,8 @@ files which it then returns as WFNRep or WFNsRep, respectively.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="aided.io.utils.get_edrep_type_by_file_extention">
-<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">get_edrep_type_by_file_extention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.core.edrep.html#aided.core.edrep.EDRepType" title="aided.core.edrep.EDRepType"><span class="pre">EDRepType</span></a></span></span><a class="reference internal" href="_modules/aided/io/utils.html#get_edrep_type_by_file_extention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.get_edrep_type_by_file_extention" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="aided.io.utils.get_ed_type_by_file_extention">
+<span class="sig-prename descclassname"><span class="pre">aided.io.utils.</span></span><span class="sig-name descname"><span class="pre">get_ed_type_by_file_extention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="apidocs/aided.core.ed.base.html#aided.core.ed.base.EDType" title="aided.core.ed.base.EDType"><span class="pre">EDType</span></a></span></span><a class="reference internal" href="_modules/aided/io/utils.html#get_ed_type_by_file_extention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#aided.io.utils.get_ed_type_by_file_extention" title="Link to this definition"></a></dt>
 <dd><p>Get the EDRep type based on file extention alone.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -209,7 +209,7 @@ files which it then returns as WFNRep or WFNsRep, respectively.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p>EDRepType: The electron density represenation type.</p></li>
+<li><p>EDType: The electron density represenation type.</p></li>
 </ul>
 </p>
 </dd>

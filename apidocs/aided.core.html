@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="aided.core.wfn package" href="aided.core.wfn.html" />
+    <link rel="next" title="aided.core.ed package" href="aided.core.ed.html" />
     <link rel="prev" title="aided" href="../modules.html" /> 
 </head>
 
@@ -51,20 +51,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">aided</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">aided.core package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.html">aided.core.ed package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="aided.core.edwfn.html">aided.core.edwfn module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="aided.core.edwfns.html">aided.core.edwfns module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aided.core.units.html">aided.core.units module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aided.core.utils.html">aided.core.utils module</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aided.io.html">aided.io package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aided.math.html">aided.math package</a></li>
@@ -110,14 +107,37 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.wfn.wfn_rep.html">aided.core.wfn.wfn_rep module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="aided.core.wfn.wfn_rep.html#aided.core.wfn.wfn_rep.WFNRep"><code class="docutils literal notranslate"><span class="pre">WFNRep</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="aided.core.ed.html">aided.core.ed package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.ed.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aided.core.ed.base.html">aided.core.ed.base module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.base.html#aided.core.ed.base.EDType"><code class="docutils literal notranslate"><span class="pre">EDType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.base.html#aided.core.ed.base.ElectronDensityBase"><code class="docutils literal notranslate"><span class="pre">ElectronDensityBase</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.wfn.wfns_rep.html">aided.core.wfn.wfns_rep module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="aided.core.wfn.wfns_rep.html#aided.core.wfn.wfns_rep.WFNsRep"><code class="docutils literal notranslate"><span class="pre">WFNsRep</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="aided.core.ed.wfn.html">aided.core.ed.wfn module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.wfn.html#aided.core.ed.wfn.EDWfn"><code class="docutils literal notranslate"><span class="pre">EDWfn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.wfn.html#aided.core.ed.wfn.numba_grad"><code class="docutils literal notranslate"><span class="pre">numba_grad()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.wfn.html#aided.core.ed.wfn.numba_hess"><code class="docutils literal notranslate"><span class="pre">numba_hess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.wfn.html#aided.core.ed.wfn.numba_rho"><code class="docutils literal notranslate"><span class="pre">numba_rho()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aided.core.ed.wfns.html">aided.core.ed.wfns module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.wfns.html#aided.core.ed.wfns.EDWfns"><code class="docutils literal notranslate"><span class="pre">EDWfns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.ed.wfns.html#aided.core.ed.wfns.compute_hessian_batch"><code class="docutils literal notranslate"><span class="pre">compute_hessian_batch()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aided.core.wfn.html">aided.core.wfn package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aided.core.wfn.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aided.core.wfn.wfn_record.html">aided.core.wfn.wfn_record module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.wfn.wfn_record.html#aided.core.wfn.wfn_record.WfnRecord"><code class="docutils literal notranslate"><span class="pre">WfnRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aided.core.wfn.wfn_records.html">aided.core.wfn.wfn_records module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="aided.core.wfn.wfn_records.html#aided.core.wfn.wfn_records.WfnRecords"><code class="docutils literal notranslate"><span class="pre">WfnRecords</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -131,57 +151,6 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="aided.core.edrep.html">aided.core.edrep module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep"><code class="docutils literal notranslate"><span class="pre">EDRep</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.atnames"><code class="docutils literal notranslate"><span class="pre">EDRep.atnames</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.atpos"><code class="docutils literal notranslate"><span class="pre">EDRep.atpos</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.bader_surface_of_atom"><code class="docutils literal notranslate"><span class="pre">EDRep.bader_surface_of_atom()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.bcp"><code class="docutils literal notranslate"><span class="pre">EDRep.bcp()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.find_bcps"><code class="docutils literal notranslate"><span class="pre">EDRep.find_bcps()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.grad"><code class="docutils literal notranslate"><span class="pre">EDRep.grad()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.hess"><code class="docutils literal notranslate"><span class="pre">EDRep.hess()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.in_au"><code class="docutils literal notranslate"><span class="pre">EDRep.in_au</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.read_msda_matrix"><code class="docutils literal notranslate"><span class="pre">EDRep.read_msda_matrix()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.read_vib_file"><code class="docutils literal notranslate"><span class="pre">EDRep.read_vib_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.rho"><code class="docutils literal notranslate"><span class="pre">EDRep.rho()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.trace_gradient_to_atom"><code class="docutils literal notranslate"><span class="pre">EDRep.trace_gradient_to_atom()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRep.units"><code class="docutils literal notranslate"><span class="pre">EDRep.units</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRepType"><code class="docutils literal notranslate"><span class="pre">EDRepType</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRepType.NRDF"><code class="docutils literal notranslate"><span class="pre">EDRepType.NRDF</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRepType.RDF"><code class="docutils literal notranslate"><span class="pre">EDRepType.RDF</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edrep.html#aided.core.edrep.EDRepType.WFN"><code class="docutils literal notranslate"><span class="pre">EDRepType.WFN</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="aided.core.edwfn.html">aided.core.edwfn module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.EDWfn"><code class="docutils literal notranslate"><span class="pre">EDWfn</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.EDWfn.atnames"><code class="docutils literal notranslate"><span class="pre">EDWfn.atnames</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.EDWfn.atpos"><code class="docutils literal notranslate"><span class="pre">EDWfn.atpos</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.EDWfn.grad"><code class="docutils literal notranslate"><span class="pre">EDWfn.grad()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.EDWfn.hess"><code class="docutils literal notranslate"><span class="pre">EDWfn.hess()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.EDWfn.rho"><code class="docutils literal notranslate"><span class="pre">EDWfn.rho()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.numba_grad"><code class="docutils literal notranslate"><span class="pre">numba_grad()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.numba_hess"><code class="docutils literal notranslate"><span class="pre">numba_hess()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edwfn.html#aided.core.edwfn.numba_rho"><code class="docutils literal notranslate"><span class="pre">numba_rho()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="aided.core.edwfns.html">aided.core.edwfns module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.EDWfns"><code class="docutils literal notranslate"><span class="pre">EDWfns</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.EDWfns.atnames"><code class="docutils literal notranslate"><span class="pre">EDWfns.atnames</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.EDWfns.atpos"><code class="docutils literal notranslate"><span class="pre">EDWfns.atpos</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.EDWfns.grad"><code class="docutils literal notranslate"><span class="pre">EDWfns.grad()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.EDWfns.hess"><code class="docutils literal notranslate"><span class="pre">EDWfns.hess()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.EDWfns.rho"><code class="docutils literal notranslate"><span class="pre">EDWfns.rho()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="aided.core.edwfns.html#aided.core.edwfns.compute_hessian_batch"><code class="docutils literal notranslate"><span class="pre">compute_hessian_batch()</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="aided.core.units.html">aided.core.units module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="aided.core.units.html#aided.core.units.Units"><code class="docutils literal notranslate"><span class="pre">Units</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="aided.core.units.html#aided.core.units.Units.ANG"><code class="docutils literal notranslate"><span class="pre">Units.ANG</span></code></a></li>
@@ -204,7 +173,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../modules.html" class="btn btn-neutral float-left" title="aided" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="aided.core.wfn.html" class="btn btn-neutral float-right" title="aided.core.wfn package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="aided.core.ed.html" class="btn btn-neutral float-right" title="aided.core.ed package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

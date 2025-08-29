@@ -89,7 +89,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..core.edrep</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDRepType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aided.core.ed.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">EDType</span>
 
 
 <div class="viewcode-block" id="convert_scientific_notation">
@@ -131,20 +131,20 @@
 
 
 
-<div class="viewcode-block" id="get_edrep_type_by_file_extention">
-<a class="viewcode-back" href="../../../apidocs/aided.io.utils.html#aided.io.utils.get_edrep_type_by_file_extention">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_edrep_type_by_file_extention</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EDRepType</span><span class="p">:</span>
+<div class="viewcode-block" id="get_ed_type_by_file_extention">
+<a class="viewcode-back" href="../../../apidocs/aided.io.utils.html#aided.io.utils.get_ed_type_by_file_extention">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_ed_type_by_file_extention</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EDType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the EDRep type based on file extention alone.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        file_name (str): The name of the file.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        EDRepType: The electron density represenation type.</span>
+<span class="sd">        EDType: The electron density represenation type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ext</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s2">&quot;wfn&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">EDRepType</span><span class="o">.</span><span class="n">WFN</span>
+        <span class="k">return</span> <span class="n">EDType</span><span class="o">.</span><span class="n">WFN</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File extension </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2"> is not supported.&quot;</span><span class="p">)</span></div>
 
 </pre></div>

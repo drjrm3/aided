@@ -1,0 +1,7 @@
+aided.core.wfn.wfn\_record module
+=================================
+
+.. automodule:: aided.core.wfn.wfn_record
+   :members:
+   :show-inheritance:
+   :undoc-members:
