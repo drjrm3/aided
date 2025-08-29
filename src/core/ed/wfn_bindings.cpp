@@ -1,4 +1,4 @@
-// edwfn_bindings.cpp
+// wfn_bindings.cpp
 //
 // This file is used to create python bindings for the C++ functions in the
 // primitives.h file. It uses pybind11 to create the bindings and
@@ -8,19 +8,18 @@
 
 #include <cmath>
 
-#include <iostream>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
-#include "edwfn.h"
+#include "wfn.h"
 #include <pybind_utils.h>
 
 
 namespace aided {
 
 #define DISPATCH(T)                            \
-    return dispatch_gen_gs<T>(x,              \
+    return dispatch_gen_gs<T>(x,               \
                                y,              \
                                z,              \
                                ider,           \
@@ -30,8 +29,8 @@ namespace aided {
                                centers,        \
                                expons,         \
                                atpos,          \
-                               gs,            \
-                               gs1,           \
+                               gs,             \
+                               gs1,            \
                                gs2);
 
 template<typename T>
@@ -126,7 +125,7 @@ gen_gs_py(pybind11::object x,
 
 }
 
-PYBIND11_MODULE(_edwfn, m) {
+PYBIND11_MODULE(_wfn, m) {
     m.def("gen_gs", &gen_gs_py, "Generation of gs.");
 }
 } // namespace aided

@@ -6,12 +6,14 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import numpy
 
-from ...helper import CxTestCase, get_wfn_file
+from aided.core.ed.wfn import EDWfn
 
-from aided.core.edwfn import EDWfn
+from ut_helper import CxTestCase, get_wfn_file
 
 
 class TestBCPs(CxTestCase):
+    """Test functionality for BCPs."""
+
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()

@@ -47,7 +47,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
     ##############################################
     t1 = datetime.now()
     for x in xs:
-        val = gpow(x, 0)
+        _ = gpow(x, 0)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
     rate = (num_iters / tdiff) / 1e3
@@ -58,7 +58,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
     ##############################################
     t1 = datetime.now()
     for xs in xss:
-        vals = gpow(xs, 0)
+        _ = gpow(xs, 0)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
     rate = ((num_iters * nvals) / tdiff) / 1e6
@@ -69,7 +69,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
     ###########################
     t1 = datetime.now()
     for n in ns:
-        val = gpow(0, n)
+        _ = gpow(0, n)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
     rate = (num_iters / tdiff) / 1e3
@@ -80,7 +80,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
     ##########################################
     t1 = datetime.now()
     for ns in nss:
-        vals = gpow(0, ns)
+        _ = gpow(0, ns)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
     rate = ((num_iters * nvals) / tdiff) / 1e6
@@ -91,7 +91,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
     #####################
     t1 = datetime.now()
     for x, n in zip(xs, ns):
-        val = gpow(x, n)
+        _ = gpow(x, n)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
     rate = (num_iters / tdiff) / 1e6
@@ -102,7 +102,7 @@ def test_gpow(num_iters: int, nvals: int = 100):
     ##########################################
     t1 = datetime.now()
     for xs, ns in zip(xss, nss):
-        vals = gpow(xs, ns)
+        _ = gpow(xs, ns)
     t2 = datetime.now()
     tdiff = (t2 - t1).total_seconds()
     rate = ((num_iters * nvals) / tdiff) / 1e6

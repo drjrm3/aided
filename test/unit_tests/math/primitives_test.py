@@ -3,12 +3,13 @@
 import pytest
 import importlib
 
-from ..helper import CxTestCase
 
 import numpy as np
 from numpy import random
 
 from aided.math.primitives import coth
+
+from ut_helper import CxTestCase
 
 
 @pytest.fixture(params=["primitives", "_primitives"])

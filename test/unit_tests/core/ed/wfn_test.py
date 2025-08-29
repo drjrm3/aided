@@ -4,20 +4,18 @@ edwfn and edrep test module
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-import os
+from numpy.random import randint
 
-import numpy
-from numpy.random import randint, random, seed, uniform
-
-from aided.core.edwfn import EDWfn
+from aided.core.ed.wfn import EDWfn
 from aided.core.units import Units
 
-from ..helper import CxTestCase, equal, get_wfn_file
+from conftest import VALIDATION_FILE
+from ut_helper import CxTestCase, equal, get_wfn_file
 
 NUM_ITERS = 100
 
 
-class TestEDRepNotImplemeneted(CxTestCase):
+class EDRepNotImplemented(CxTestCase):
     """Tests all not implemented methods."""
 
     def set_up(self):
@@ -37,7 +35,7 @@ class TestEDRepNotImplemeneted(CxTestCase):
             self.edwfn.read_msda_matrix("msda.tst")
 
 
-class TestEDRep(CxTestCase):
+class TestEDWfn(CxTestCase):
     """Tests all implemented methods."""
 
     def set_up(self):
@@ -58,11 +56,10 @@ class TestValidationSet(CxTestCase):
 
     def set_up(self):
         """Set up the test case."""
-        _this_dir = os.path.dirname(os.path.abspath(__file__))
         self.wfn_file = get_wfn_file()
 
         # Read validation set.
-        self.validation_file = os.path.join(_this_dir, "..", "..", "validation", "validation.txt")
+        self.validation_file = VALIDATION_FILE
 
         self.xyz = []
         self.rho = []
@@ -99,7 +96,7 @@ class TestValidationSet(CxTestCase):
             x, y, z = self.xyz[i]
             r = self.rho[i]
 
-            self.assertTrue(equal(r, self.edwfn.rho(x, y, z), 1e-12))
+            self.assertTrue(equal(r, self.edwfn.rho(x, y, z), tol=1e-12))
 
     def test_1grad_validation(self):
         """Randomly tests grad values for the validation set."""
@@ -113,9 +110,9 @@ class TestValidationSet(CxTestCase):
 
             gx, gy, gz = self.edwfn.grad(x, y, z)
 
-            self.assertTrue(equal(gx, _gx, 1e-10), f"{gx} != {_gx}")
-            self.assertTrue(equal(gy, _gy, 1e-10), f"{gy} != {_gy}")
-            self.assertTrue(equal(gz, _gz, 1e-10), f"{gz} != {_gz}")
+            self.assertTrue(equal(gx, _gx, tol=1e-10), f"{gx} != {_gx}")
+            self.assertTrue(equal(gy, _gy, tol=1e-10), f"{gy} != {_gy}")
+            self.assertTrue(equal(gz, _gz, tol=1e-10), f"{gz} != {_gz}")
 
     def test_2hess_validation(self):
         """Randomly tests hess values for the validation set."""
@@ -129,9 +126,9 @@ class TestValidationSet(CxTestCase):
 
             hxx, hyy, hzz, hxy, hxz, hyz = self.edwfn.hess(x, y, z)
 
-            self.assertTrue(equal(hxx, _hxx, 1e-10), f"{hxx} != {_hxx}")
-            self.assertTrue(equal(hyy, _hyy, 1e-10), f"{hyy} != {_hyy}")
-            self.assertTrue(equal(hzz, _hzz, 1e-10), f"{hzz} != {_hzz}")
-            self.assertTrue(equal(hxy, _hxy, 1e-10), f"{hxy} != {_hxy}")
-            self.assertTrue(equal(hxz, _hxz, 1e-10), f"{hxz} != {_hxz}")
-            self.assertTrue(equal(hyz, _hyz, 1e-10), f"{hyz} != {_hyz}")
+            self.assertTrue(equal(hxx, _hxx, tol=1e-10), f"{hxx} != {_hxx}")
+            self.assertTrue(equal(hyy, _hyy, tol=1e-10), f"{hyy} != {_hyy}")
+            self.assertTrue(equal(hzz, _hzz, tol=1e-10), f"{hzz} != {_hzz}")
+            self.assertTrue(equal(hxy, _hxy, tol=1e-10), f"{hxy} != {_hxy}")
+            self.assertTrue(equal(hxz, _hxz, tol=1e-10), f"{hxz} != {_hxz}")
+            self.assertTrue(equal(hyz, _hyz, tol=1e-10), f"{hyz} != {_hyz}")

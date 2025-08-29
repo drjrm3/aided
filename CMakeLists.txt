@@ -32,6 +32,6 @@ add_subdirectory(src)
 install(TARGETS _primitives
     LIBRARY DESTINATION aided/math
 )
-install(TARGETS _edwfn
-    LIBRARY DESTINATION aided/core
+install(TARGETS _wfn
+    LIBRARY DESTINATION aided/core/ed
 )

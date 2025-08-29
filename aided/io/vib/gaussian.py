@@ -89,7 +89,7 @@ class GaussianLogReader(LogReader):
         while "---" not in self.lines[idx]:
             _, atomic_number, _, x, y, z = self.lines[idx].split()
             self.atomic_numbers.append(int(atomic_number))
-            self.coordinates.append([float(x), float(y), float(z)])
+            self.coordinates.append((float(x), float(y), float(z)))
             idx += 1
 
     def _get_frequency_blocks(self) -> List[List[str]]:
@@ -162,12 +162,12 @@ class GaussianLogReader(LogReader):
             dash_idx = tokens.index("---")
             return np.array([float(s) for s in tokens[dash_idx + 1 :]])
 
-        self.freqs: npt.NDArray[np.float64] = np.empty(self.nmodes)
-        self.modes: npt.NDArray[np.float64] = np.zeros((self.natoms * 3, self.nmodes))
-        self.reduced_masses: npt.NDArray[np.float64] = np.empty(self.nmodes)
-        self.force_constants: npt.NDArray[np.float64] = np.empty(self.nmodes)
-        self.ir_intensities: npt.NDArray[np.float64] = np.empty(self.nmodes)
-        self.raman_activities: npt.NDArray[np.float64] = np.empty(self.nmodes)
+        self.freqs = np.empty(self.nmodes)
+        self.modes = np.zeros((self.natoms * 3, self.nmodes))
+        self.reduced_masses = np.empty(self.nmodes)
+        self.force_constants = np.empty(self.nmodes)
+        self.ir_intensities = np.empty(self.nmodes)
+        self.raman_activities = np.empty(self.nmodes)
 
         for frq_block in self.__freq_blocks:
             eig_nums = np.array([int(s) - 1 for s in frq_block[0].split()])

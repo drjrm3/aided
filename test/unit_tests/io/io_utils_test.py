@@ -4,10 +4,10 @@ io.utils test module
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from aided.core.edrep import EDRepType
-from ..helper import CxTestCase
-
+from aided.core.ed.base import EDType
 from aided.io import utils
+
+from ut_helper import CxTestCase
 
 
 class TestIOUtils(CxTestCase):
@@ -34,8 +34,8 @@ class TestIOUtils(CxTestCase):
     def test_get_edrep_by_file_extension(self):
         """Tests the ability to get a type of EDRep by file extension."""
 
-        self.assertEqual(utils.get_edrep_type_by_file_extention("foo.wfn"), EDRepType.WFN)
+        self.assertEqual(utils.get_ed_type_by_file_extention("foo.wfn"), EDType.WFN)
 
         # Assert that exention ".foo" raises a ValueError
         with self.assertRaises(ValueError):
-            utils.get_edrep_type_by_file_extention("foo.foo")
+            utils.get_ed_type_by_file_extention("foo.foo")

@@ -1,11 +1,17 @@
-#!/usr/bin/env python3
+"""
+Main routine for testing speed of various operations.
+
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
+"""
+
+import argparse
 
 from .edwfn_test import main as edwfn
 from .math_test import main as math
 
 
 def parse_args():
-    import argparse
+    """Parse command line arguments."""
 
     parser = argparse.ArgumentParser(description="Run speed tests.")
     parser.add_argument(
@@ -24,6 +30,7 @@ def parse_args():
 
 
 def main():
+    """Main function to run the specified test."""
     args = parse_args()
     if args.test == "edwfn":
         edwfn(args)

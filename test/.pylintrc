@@ -190,6 +190,8 @@ good-names=i,
            k,
            ex,
            Run
+           X,
+           N,
            _
 
 # Good variable names regexes, separated by a comma. If names match any regex,
@@ -430,7 +432,10 @@ disable=raw-checker-failed,
         deprecated-pragma,
         use-symbolic-message-instead,
         logging-fstring-interpolation,
-        unspecified-encoding
+        unspecified-encoding,
+        attribute-defined-outside-init,
+        import-error
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -631,4 +636,3 @@ init-import=no
 # List of qualified module names which can have objects that can redefine
 # builtins.
 redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
-

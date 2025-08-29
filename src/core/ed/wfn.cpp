@@ -1,10 +1,10 @@
-// edwfn.h
+// wfn.cpp
 //
 // Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 #include <cmath>
 #include <stdexcept>
 
-#include "edwfn.h"
+#include "wfn.h"
 #include <primitives.h>
 
 // Generation of gs.
@@ -20,9 +20,9 @@ bool gen_gs(
     const std::vector<int32_t>& centers, // Gaussian centers   (nprims,
     const std::vector<T>& expons,        // Gaussian exponents (nprims,)
     const std::vector<T>& _atpos,        // Atomic positions   (natoms, 3)
-    T* gs, size_t nprims,               // Output: gs        (nprims,)
-    T* gs1, size_t __r1, size_t __c1,   // Output: gs        (nprims, 3)
-    T* gs2, size_t __r2, size_t __c2    // Output: gs        (nprims, 6)
+    T* gs, size_t nprims,                // Output: gs         (nprims,)
+    T* gs1, size_t __r1, size_t __c1,    // Output: gs         (nprims, 3)
+    T* gs2, size_t __r2, size_t __c2     // Output: gs         (nprims, 6)
 )
 {
     // Create simple lambda function that allos me to get atpos(i, j) as a 1D array.

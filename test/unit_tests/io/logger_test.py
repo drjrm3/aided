@@ -4,12 +4,12 @@ io.logger test module
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-from aided.core.edrep import EDRepType
-from ..helper import CxTestCase
+import logging
 
+from aided.core.ed.base import EDType
 from aided import get_logger
 
-import logging
+from ut_helper import CxTestCase
 
 
 class TestLogger(CxTestCase):

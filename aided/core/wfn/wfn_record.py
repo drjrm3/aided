@@ -13,7 +13,7 @@ from ... import np, npt
 
 # pylint: disable=too-many-instance-attributes, R0801
 @dataclass
-class WFNRep:
+class WfnRecord:
     """Structure of Arrays of AIM file / representation using numpy arrays.
 
     nmos: Number of Molecular Orbitals
@@ -91,8 +91,8 @@ class WFNRep:
                 raise ValueError(f"`{param}` must have size {expected_size}, but got {value.size}.")
 
     def __eq__(self, other) -> bool:
-        """Equality comparison for WFNRep."""
-        if not isinstance(other, WFNRep):
+        """Equality comparison for WfnRecord."""
+        if not isinstance(other, WfnRecord):
             return False
 
         # fmt: off

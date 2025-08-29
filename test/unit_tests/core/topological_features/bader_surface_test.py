@@ -5,31 +5,31 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 import numpy
-import unittest
 
-from ...helper import CxTestCase, get_wfn_file
+from aided.core.ed.wfn import EDWfn
 
-from aided.core.edwfn import EDWfn
-from aided.math.geometry import spherical_angles_from_vector
+from ut_helper import CxTestCase, get_wfn_file, spherical_angles_from_vector
 
 
-class TestTraceGradientToPoint(CxTestCase):
+class TraceGradientToPoint(CxTestCase):
+    """Test the ability to trace the Gradient of the ED to a point."""
+
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
         self.wfn = EDWfn(self.wfn_file)
         numpy.random.seed(0)
 
-    def test_trace_gradient_to_point_bad_method(self):
+    def test_bad_trace_method(self):
         """Test attempt to trace gradient to a point with an invalid method."""
 
         with self.assertRaises(ValueError):
             self.wfn.trace_gradient_to_atom(0.0, 0.0, 0.0, method="bad_method")
 
-    def test_trace_gradient_to_point(self):
+    def test_trace_to_point(self):
         """Test tracing gradient to a point."""
 
-        for i in range(10):
+        for _ in range(10):
             for atom, atpos in zip(self.wfn.atnames, self.wfn.atpos):
                 eps = 0.5
 
@@ -51,14 +51,23 @@ class TestTraceGradientToPoint(CxTestCase):
                 self.assertEqual(numpy.linalg.norm(atpos - _atpos), 0.0)
 
 
-class TestBaderSurfacePoint(CxTestCase):
+class BaderSurfacePoint(CxTestCase):
+    """Test the ability to find a point on the Bader Surface between two atoms."""
+
     def set_up(self):
         """Set up the test case."""
         self.wfn_file = get_wfn_file()
         self.wfn = EDWfn(self.wfn_file)
 
-    def test_bader_surface_point_interior(self):
-        """Test Bader surface of a point on the interior of the molecule."""
+    def test_nuclear_interior(self):
+        """Test Bader surface of a point on the interior of the molecule.
+
+        Chooses two points:
+            - One inside of C2 in the direction of N3
+            - One inside of N3 in the direction of C2
+
+        and ensures that they trace to the same point on the Bader surface.
+        """
         # Coordinates
         C2 = self.wfn.atpos[self.wfn.atnames == "C2"][0]
         N3 = self.wfn.atpos[self.wfn.atnames == "N3"][0]

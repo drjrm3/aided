@@ -8,7 +8,7 @@ import numpy as np
 
 from aided.io.vib.writer import msda_to_file
 
-from ...helper import CxTestCase
+from ut_helper import CxTestCase
 
 
 class TestMSDAWriter(CxTestCase):

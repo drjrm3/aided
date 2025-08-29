@@ -1,10 +1,10 @@
-// edwfn.h
+#pragma once
+// wfn.h
 //
 // Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
-#pragma once
-#include <vector>
-#include <cmath>
 #include <array>
+#include <cmath>
+#include <vector>
 
 // number of primitives
 constexpr size_t nLMNS = 35;
@@ -33,7 +33,7 @@ bool gen_gs(
     const std::vector<int32_t>& centers, // Gaussian centers   (nprims,
     const std::vector<T>& expons,        // Gaussian exponents (nprims,)
     const std::vector<T>& atpos,         // Atomic positions   (natoms, 3)
-    T* gs, size_t nprims,               // Output: gs        (nprims,)
-    T* gs1, size_t __r1, size_t __c1,   // Output: gs        (nprims, 3)
-    T* gs2, size_t __r2, size_t __c2    // Output: gs        (nprims, 6)
+    T* gs, size_t nprims,                // Output: gs         (nprims,)
+    T* gs1, size_t __r1, size_t __c1,    // Output: gs         (nprims, 3)
+    T* gs2, size_t __r2, size_t __c2     // Output: gs         (nprims, 6)
 );

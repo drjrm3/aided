@@ -8,6 +8,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 from abc import ABC, abstractmethod
 from pathlib import Path
+from typing import List, Tuple
 
 from aided import np, npt
 
@@ -20,8 +21,8 @@ class LogReader(ABC):
         self.lines = self._read_file()
 
         # Information about molecular structure.
-        self.atomic_numbers = []
-        self.coordinates = []
+        self.atomic_numbers: List[int] = []
+        self.coordinates: List[Tuple[float, float, float]] = []
 
     def _read_file(self):
         with self.logfile.open("r", encoding="utf-8") as file:

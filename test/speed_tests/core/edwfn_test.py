@@ -6,11 +6,10 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
 from datetime import datetime
-import sys
 
 import numpy as np
 
-from aided.core.edwfn import EDWfn
+from aided.core.ed.wfn import EDWfn
 
 
 def test_rho(wfnfile: str):
@@ -19,8 +18,8 @@ def test_rho(wfnfile: str):
     wfn.rho(0, 0, 0)
 
 
-def test_gen_chi(wfnfile: str, num_iters: int):
-    """Test the speed of the _gen_chi function.
+def test_gen_gs(wfnfile: str, num_iters: int):
+    """Test the speed of the _gen_gs function.
 
     Args:
         wfn: EDWfn object.
@@ -35,11 +34,11 @@ def test_gen_chi(wfnfile: str, num_iters: int):
         t1 = datetime.now()
         for _ in range(num_iters):
             x, y = np.random.uniform(xmin, xmax), np.random.uniform(ymin, ymax)
-            wfn._gen_chi(x, y, 0, ider=ider)
+            wfn._gen_gs(x, y, 0, ider=ider)
         t2 = datetime.now()
         tdiff = (t2 - t1).total_seconds()
         rate = (num_iters / tdiff) / 1000
-        print(f"_gen_chi runs at a speed of {rate:5.1f}K calls/sec for ider={ider}.")
+        print(f"_gen_gs runs at a speed of {rate:5.1f}K calls/sec for ider={ider}.")
 
 
 def main(args):
@@ -50,4 +49,4 @@ def main(args):
             - args.wfnfile: Directory containing test data.
             - args.num_iters: Number of iterations for speed tests.
     """
-    test_gen_chi(args.wfnfile, args.num_iters)
+    test_gen_gs(args.wfnfile, args.num_iters)
