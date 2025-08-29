@@ -147,9 +147,9 @@ class TestWfns(CxTestCase):
 
             # Assert the values are equal.
             for h, h_ in zip([hxx, hyy, hzz, hxy, hxz, hyz], [hxx_, hyy_, hzz_, hxy_, hxz_, hyz_]):
-                self.assertTrue(equal(h, h_, tol=1e-12), f"Point was {x} {y} {z}")
+                self.assertTrue(equal(h, h_, tol=1e-12), f"{h=}, {h_=}, Point was {x} {y} {z}")
 
             for h, h_gt in zip(
                 [hxx, hyy, hzz, hxy, hxz, hyz], [hxx_gt, hyy_gt, hzz_gt, hxy_gt, hxz_gt, hyz_gt]
             ):
-                self.assertTrue(equal(h, h_gt, tol=1e-12), f"Point was {x} {y} {z}")
+                self.assertTrue(equal(h, h_gt, tol=1e-12), f"{h=}, {h_gt=}, Point was {x} {y} {z}")
