@@ -57,24 +57,31 @@ def generate_spherical_grid(
         thetas: The polar angles of the points on the sphere.
         phis: The azimuthal angles of the points on the sphere.
     """
-    # Flatten position to avoid shape issues
     pos = position.flatten()
     
-    pts_list = []
-    thetas_list = []
-    phis_list = []
-    for theta in np.linspace(0, np.pi, ntheta):
-        for phi in np.linspace(0, 2 * np.pi, nphi):
-            x = pos[0] + radius * np.sin(theta) * np.cos(phi)
-            y = pos[1] + radius * np.sin(theta) * np.sin(phi)
-            z = pos[2] + radius * np.cos(theta)
-            if (x, y, z) in pts_list:
-                continue
-            pts_list.append((x, y, z))
-            thetas_list.append(theta)
-            phis_list.append(phi)
-    pts = np.array(pts_list)
-    thetas = np.array(thetas_list)
-    phis = np.array(phis_list)
-
-    return pts, thetas, phis
+    theta_values = np.linspace(0, np.pi, ntheta)
+    phi_values = np.linspace(0, 2 * np.pi, nphi, endpoint=False)
+    
+    # Create meshgrid
+    theta_grid, phi_grid = np.meshgrid(theta_values, phi_values, indexing='ij')
+    theta_flat = theta_grid.flatten()
+    phi_flat = phi_grid.flatten()
+    
+    # At poles (theta ≈ 0 or π), set all phi values to 0 to avoid duplicates
+    is_pole = np.isclose(theta_flat, 0) | np.isclose(theta_flat, np.pi)
+    phi_flat = np.where(is_pole, 0, phi_flat)
+    
+    # Convert to Cartesian coordinates
+    x = pos[0] + radius * np.sin(theta_flat) * np.cos(phi_flat)
+    y = pos[1] + radius * np.sin(theta_flat) * np.sin(phi_flat)
+    z = pos[2] + radius * np.cos(theta_flat)
+    
+    # Stack into points array
+    pts = np.column_stack([x, y, z])
+    
+    # Remove duplicates (mainly from poles)
+    unique_pts, unique_indices = np.unique(pts, axis=0, return_index=True)
+    unique_thetas = theta_flat[unique_indices]
+    unique_phis = phi_flat[unique_indices]
+    
+    return unique_pts, unique_thetas, unique_phis
