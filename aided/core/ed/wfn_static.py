@@ -161,6 +161,10 @@ class EDWfnStatic(ElectronDensityBase):
         return self._wfn_record.nprims
 
     @property
+    def types(self):
+        return self._wfn_record.types
+
+    @property
     def natoms(self):
         return self._wfn_record.natoms
 
