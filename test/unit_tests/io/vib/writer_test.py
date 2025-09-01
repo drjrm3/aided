@@ -11,7 +11,8 @@ from aided.io.vib.writer import msda_to_file
 from ut_helper import CxTestCase
 
 
-class TestMSDAWriter(CxTestCase):
+class MSDAWriter(CxTestCase):
+    """Tests the MSDA writer."""
 
     natoms = 6
 
@@ -20,7 +21,6 @@ class TestMSDAWriter(CxTestCase):
         with self.assertRaises(FileNotFoundError):
             msda = np.random.rand(self.natoms * 3, self.natoms * 3)
             msda_to_file(msda, [i + 1 for i in range(self.natoms)], "")
-            raise
 
     def test_write_msda_bad_shapes(self):
         """Tests writing a MSDA with mismatched shapes"""

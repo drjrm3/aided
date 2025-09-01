@@ -6,7 +6,7 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import numpy
 
-from aided.core.ed.wfn import EDWfn
+from aided.core.ed.wfn_static import EDWfnStatic
 
 from ut_helper import CxTestCase, get_wfn_file
 
@@ -20,9 +20,9 @@ class TestBCPs(CxTestCase):
 
     def test_find_bcps(self):
         """Test ability to find BCPs."""
-        self.edrep = EDWfn(self.wfn_file)
+        self.edwfn = EDWfnStatic(self.wfn_file)
 
-        bcps, bond_pairs = self.edrep.find_bcps()
+        bcps, bond_pairs = self.edwfn.find_bcps()
 
         self.assertEqual(len(bcps), 5)
         self.assertEqual(len(bond_pairs), 5)

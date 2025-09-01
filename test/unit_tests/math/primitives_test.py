@@ -1,8 +1,8 @@
 """Primitives test"""
 
-import pytest
 import importlib
 
+import pytest
 
 import numpy as np
 from numpy import random
@@ -31,6 +31,7 @@ class TestCoth(CxTestCase):
 
 
 class TestGpow(CxTestCase):
+    """Tests the custom 'gpow' function in both Python and C++ implementations."""
 
     def _get_modules(self):
         # Return both versions (Python and C++ modules) as a list.
@@ -43,6 +44,9 @@ class TestGpow(CxTestCase):
 
     def test_gpow(self):
         """Test gpow"""
+
+        # pylint: disable=invalid-name
+
         for mod in self._get_modules():
             with self.subTest(module=mod.__name__):
                 gpow = mod.gpow
@@ -53,7 +57,7 @@ class TestGpow(CxTestCase):
                     self.assertEqual(gpow(X, 0), 1)
 
                 # 0 to any exponent is 0.
-                for n in random.random(100):
+                for _n in random.random(100):
                     N = random.randint(-10, 10)
                     if N == 0:
                         continue

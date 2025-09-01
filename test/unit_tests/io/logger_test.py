@@ -6,13 +6,13 @@ Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 
 import logging
 
-from aided.core.ed.base import EDType
 from aided import get_logger
 
 from ut_helper import CxTestCase
 
 
 class TestLogger(CxTestCase):
+    """Tests the aided logger."""
 
     def test_logger_initialization(self):
         """Tests logger with initialization."""

@@ -13,9 +13,10 @@ TEST_DIR = Path(__file__).parent
 UNIT_TESTS_DIR = TEST_DIR / "unit_tests"
 
 # Define paths as constants
-VALIDATION_FILE = TEST_DIR / "validation" / "validation.txt"
+STATIC_VALIDATION_FILE = TEST_DIR / "validation" / "static_validation.txt"
 TEST_DATA_DIR = TEST_DIR / "data"
 WFN_FILES_DIR = TEST_DATA_DIR / "wfns"
+MSDA_FILES_DIR = TEST_DATA_DIR / "msda"
 
 # Add to path
 for path in [PROJECT_ROOT, UNIT_TESTS_DIR]:

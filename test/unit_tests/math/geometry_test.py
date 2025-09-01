@@ -58,6 +58,7 @@ class DistanceFromPointToLine(CxTestCase):
 
             self.assertTrue(equal(distance_from_point_to_line(x, a, b), 1.0, tol=1e-12))
 
+
 class GenerateSphericalGrid(CxTestCase):
     """Test generating a spherical grid of points."""
 
@@ -76,12 +77,12 @@ class GenerateSphericalGrid(CxTestCase):
             for point in points:
                 distance = float(np.linalg.norm(point - position.flatten()))
                 self.assertAlmostEqual(distance, radius)
-            
+
             # Test that thetas are between 0 and pi
             for theta in thetas:
                 self.assertGreaterEqual(theta, 0)
                 self.assertLessEqual(theta, np.pi)
-            
+
             # Test that phis are between 0 and 2*pi
             for phi in phis:
                 self.assertGreaterEqual(phi, 0)
@@ -90,7 +91,3 @@ class GenerateSphericalGrid(CxTestCase):
             # Test that the points are all unique.
             unique_points = np.unique(points, axis=0)  # axis=0 for rows
             self.assertEqual(len(unique_points), len(points))
-
-
-
-

@@ -10,7 +10,8 @@ from aided.io.vib.factory import detect_log_type, log_reader_factory
 from ut_helper import CxTestCase
 
 
-class TestDetectLogType(CxTestCase):
+class DetectLogType(CxTestCase):
+    """Test the detection of log file types."""
 
     def test_no_file(self):
         """Tests failure if there is no file given."""
@@ -24,8 +25,8 @@ class TestDetectLogType(CxTestCase):
         tmp_file.touch()
 
         with self.assertRaises(ValueError):
-            foo = detect_log_type(tmp_file)
-            print(foo)
+            log_type = detect_log_type(tmp_file)
+            print(log_type)
 
     def test_gaussian_log_file(self):
         """Tests detection of Gaussian log file."""
@@ -36,7 +37,8 @@ class TestDetectLogType(CxTestCase):
         self.assertEqual(log_type, "gaussian")
 
 
-class TestLogReaderFactory(CxTestCase):
+class LogReaderFactory(CxTestCase):
+    """Test the log reader factory."""
 
     def test_no_file(self):
         """Tests failure if there is no file given."""

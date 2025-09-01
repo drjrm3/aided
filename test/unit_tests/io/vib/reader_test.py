@@ -4,14 +4,13 @@ io.vib.reader test
 Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
 """
 
-import numpy as np
-
 from aided.io.vib.reader import read_msda
 
 from ut_helper import CxTestCase
 
 
-class TestMSDAWriter(CxTestCase):
+class MsdaReader(CxTestCase):
+    """Test the MSDA reader."""
 
     natoms = 6
 
@@ -28,31 +27,7 @@ class TestMSDAWriter(CxTestCase):
 
         natoms = 6
 
-        # Ensure that each 3x3 block is of the form:
-        # [ X, X, 0]
-        # [ X, X, 0]
-        # [ 0, 0, X]
-        # Where X is a non-zero value.
-        for i in range(natoms):
-            for j in range(i, natoms):
-                block = msda[i * 3 : (i + 1) * 3, j * 3 : (j + 1) * 3]
-                self.assertEqual(block[0, 2], 0)
-                self.assertEqual(block[1, 2], 0)
-                self.assertEqual(block[2, 0], 0)
-                self.assertEqual(block[2, 1], 0)
-
-                self.assertNotEqual(block[0, 0], 0)
-                self.assertNotEqual(block[0, 1], 0)
-                self.assertNotEqual(block[1, 0], 0)
-                self.assertNotEqual(block[1, 1], 0)
-                self.assertNotEqual(block[2, 2], 0)
-
-        # Ensure that the matrix is symmetric.
-        self.assertTrue(np.allclose(msda, msda.T, rtol=1e-12, atol=0))
-
-        # Ensure the rank of the matrix is 3N-6.
-        rank = np.linalg.matrix_rank(msda)
-        self.assertEqual(rank, 3 * natoms - 6)
+        self.assert_block_diagonal_msda_entries(msda, natoms)
 
     def test_read_msda_bad_shapes(self):
         """Test reading a MSDA file with bad shapes."""

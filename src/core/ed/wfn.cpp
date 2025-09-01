@@ -8,6 +8,7 @@
 #include <primitives.h>
 
 // Generation of gs.
+// clang-format off
 template <typename T>
 bool gen_gs(
     T x,
@@ -23,7 +24,7 @@ bool gen_gs(
     T* gs, size_t nprims,                // Output: gs         (nprims,)
     T* gs1, size_t __r1, size_t __c1,    // Output: gs         (nprims, 3)
     T* gs2, size_t __r2, size_t __c2     // Output: gs         (nprims, 6)
-)
+)  // clang-format on
 {
     // Create simple lambda function that allos me to get atpos(i, j) as a 1D array.
     const auto atpos = [&_atpos](size_t i, size_t j) {
@@ -50,7 +51,8 @@ bool gen_gs(
     lastDer = ider;
 
     // Calculate pxs, pys, pzs - the position of the Gaussian centers.
-    for (size_t i = 0; i < nprims; ++i) {
+    for (size_t i = 0; i < nprims; ++i)
+    {
         const auto px = x - atpos(centers[i], 0);
         const auto py = y - atpos(centers[i], 1);
         const auto pz = z - atpos(centers[i], 2);
@@ -93,16 +95,17 @@ bool gen_gs(
         const auto twoa_gs = twoa * gs[i];
 
         // xx, yy, zz
-        gs2[i * 6 + 0] = gpow(px, l - 2) * yzexp * l * (l-1) - twoa_gs *
-            (2.0 * l + 1.0 - twoa * px2);
-        gs2[i * 6 + 3] = gpow(py, m - 2) * xzexp * m * (m-1) - twoa_gs *
-            (2.0 * m + 1.0 - twoa * py2);
-        gs2[i * 6 + 5] = gpow(pz, n - 2) * xyexp * n * (n-1) - twoa_gs *
-            (2.0 * n + 1.0 - twoa * pz2);
+        gs2[i * 6 + 0] = gpow(px, l - 2) * yzexp * l * (l - 1) -
+                         twoa_gs * (2.0 * l + 1.0 - twoa * px2);
+        gs2[i * 6 + 3] = gpow(py, m - 2) * xzexp * m * (m - 1) -
+                         twoa_gs * (2.0 * m + 1.0 - twoa * py2);
+        gs2[i * 6 + 5] = gpow(pz, n - 2) * xyexp * n * (n - 1) -
+                         twoa_gs * (2.0 * n + 1.0 - twoa * pz2);
 
         const auto expee = twoa * expon;
         const auto foura_two_gs = 4.0 * alpha * alpha * gs[i];
 
+        // clang-format off
         // xy
         gs2[i * 6 + 1] = (
             term11 * term12 * zn * expon
@@ -124,11 +127,13 @@ bool gen_gs(
             - term12 * zn * pz * xl * expee
             + py * pz * foura_two_gs
         );
+        // clang-format on
     }
 
     return true;
 }
 
+// clang-format off
 template bool gen_gs<double>(
     double, double, double, int32_t,
     std::vector<double>&, int32_t&,
@@ -148,3 +153,4 @@ template bool gen_gs<float>(
     float*, size_t, size_t,
     float*, size_t, size_t
 );
+// clang-format on

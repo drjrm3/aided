@@ -15,6 +15,7 @@ from ut_helper import CxTestCase
 
 
 class TestCli(CxTestCase):
+    """Tests the aided.cli module."""
 
     def test_no_args(self):
         """Tests the CLI with no arguments."""

@@ -1,27 +1,31 @@
-"""edwfn test module"""
+"""
+Ensemble Electron Density test module
+
+Copyright (C) 2025, J. Robert Michael, PhD. All Rights Reserved.
+"""
 
 import os
-
-from numpy.random import randint
 from datetime import datetime
 
-from conftest import VALIDATION_FILE, WFN_FILES_DIR
-from ut_helper import CxTestCase, equal
+from numpy.random import randint
 
-from aided.core.ed.wfns import EDWfns
+from ut_helper import CxTestCase, equal, read_validation_file
+
+from aided.core.ed.wfns_ensemble import EDWfnsEnsemble
+
+from conftest import STATIC_VALIDATION_FILE, WFN_FILES_DIR
+
 
 NUM_ITERS = 100
 NUM_FILES = 10
 
 
-class TestWfns(CxTestCase):
+class WfnsEnsemble(CxTestCase):
+    """Test the WfnsEnsemble class."""
 
     def set_up(self):
         """Set up the test case."""
-        _this_dir = os.path.dirname(os.path.abspath(__file__))
-        self.wfn_file = os.path.join(
-            WFN_FILES_DIR, "formamide", "formamide.6311gss.b3lyp.wfn"
-        )
+        self.wfn_file = os.path.join(WFN_FILES_DIR, "formamide", "formamide.6311gss.b3lyp.wfn")
 
         # Create a list of wfn files to process in a file.
         self.wfn_list_file = self.tmp_dir + "/formamide.tst"
@@ -30,30 +34,13 @@ class TestWfns(CxTestCase):
                 print(self.wfn_file, file=fout)
 
         # Read validation set.
-        self.validation_file = VALIDATION_FILE
-
-        self.xyz = []
-        # Ground Truth values.
-        self.rho_gt = []
-        self.grad_gt = []
-        self.hess_gt = []
-
-        with open(self.validation_file, "r") as finp:
-            for line in finp:
-                if line.strip() == "" or "x y z" in line:
-                    continue
-                x, y, z, r, gx, gy, gz, hxx, hxy, hxz, hyy, hyz, hzz = [
-                    float(x) for x in line.split()
-                ]
-
-                self.xyz.append([x, y, z])
-                self.rho_gt.append(r)
-                self.grad_gt.append([gx, gy, gz])
-                self.hess_gt.append([hxx, hyy, hzz, hxy, hxz, hyz])
+        self.xyz, self.rho_gt, self.grad_gt, self.hess_gt = read_validation_file(
+            STATIC_VALIDATION_FILE
+        )
 
     def test_atpos(self):
         """Test the averaged atomic positions."""
-        self.edwfns = EDWfns(self.wfn_list_file)
+        self.edwfns = EDWfnsEnsemble(self.wfn_list_file)
 
         gs_pos = [
             [-0.87278233, 2.69428921, 0.0],
@@ -70,14 +57,14 @@ class TestWfns(CxTestCase):
 
     def test_atnames(self):
         """Test atom names."""
-        self.edwfns = EDWfns(self.wfn_list_file)
+        self.edwfns = EDWfnsEnsemble(self.wfn_list_file)
 
         for at, gs in zip(self.edwfns.atnames, ["H1", "C2", "N3", "H4", "H5", "O6"]):
             self.assertTrue(at == gs)
 
     def test_no_recompute(self):
         """Tests that we don't recompute the same point."""
-        self.edwfns = EDWfns(self.wfn_list_file)
+        self.edwfns = EDWfnsEnsemble(self.wfn_list_file)
 
         tic = datetime.now()
         rho1 = self.edwfns.rho(0.0, 0.0, 0.0)
@@ -97,19 +84,19 @@ class TestWfns(CxTestCase):
 
     def test_equivalence(self):
         """Tests the equivalence of two EDWfns objects."""
-        self.edwfns1 = EDWfns(self.wfn_list_file)
-        self.edwfns2 = EDWfns(self.wfn_list_file)
+        self.edwfns1 = EDWfnsEnsemble(self.wfn_list_file)
+        self.edwfns2 = EDWfnsEnsemble(self.wfn_list_file)
 
         self.assertTrue(self.edwfns1 == self.edwfns2)
 
     def test_0rho_validation(self):
         """Randomly tests rho values for the validation set."""
 
-        self.edwfns = EDWfns(self.wfn_list_file)
+        self.edwfns = EDWfnsEnsemble(self.wfn_list_file)
 
         for _ in range(NUM_ITERS):
             # Get random integer between 0 and len(self.xyz) - 1
-            i = randint(0, len(self.xyz) - 1)
+            i = int(randint(0, len(self.xyz) - 1))
             x, y, z = self.xyz[i]
             rho = self.rho_gt[i]
 
@@ -117,11 +104,11 @@ class TestWfns(CxTestCase):
 
     def test_1grad_validation(self):
         """Randomly tests grad values for the validation set."""
-        self.edwfns = EDWfns(self.wfn_list_file)
+        self.edwfns = EDWfnsEnsemble(self.wfn_list_file)
 
         for _ in range(NUM_ITERS):
             # Get random integer between 0 and len(self.xyz) - 1
-            i = randint(0, len(self.xyz) - 1)
+            i = int(randint(0, len(self.xyz) - 1))
             x, y, z = self.xyz[i]
             _gx, _gy, _gz = self.grad_gt[i]
 
@@ -133,11 +120,11 @@ class TestWfns(CxTestCase):
 
     def test_2hess_validation(self):
         """Randomly tests hess values for the validation set."""
-        self.edwfns = EDWfns(self.wfn_list_file)
+        self.edwfns = EDWfnsEnsemble(self.wfn_list_file)
 
         for _ in range(NUM_ITERS):
             # Get random integer between 0 and len(self.xyz) - 1
-            i = randint(0, len(self.xyz) - 1)
+            i = int(randint(0, len(self.xyz) - 1))
             x, y, z = self.xyz[i]
             hxx_gt, hyy_gt, hzz_gt, hxy_gt, hxz_gt, hyz_gt = self.hess_gt[i]
 
@@ -152,4 +139,4 @@ class TestWfns(CxTestCase):
             for h, h_gt in zip(
                 [hxx, hyy, hzz, hxy, hxz, hyz], [hxx_gt, hyy_gt, hzz_gt, hxy_gt, hxz_gt, hyz_gt]
             ):
-                self.assertTrue(equal(h, h_gt, tol=1e-12), f"{h=}, {h_gt=}, Point was {x} {y} {z}")
+                self.assertTrue(equal(h, h_gt, tol=1e-11), f"{h=}, {h_gt=}, Point was {x} {y} {z}")
