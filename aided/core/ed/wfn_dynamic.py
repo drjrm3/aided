@@ -15,6 +15,8 @@ from aided.io.vib.factory import log_reader_factory
 from aided.io.vib.reader import read_msda
 from .wfn_static import EDWfnStatic
 
+from .dynamic_helpers import gss, Eg, gss_dyn
+
 logger = get_logger()
 
 
@@ -90,9 +92,28 @@ class EDWfnDynamic(EDWfnStatic):
         """The 3x3 block of the MSDA matrix for atoms iat and jat."""
         return self._msda[3 * iat : 3 * (iat + 1), 3 * jat : 3 * (jat + 1)]
 
-    def _gen_gss(self):
-        """Generate the s-s type densities of products of GTOS."""
-        raise NotImplementedError("_gen_gss not implemented yet")
+    def _gen_gss(self, xyz: NDArray[np.float64]):
+        """Generate the s-s type densities of products of GTOS at a specific position.
+        """
+
+        for iprim in range(self._nprims):
+            iat = self.centers[iprim]
+            A = self.atpos[iat]
+            alpha = self.expons[iprim]
+            for jprim in range(self._nprims):
+                jat = self.centers[jprim]
+                B = self.atpos[jat]
+                beta = self.expons[jprim]
+
+                gamma = alpha + beta
+
+                C = (alpha * A + beta * B) / gamma
+
+                W = self.U(iat, jat) * np.eye(3) / gamma
+
+                self._gss[iprim, jprim] = gss_dyn(xyz, A, B, C, alpha, beta, gamma, W)
+
+
 
     def _generate_msda(
         self,

@@ -28,7 +28,7 @@ def gss(r: np.ndarray, R: np.ndarray, alpha: float) -> float:
     return np.exp(arg)
 
 
-def Eg(a: np.ndarray, b: np.ndarray, al: float, be: float) -> float:
+def Eg(A: np.ndarray, B: np.ndarray, al: float, be: float) -> float:
     """The constant factor of the product of two GTOS centered at a and b.
 
     Used in calculation of dynamic s-s orbital.
@@ -44,7 +44,7 @@ def Eg(a: np.ndarray, b: np.ndarray, al: float, be: float) -> float:
     Returns:
         float: The constant factor of the product of the two GTOS.
     """
-    diff = a - b
+    diff = A - B
     norm_squared = np.sum(diff**2)
     arg = -((al * be) / (al + be)) * norm_squared
     return np.exp(arg)
@@ -52,9 +52,9 @@ def Eg(a: np.ndarray, b: np.ndarray, al: float, be: float) -> float:
 
 def gss_dyn(
     r: np.ndarray,
-    a: np.ndarray, 
-    b: np.ndarray,
-    c: np.ndarray,
+    A: np.ndarray, 
+    B: np.ndarray,
+    C: np.ndarray,
     al: float,
     be: float,
     ga: float,
@@ -64,9 +64,9 @@ def gss_dyn(
 
     Args:
         r (np.ndarray): Position vector (x, y, z) of shape (3,).
-        a (np.ndarray): Center of the first GTO (ax, ay, az) of shape (3,).
-        b (np.ndarray): Center of the second GTO (bx, by, bz) of shape (3,).
-        c (np.ndarray): Center of the multiplied GTO (cx, cy, cz) of shape (3,).
+        A (np.ndarray): Center of the first GTO (ax, ay, az) of shape (3,).
+        B (np.ndarray): Center of the second GTO (bx, by, bz) of shape (3,).
+        C (np.ndarray): Center of the multiplied GTO (cx, cy, cz) of shape (3,).
         al (float): Exponent of the first GTO.
         be (float): Exponent of the second GTO.
         ga (float): Exponent of the product of the two GTOs (al + be).
@@ -79,12 +79,12 @@ def gss_dyn(
     term1 = (ga**3 * np.linalg.det(W))**(-0.5)
     
     # Term 2: exp(-(r-c)^T * W^-1 * (r-c))
-    diff = r - c
+    diff = r - C
     W_inv = np.linalg.inv(W)
     arg2 = np.dot(diff, np.dot(W_inv, diff))
     term2 = np.exp(-arg2)
     
     # Term 3: Eg factor
-    term3 = Eg(a, b, al, be)
+    term3 = Eg(A, B, al, be)
     
     return term1 * term2 * term3

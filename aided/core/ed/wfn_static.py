@@ -121,36 +121,48 @@ class EDWfnStatic(ElectronDensityBase):
         self._occ: NDArray[np.float64]
 
         # Read the wfn file.
-        self._wfn_rep = read_wfn_file(wfn_file)
+        self._wfn_record = read_wfn_file(wfn_file)
 
-        self._gs = np.zeros(self._wfn_rep.nprims, dtype=np.float64)
-        self._gs1 = np.zeros((self._wfn_rep.nprims, 3), dtype=np.float64)
-        self._gs2 = np.zeros((self._wfn_rep.nprims, 6), dtype=np.float64)
-        self._denmat = np.zeros((self._wfn_rep.nprims, self._wfn_rep.nprims), dtype=float)
+        self._gs = np.zeros(self._wfn_record.nprims, dtype=np.float64)
+        self._gs1 = np.zeros((self._wfn_record.nprims, 3), dtype=np.float64)
+        self._gs2 = np.zeros((self._wfn_record.nprims, 6), dtype=np.float64)
+        self._denmat = np.zeros((self._wfn_record.nprims, self._wfn_record.nprims), dtype=float)
 
         # Keep track of the last point to avoid unnecessary calculations.
         self._last_point = None
         self._last_der = -1
 
-        # Create simple abbreviations for wfn_rep. Remove this if it becomes performance bottleneck.
-        self._occ = self._wfn_rep.occs
-        self._mocs = self._wfn_rep.coeffs
-        self._nprims = self._wfn_rep.nprims
+        # Create simple abbreviations for wfn_record. Remove this if it becomes performance bottleneck.
+        self._occ = self._wfn_record.occs
+        self._mocs = self._wfn_record.coeffs
+        self._nprims = self._wfn_record.nprims
 
         # Calculate the density matrix.
         self._gen_denmat()
 
     @property
+    def centers(self):
+        return self._wfn_record.centers
+
+    @property
+    def expons(self):
+        return self._wfn_record.expons
+
+    @property
     def atpos(self):
-        return self._wfn_rep.atpos
+        return self._wfn_record.atpos
 
     @property
     def atnames(self):
-        return self._wfn_rep.atnames
+        return self._wfn_record.atnames
+
+    @property
+    def nprims(self):
+        return self._wfn_record.nprims
 
     @property
     def natoms(self):
-        return self._wfn_rep.natoms
+        return self._wfn_record.natoms
 
     def _gen_gs(self, x: float, y: float, z: float, ider: int) -> bool:
         """Generate the gs matrix for the given point.
@@ -171,10 +183,10 @@ class EDWfnStatic(ElectronDensityBase):
             ider,
             self._last_der,
             self._last_point,
-            self._wfn_rep.types,
-            self._wfn_rep.centers,
-            self._wfn_rep.expons,
-            self._wfn_rep.atpos,
+            self._wfn_record.types,
+            self._wfn_record.centers,
+            self._wfn_record.expons,
+            self._wfn_record.atpos,
             self._gs,
             self._gs1,
             self._gs2,
